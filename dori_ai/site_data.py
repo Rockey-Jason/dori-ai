@@ -34,6 +34,17 @@ class SiteData:
         except Exception:
             return 0
 
+    def public_news(self, number):
+        try:
+            n = int(number)
+        except Exception:
+            return None
+        rows = self._get("rockey_news", {
+            "select": "news_number,rockey_news,question,question_type,choice1,choice2,choice3,choice4,choice5",
+            "news_number": f"eq.{n}", "limit": "1"
+        })
+        return rows[0] if rows else None
+
     def news(self, number, user_id=None):
         try:
             n = int(number)
