@@ -23,6 +23,15 @@ class SiteData:
         except Exception:
             return None
 
+    def is_admin(self, user_id=None):
+        if not user_id:
+            return False
+        rows = self._get("users", {"select": "is_admin,user_level", "user_id": f"eq.{user_id}", "limit": "1"})
+        if not rows:
+            return False
+        row = rows[0]
+        return bool(row.get("is_admin")) and int(row.get("user_level") or 0) >= 10
+
     def readable_news_limit(self, user_id=None):
         if not user_id:
             return 0
