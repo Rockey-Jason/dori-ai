@@ -38,3 +38,25 @@ The bundled model is intentionally small. Its local Dori knowledge is accurate o
 
 ## Dori Knowledge Expansion
 The project now includes a curated, explicit-status Dori knowledge base at `data/dori_knowledge.jsonl` and a human-readable corpus at `data/corpus/dori_knowledge_corpus.txt`. It expands paraphrased Q&A without inventing new lore. Retrieval loads both the knowledge base and instruction data.
+
+## Dori AI v2.3 expansion
+
+v2.3 adds a much larger curated reference layer and an optional public-web source finder.
+
+- data/dori_knowledge_expanded.jsonl: expanded Dori/site/world knowledge
+- data/dori_knowledge_v23.jsonl: additional stable math, science, history, geography, programming, English, chess and reasoning references
+- data/corpus/v23_training.txt: generated 2,868-record supervised corpus
+- dori_ai/retrieval.py: stronger exact/containment/ngram/token/topic retrieval
+- dori_ai/web_search.py: optional DuckDuckGo HTML source finder using only Python stdlib; no AI API
+- dori_ai/response_engine.py: local knowledge -> web source search -> from-scratch Transformer fallback
+- build_v23_dataset.py: rebuilds the corpus from the curated JSONL sources
+- train_final.py: v2.3 training defaults and optional tokenizer retraining
+
+### Train v2.3
+
+python build_v23_dataset.py
+python train_final.py --retrain-tokenizer --epochs 500 --seq-len 128 --dim 64 --heads 4 --layers 3 --ff-dim 256
+
+The current repository checkpoint remains usable while v2.3 is being trained. The new retrieval and web-search layers can operate independently of a newly trained checkpoint.
+
+Web search is a source-finding layer, not an external language model. Search can fail because of network restrictions; in that case Dori AI falls back to its local knowledge and its own Transformer.
