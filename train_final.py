@@ -15,13 +15,15 @@ def main():
  ap.add_argument('--batch-size',type=int,default=8); ap.add_argument('--dim',type=int,default=64)
  ap.add_argument('--heads',type=int,default=4); ap.add_argument('--layers',type=int,default=3)
  ap.add_argument('--ff-dim',type=int,default=256); ap.add_argument('--lr',type=float,default=3e-4)
- ap.add_argument('--seed',type=int,default=20260916); ap.add_argument('--data',default='data/corpus/training.txt')
+ ap.add_argument('--seed',type=int,default=20260916); ap.add_argument('--data',default='data/corpus/v23_training.txt')
+ ap.add_argument('--vocab-size',type=int,default=768)
+ ap.add_argument('--retrain-tokenizer',action='store_true')
  a=ap.parse_args()
  if a.dim%a.heads: raise SystemExit('dim must be divisible by heads')
  np.random.seed(a.seed); os.makedirs('checkpoints',exist_ok=True)
  tok_path=Path('data/tokenizer.json'); data_path=Path(a.data)
- if not tok_path.exists():
-  text=data_path.read_text(encoding='utf-8'); tok=BPETokenizer(512).train(text); tok.save(tok_path)
+ if a.retrain_tokenizer or not tok_path.exists():
+  text=data_path.read_text(encoding='utf-8'); tok=BPETokenizer(a.vocab_size).train(text); tok.save(tok_path)
  else: tok=BPETokenizer.load(tok_path); text=data_path.read_text(encoding='utf-8')
  tokens=tok.encode(text)
  model=DoriTransformer(tok.vocab_size,a.seq_len,a.dim,a.heads,a.ff_dim,a.layers)
@@ -34,7 +36,7 @@ def main():
   tl=tr.train_step()
   if e==1 or e%25==0 or e==a.epochs:
    vl=tr.evaluate(batches=8)
-   meta={'format_version':3,'model_config':model.config(),'tokenizer':'data/tokenizer.json','tokenizer_sha256':sha256(tok_path),'epoch':e,'train_loss':tl,'val_loss':vl,'version':'2.2.0'}
+   meta={'format_version':3,'model_config':model.config(),'tokenizer':'data/tokenizer.json','tokenizer_sha256':sha256(tok_path),'epoch':e,'train_loss':tl,'val_loss':vl,'version':'2.3.0'}
    model.save('checkpoints/latest.npz'); Path('checkpoints/latest.npz.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2),encoding='utf-8')
    if np.isfinite(vl) and vl<best:
     best=vl; model.save('checkpoints/best.npz'); Path('checkpoints/best.npz.json').write_text(json.dumps(meta,ensure_ascii=False,indent=2),encoding='utf-8')
