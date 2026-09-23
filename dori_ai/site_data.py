@@ -43,6 +43,12 @@ class SiteData:
         except Exception:
             return 0
 
+    def public_news_all(self):
+        return self._get("rockey_news", {
+            "select": "news_number,rockey_news,question,question_type,choice1,choice2,choice3,choice4,choice5",
+            "order": "news_number.asc"
+        }) or []
+
     def public_news(self, number):
         try:
             n = int(number)
