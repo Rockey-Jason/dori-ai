@@ -12,6 +12,8 @@ from dori_ai.site_data import SiteData
 from dori_ai.learning import LearningManager
 from dori_ai.site_data import SiteData
 from dori_ai.learning import LearningManager
+from dori_ai.site_data import SiteData
+from dori_ai.learning import LearningManager
 
 ROOT = Path(__file__).resolve().parent
 CP = ROOT / "checkpoints" / "best.npz"
@@ -24,6 +26,16 @@ meta = json.loads(MP.read_text(encoding="utf-8"))
 tok = BPETokenizer.load(ROOT / meta["tokenizer"])
 model = load_model(str(CP), meta["model_config"])
 bot = ResponseEngine(tok, model)
+site = SiteData()
+
+def reload_bot():
+    global meta, tok, model, bot
+    meta = json.loads(MP.read_text(encoding="utf-8"))
+    tok = BPETokenizer.load(ROOT / meta["tokenizer"])
+    model = load_model(str(CP), meta["model_config"])
+    bot = ResponseEngine(tok, model)
+
+learner = LearningManager(reload_callback=reload_bot)
 site = SiteData()
 
 
