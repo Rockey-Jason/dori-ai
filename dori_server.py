@@ -163,7 +163,7 @@ class H(BaseHTTPRequestHandler):
             uid = verified_uid
             print(f"Dori AI request mode={mode!r} authenticated={bool(uid)} user_id={uid!r}", flush=True)
 
-            answer = str(bot.reply(text, user_id=uid) or "").strip()
+            answer = str(bot.reply(text, user_id=uid, access_token=_token_from_request(self)) or "").strip()
             if not answer:
                 raise RuntimeError("Dori AI generated an empty response")
 
