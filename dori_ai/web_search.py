@@ -25,7 +25,7 @@ def search(query, limit=5, timeout=4):
         return []
 
     results = []
-    blocks = re.findall(r'<div[^>]+class="result[^"]*"[^>]*>(.*?)</div>\\s*</div>', body, re.I | re.S)
+    blocks = re.findall(r'<div[^>]+class="result[^"]*"[^>]*>(.*?)</div>\s*</div>', body, re.I | re.S)
     if not blocks:
         blocks = re.findall(r'<div[^>]+class="result[^"]*"[^>]*>(.*?)(?=<div[^>]+class="result|$)', body, re.I | re.S)
 
