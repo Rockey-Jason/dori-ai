@@ -82,9 +82,8 @@ class LearningManager:
             except Exception: pass
         site=SiteData()
         try:
-            for n in range(1,1000):
-                row=site.public_news(n)
-                if not row: break
+            for row in site.public_news_all():
+                n = row.get("news_number")
                 self._add(out,f"돌이신문 제{n}호: {row.get('rockey_news','')}")
                 if row.get("question"): self._add(out,f"돌이신문 퀴즈: {row.get('question','')}")
         except Exception: pass
