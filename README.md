@@ -60,3 +60,18 @@ python train_final.py --retrain-tokenizer --epochs 500 --seq-len 128 --dim 64 --
 The current repository checkpoint remains usable while v2.3 is being trained. The new retrieval and web-search layers can operate independently of a newly trained checkpoint.
 
 Web search is a source-finding layer, not an external language model. Search can fail because of network restrictions; in that case Dori AI falls back to its local knowledge and its own Transformer.
+
+
+## Dori AI v2.3 site integration
+
+- Multilingual lightweight detection/normalization for Korean, English, Japanese, Chinese, Spanish, French, German, Russian, Portuguese and Italian.
+- Read-only Supabase bridge for current Dori newspaper and Doldol Securities data.
+- Newspaper access is enforced server-side using `users.read_dori_news`. A requested issue above that user's readable number is never returned.
+- A frontend may send `user_id` with `POST /chat` so the server can enforce the newspaper limit.
+- Newspaper quiz questions/options can be shown without exposing the stored answer key.
+- Stock answers are read from the current `dori_stocks` table, so prices are not baked into the model.
+
+Required Render environment variables for site integration:
+- `SUPABASE_URL`
+- `SUPABASE_ANON_KEY`
+- `DORI_WEB_SEARCH=1` (optional; enabled by default)
