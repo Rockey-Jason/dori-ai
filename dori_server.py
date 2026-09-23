@@ -86,6 +86,8 @@ class Handler(BaseHTTPRequestHandler):
                 "status": "ok",
                 "service": "dori-ai",
                 "version": meta.get("version"),
+                "knowledge_entries": bot.kb.size(),
+                "web_search": bot.web_enabled,
                 "model": meta.get("model_config"),
             })
             return
@@ -136,8 +138,8 @@ class Handler(BaseHTTPRequestHandler):
             stream = bool(d.get("stream", False))
             mode = str(d.get("mode", "fast"))
 
-            if not text or len(text) > 1000:
-                raise ValueError("text must be 1-1000 characters")
+            if not text or len(text) > 2000:
+                raise ValueError("text must be 1-2000 characters")
 
             # mode is accepted for frontend compatibility. The current
             # from-scratch model uses the same ResponseEngine for both modes.
