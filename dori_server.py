@@ -8,6 +8,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from dori_ai.bpe_tokenizer import BPETokenizer
 from dori_ai.core.transformer import load_model
 from dori_ai.response_engine import ResponseEngine
+from dori_ai.site_data import SiteData
+from dori_ai.learning import LearningManager
 
 ROOT = Path(__file__).resolve().parent
 CP = ROOT / "checkpoints" / "best.npz"
@@ -20,6 +22,18 @@ meta = json.loads(MP.read_text(encoding="utf-8"))
 tok = BPETokenizer.load(ROOT / meta["tokenizer"])
 model = load_model(str(CP), meta["model_config"])
 bot = ResponseEngine(tok, model)
+site = SiteData()
+
+
+def reload_bot():
+    global meta, tok, model, bot
+    meta = json.loads(MP.read_text(encoding="utf-8"))
+    tok = BPETokenizer.load(ROOT / meta["tokenizer"])
+    model = load_model(str(CP), meta["model_config"])
+    bot = ResponseEngine(tok, model)
+
+
+learner = LearningManager(reload_callback=reload_bot)
 
 # CORS is intentionally open because the Dori site is hosted separately from Render.
 # Authorization is accepted so the frontend can pass the Supabase access token.
@@ -113,6 +127,15 @@ class H(BaseHTTPRequestHandler):
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
+        if path == "/training/status":
+            token = self.headers.get("Authorization", "")
+            token = token[7:].strip() if token.lower().startswith("bearer ") else ""
+            uid = _supabase_user_from_token(token)
+            if not uid or not site.is_admin(uid):
+                self.send(403, {"error": "관리자만 학습 모드를 사용할 수 있어."})
+                return
+            self.send(200, learner.get_status())
+            return
         if path == "/health":
             self.send(
                 200,
@@ -129,7 +152,34 @@ class H(BaseHTTPRequestHandler):
         self.send(200, {"service": "Dori AI", "status": "online"})
 
     def do_POST(self):
-        if self.path.split("?", 1)[0] != "/chat":
+        path = self.path.split("?", 1)[0]
+        if path == "/training/start":
+            auth_header = self.headers.get("Authorization", "")
+            token = auth_header[7:].strip() if auth_header.lower().startswith("bearer ") else ""
+            uid = _supabase_user_from_token(token)
+            if not uid or not site.is_admin(uid):
+                self.send(403, {"error": "관리자만 학습 모드를 사용할 수 있어."})
+                return
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                data = json.loads(self.rfile.read(length).decode("utf-8")) if length else {}
+                steps = int(data.get("steps") or os.getenv("DORI_TRAIN_STEPS", "600"))
+                steps = max(50, min(5000, steps))
+                ok, message = learner.start(steps)
+                self.send(202 if ok else 409, {"ok": ok, "message": message, "status": learner.get_status()})
+            except Exception as exc:
+                self.send(400, {"error": str(exc)})
+            return
+        if path == "/training/stop":
+            auth_header = self.headers.get("Authorization", "")
+            token = auth_header[7:].strip() if auth_header.lower().startswith("bearer ") else ""
+            uid = _supabase_user_from_token(token)
+            if not uid or not site.is_admin(uid):
+                self.send(403, {"error": "관리자만 학습 모드를 사용할 수 있어."})
+                return
+            self.send(200, {"ok": learner.stop(), "status": learner.get_status()})
+            return
+        if path != "/chat":
             self.send(404, {"error": "not found"})
             return
 
