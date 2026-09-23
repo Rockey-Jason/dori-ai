@@ -1,0 +1,17 @@
+{
+  "format_version": 3,
+  "model_config": {
+    "vocab_size": 512,
+    "max_len": 64,
+    "dim": 48,
+    "heads": 4,
+    "ff_dim": 192,
+    "layers": 2
+  },
+  "tokenizer": "data/tokenizer.json",
+  "tokenizer_sha256": "453da283b4a5e4af2197728ed457ae0d3aee6d6fdce2c5c90cfe5fd725320ea2",
+  "epoch": 150,
+  "train_loss": 3.3667745279957546,
+  "val_loss": 3.256777888810677,
+  "version": "2.2.0"
+}
