@@ -29,6 +29,9 @@ class LocalKnowledge:
                 except Exception: pass
         self.index=[(q,a,_grams(q)) for q,a in self.rows]
 
+    def size(self):
+        return len(self.rows)
+
     def answer(self,query,threshold=.46):
         qn=_norm(query); qg=_grams(query)
         if not qg:return None
