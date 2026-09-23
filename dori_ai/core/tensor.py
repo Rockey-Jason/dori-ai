@@ -165,8 +165,8 @@ class Tensor:
         out._backward = backward
         return out
 
-    def backward(self):
-        self.grad = np.ones_like(self.data)
+    def backward(self, grad=None):
+        self.grad = np.ones_like(self.data) if grad is None else np.asarray(grad, dtype=np.float64)
         topo, visited = [], set()
         def build(v):
             if v in visited:
