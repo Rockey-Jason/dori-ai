@@ -134,7 +134,7 @@ class Handler(BaseHTTPRequestHandler):
                 raise ValueError("request too large")
 
             d = json.loads(self.rfile.read(n))
-            text = str(d.get("message", d.get("text", ""))).strip()
+            text = str(d.get("message", d.get("text", ""))).strip()\n            user_id = str(d.get("user_id", "")).strip() or None
             stream = bool(d.get("stream", False))
             mode = str(d.get("mode", "fast"))
 
@@ -143,7 +143,7 @@ class Handler(BaseHTTPRequestHandler):
 
             # mode is accepted for frontend compatibility. The current
             # from-scratch model uses the same ResponseEngine for both modes.
-            answer = bot.reply(text)
+            answer = bot.reply(text, user_id=user_id)
 
             if stream:
                 self._send_sse(answer)
