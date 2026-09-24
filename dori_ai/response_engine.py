@@ -154,8 +154,10 @@ class ResponseEngine:
         ans=self.smalltalk.get(key)
         if ans is None: ans=self._site_answer(u,user_id,access_token)
         if ans is None: ans=math_answer(u,lang)
-        if ans is None: ans=self.kb.answer(u,threshold=.70)
+        # Deterministic facts must run before probabilistic local retrieval.
+        # A weak KB match must never override an exact known fact.
         if ans is None: ans=self._builtin_answer(u)
+        if ans is None: ans=self.kb.answer(u,threshold=.70)
         if ans is None and self.web_enabled and self._needs_web(u):
             results=web_search(u,limit=6,timeout=5)
             ans=format_results(u,results) if results else None
