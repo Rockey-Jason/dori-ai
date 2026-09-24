@@ -82,19 +82,25 @@ class H(BaseHTTPRequestHandler):
         for k, v in CORS.items():
             self.send_header(k, v)
 
+    def end_headers(self):
+        # Render/proxy environments can return errors or intermediate responses
+        # where CORS headers are otherwise easy to miss. Attach CORS at the
+        # final header-flush point so every response, including 204/404/500
+        # and streaming responses, gets the same policy.
+        self.cors()
+        super().end_headers()
+
     def send(self, code, obj, typ="application/json; charset=utf-8"):
         body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
         self.send_response(code)
         self.send_header("Content-Type", typ)
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
-        self.cors()
         self.end_headers()
         self.wfile.write(body)
 
     def do_OPTIONS(self):
         self.send_response(204)
-        self.cors()
         self.send_header("Content-Length", "0")
         self.end_headers()
 
@@ -104,7 +110,7 @@ class H(BaseHTTPRequestHandler):
             self.send(200, {
                 "status": "ok",
                 "service": "dori-ai",
-                "version": meta.get("version"),
+                "version": "2.6.1-corsfix",
                 "knowledge_entries": _knowledge_size(),
                 "web_search": bot.web_enabled,
                 "model": meta.get("model_config"),
@@ -176,7 +182,6 @@ class H(BaseHTTPRequestHandler):
                 self.send_header("Content-Type", "text/event-stream; charset=utf-8")
                 self.send_header("Cache-Control", "no-cache, no-transform")
                 self.send_header("Connection", "keep-alive")
-                self.cors()
                 self.end_headers()
                 try:
                     for i in range(0, len(answer), 24):
