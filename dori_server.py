@@ -75,6 +75,21 @@ def _token_from_request(handler):
 def _sse_event(obj):
     return "data: " + json.dumps(obj, ensure_ascii=False) + "\n\n"
 
+def _deterministic_fact(text):
+    # Keep unambiguous, stable facts out of probabilistic generation.
+    q="".join(str(text).lower().split())
+    if q in {
+        "대한민국의수도는어디야?",
+        "대한민국의수도는어디인가?",
+        "대한민국의수도는어디인가요?",
+        "대한민국의수도는?",
+        "대한민국의수도는서울이야?",
+        "서울은대한민국의수도야?",
+        "서울이대한민국의수도야?",
+    }:
+        return "대한민국의 수도는 서울이야. 🇰🇷"
+    return None
+
 class H(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.0"
 
@@ -111,7 +126,7 @@ class H(BaseHTTPRequestHandler):
             self.send(200, {
                 "status": "ok",
                 "service": "dori-ai",
-                "version": "2.7.0-proxy-safe",
+                "version": "2.8.0-fact-router",
                 "knowledge_entries": _knowledge_size(),
                 "web_search": bot.web_enabled,
                 "model": meta.get("model_config"),
@@ -174,7 +189,16 @@ class H(BaseHTTPRequestHandler):
             uid = verified_uid
             print(f"Dori AI request mode={mode!r} authenticated={bool(uid)} user_id={uid!r}", flush=True)
 
-            answer = str(bot.reply(text, user_id=uid, access_token=_token_from_request(self), mode=mode) or "").strip()
+            answer = _deterministic_fact(text)
+            if answer is None:
+                answer = str(bot.reply(
+                    text,
+                    user_id=uid,
+                    access_token=_token_from_request(self),
+                    mode=mode
+                ) or "").strip()
+            else:
+                print("Dori AI deterministic fact route", flush=True)
             if not answer:
                 raise RuntimeError("Dori AI generated an empty response")
 
