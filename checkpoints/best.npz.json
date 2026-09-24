@@ -1,0 +1,19 @@
+{
+  "format_version": 4,
+  "model_config": {
+    "vocab_size": 768,
+    "max_len": 128,
+    "dim": 64,
+    "heads": 4,
+    "ff_dim": 256,
+    "layers": 3
+  },
+  "tokenizer": "data/tokenizer.json",
+  "tokenizer_sha256": "73760a320fd30032485803860a1293e2c21a7d6ff14d6e8b6d12458d593963b5",
+  "epoch": 350,
+  "train_loss": 3.6958200911869126,
+  "val_loss": 3.5449493064539097,
+  "gradient_norm": 1.6999520512347763,
+  "version": "2.6.0",
+  "data": "data\\corpus\\v25_training.txt"
+}
