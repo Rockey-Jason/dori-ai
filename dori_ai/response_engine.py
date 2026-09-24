@@ -112,6 +112,29 @@ class ResponseEngine:
         return None
 
     @staticmethod
+    def _builtin_answer(u):
+        """
+        Small deterministic fact layer for questions that should never depend on
+        probabilistic Transformer generation. This also prevents slow/fragile
+        neural inference on simple factual questions.
+        """
+        q=re.sub(r"\\s+","",u.lower())
+
+        capital_patterns=(
+            "대한민국의수도는어디야?",
+            "대한민국의수도는어디인가?",
+            "대한민국의수도는어디인가요?",
+            "대한민국의수도는?",
+            "대한민국의수도는서울이야?",
+            "서울은대한민국의수도야?",
+            "서울이대한민국의수도야?",
+        )
+        if q in capital_patterns:
+            return "대한민국의 수도는 서울이야. 🇰🇷"
+
+        return None
+
+    @staticmethod
     def _needs_web(u):
         return any(x in u.lower() for x in ("최신","현재","오늘","어제","내일","최근","실시간","지금","뉴스","날씨","환율","주가","가격","업데이트","latest","current","today","news","weather","price","最新","現在","今日"))
 
@@ -120,7 +143,9 @@ class ResponseEngine:
         # Lower temperature is intentional: this tiny from-scratch model is not a
         # substitute for a large pretrained reasoning model.
         temp=.34 if deep else .42
-        return generate(prompt,self.tok,self.model,160 if deep else 120,temp,12,.82)
+        # Keep public fast-mode inference short enough for small CPU instances.
+        # Deterministic/site/KB answers are handled before this point.
+        return generate(prompt,self.tok,self.model,80 if deep else 48,temp,12,.82)
 
     def reply(self,user,user_id=None,access_token=None,mode="fast"):
         u=normalize_query(user); lang=detect(u)
@@ -130,6 +155,7 @@ class ResponseEngine:
         if ans is None: ans=self._site_answer(u,user_id,access_token)
         if ans is None: ans=math_answer(u,lang)
         if ans is None: ans=self.kb.answer(u,threshold=.70)
+        if ans is None: ans=self._builtin_answer(u)
         if ans is None and self.web_enabled and self._needs_web(u):
             results=web_search(u,limit=6,timeout=5)
             ans=format_results(u,results) if results else None
