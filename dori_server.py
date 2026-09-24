@@ -76,7 +76,7 @@ def _sse_event(obj):
     return "data: " + json.dumps(obj, ensure_ascii=False) + "\n\n"
 
 class H(BaseHTTPRequestHandler):
-    protocol_version = "HTTP/1.1"
+    protocol_version = "HTTP/1.0"
 
     def cors(self):
         for k, v in CORS.items():
@@ -103,6 +103,7 @@ class H(BaseHTTPRequestHandler):
         self.send_response(204)
         self.send_header("Content-Length", "0")
         self.end_headers()
+        self.close_connection = True
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
@@ -110,7 +111,7 @@ class H(BaseHTTPRequestHandler):
             self.send(200, {
                 "status": "ok",
                 "service": "dori-ai",
-                "version": "2.6.1-corsfix",
+                "version": "2.7.0-proxy-safe",
                 "knowledge_entries": _knowledge_size(),
                 "web_search": bot.web_enabled,
                 "model": meta.get("model_config"),
@@ -191,6 +192,8 @@ class H(BaseHTTPRequestHandler):
                     self.wfile.flush()
                 except (BrokenPipeError, ConnectionResetError):
                     pass
+                finally:
+                    self.close_connection = True
                 return
 
             self.send(200, {"answer": answer, "mode": mode, "authenticated": bool(uid), "user_id": uid})
