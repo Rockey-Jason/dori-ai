@@ -89,10 +89,8 @@ def _verified_admin(handler):
     # authenticated REST reads. Never trust a browser-supplied admin flag.
     service_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
     if service_key:
-        # Use the service-role key for BOTH the apikey header and bearer token.
-      # Passing it only as an access token still leaves the REST request using
-      # the anon key, which can be blocked by the users table RLS policy.
-      service_site = SiteData(access_token=service_key, api_key=service_key)
+        # Service-role key must be used for BOTH API-key and bearer headers.
+        service_site = SiteData(access_token=service_key, api_key=service_key)
         if service_site.is_admin(uid):
             print(f"Dori AI admin auth: allowed via service role user={uid}", flush=True)
             return uid
@@ -126,10 +124,6 @@ class H(BaseHTTPRequestHandler):
             self.send_header(k, v)
 
     def end_headers(self):
-        # Render/proxy environments can return errors or intermediate responses
-        # where CORS headers are otherwise easy to miss. Attach CORS at the
-        # final header-flush point so every response, including 204/404/500
-        # and streaming responses, gets the same policy.
         self.cors()
         super().end_headers()
 
@@ -211,7 +205,6 @@ class H(BaseHTTPRequestHandler):
                 raise ValueError("text must be 1-2000 characters")
 
             verified_uid = _supabase_user_from_token(_token_from_request(self))
-            # Never trust a browser-supplied user_id for permission checks.
             uid = verified_uid
             print(f"Dori AI request mode={mode!r} authenticated={bool(uid)} user_id={uid!r}", flush=True)
 
