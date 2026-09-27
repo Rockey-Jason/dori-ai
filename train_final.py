@@ -227,6 +227,11 @@ def main():
         train_losses, grad_norms = [], []
         iterator = iter_jsonl_text(train_path)
         for batch_idx in range(1, steps_per_epoch + 1):
+            print(
+                f"TRAIN_BATCH_START epoch {epoch - start_epoch + 1}/{args.epochs} "
+                f"batch {batch_idx}/{steps_per_epoch}",
+                flush=True
+            )
             batch = token_batch(iterator, tokenizer, seq_len, args.batch_size, rng)
             if batch is None:
                 break
