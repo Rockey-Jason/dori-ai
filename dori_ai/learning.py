@@ -351,7 +351,7 @@ class LearningManager:
                 loss=val_loss
             )
         else:
-            m = re.search(r"Epoch\s+(\d+).*train\s+([0-9.]+).*val\s+([0-9.]+)", line)
+            m = re.search(r"Epoch\\s+(\\d+).*train\\s+([0-9.]+).*val\\s+([0-9.]+)", line)
             if m:
                 model_epoch = int(m.group(1))
                 train_loss = float(m.group(2))
@@ -363,5 +363,5 @@ class LearningManager:
                     model_epoch=model_epoch,
                     loss=val_loss
                 )
-        elif line:
-            self._set(message=line[-500:])
+            elif line:
+                self._set(message=line[-500:])
