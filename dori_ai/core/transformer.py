@@ -64,10 +64,29 @@ class DoriTransformer:
     def save(self, path):
         np.savez(path, **{f'p{i}': p.data for i,p in enumerate(self.parameters())})
     def load_weights(self, path):
-        data = np.load(path)
+        data = np.load(path, allow_pickle=False)
         params = self.parameters()
-        if len(data.files) != len(params): raise ValueError('checkpoint parameter count mismatch')
-        for i,p in enumerate(params): p.data[...] = data[f'p{i}']
+        # Training checkpoints also contain Adam optimizer arrays (m*, v*)
+        # and optimizer_t. Only p0, p1, ... are model parameters.
+        param_keys = sorted(
+            (k for k in data.files if k.startswith("p") and k[1:].isdigit()),
+            key=lambda k: int(k[1:])
+        )
+        if len(param_keys) != len(params):
+            raise ValueError(
+                f"checkpoint parameter count mismatch: "
+                f"checkpoint={len(param_keys)}, model={len(params)}"
+            )
+        for i, p in enumerate(params):
+            key = f"p{i}"
+            if key not in data.files:
+                raise ValueError(f"checkpoint missing parameter {key}")
+            if data[key].shape != p.data.shape:
+                raise ValueError(
+                    f"checkpoint parameter shape mismatch for {key}: "
+                    f"checkpoint={data[key].shape}, model={p.data.shape}"
+                )
+            p.data[...] = data[key]
 
 def load_model(path, config):
     model = DoriTransformer(**config)
