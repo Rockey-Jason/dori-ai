@@ -282,14 +282,25 @@ def main():
         with history_path.open("a", encoding="utf-8") as f:
             f.write(json.dumps({"timestamp": time.time(), **meta}, ensure_ascii=False) + "\n")
 
+        run_epoch = epoch - start_epoch + 1
         if np.isfinite(val_loss) and val_loss < best_val:
             best_val = val_loss
             meta["best_val_loss"] = best_val
             save_checkpoint(best, model, optimizer)
             write_meta(best, meta)
-            print(f"Epoch {epoch:4d} | train {train_loss:.4f} | val {val_loss:.4f} | grad {np.mean(grad_norms):.4f} | ★ best {best_val:.4f}")
+            print(
+                f"TRAIN_EPOCH run {run_epoch}/{args.epochs} "
+                f"model_epoch {epoch} train {train_loss:.4f} val {val_loss:.4f} "
+                f"| grad {np.mean(grad_norms):.4f} | best {best_val:.4f}",
+                flush=True
+            )
         else:
-            print(f"Epoch {epoch:4d} | train {train_loss:.4f} | val {val_loss:.4f} | grad {np.mean(grad_norms):.4f} | best {best_val:.4f}")
+            print(
+                f"TRAIN_EPOCH run {run_epoch}/{args.epochs} "
+                f"model_epoch {epoch} train {train_loss:.4f} val {val_loss:.4f} "
+                f"| grad {np.mean(grad_norms):.4f} | best {best_val:.4f}",
+                flush=True
+            )
 
     print(f"Training complete in {time.time() - total_start:.1f}s")
     print(f"Best checkpoint: {best}")
