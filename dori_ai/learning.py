@@ -154,15 +154,20 @@ class LearningManager:
                 message=f"대용량 Transformer 학습 중... {epochs} epoch"
             )
 
+            # -u is important on Render: without unbuffered stdout, the
+            # trainer can run for a long time while the parent sees no lines.
+            env = os.environ.copy()
+            env["PYTHONUNBUFFERED"] = "1"
             self.process = subprocess.Popen(
-                cmd,
+                [sys.executable, "-u", *cmd[1:]],
                 cwd=str(ROOT),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT,
                 text=True,
                 encoding="utf-8",
                 errors="replace",
-                bufsize=1
+                bufsize=1,
+                env=env
             )
 
             last_line = ""
@@ -229,6 +234,34 @@ class LearningManager:
 
     def _parse_line(self, line, epochs):
         import re
+
+        # Batch-level progress is emitted by train_final.py so a large epoch
+        # does not look frozen for several minutes on a CPU-only Render worker.
+        m = re.search(
+            r"TRAIN_PROGRESS\s+epoch\s+(\d+)\s*/\s*(\d+)\s+"
+            r"batch\s+(\d+)\s*/\s*(\d+)\s+loss\s+([0-9.]+)",
+            line
+        )
+        if m:
+            run_epoch = int(m.group(1))
+            total_epochs = max(1, int(m.group(2)))
+            batch = int(m.group(3))
+            total_batches = max(1, int(m.group(4)))
+            loss = float(m.group(5))
+            completed = ((run_epoch - 1) + (batch / total_batches)) / total_epochs
+            self._set(
+                phase="training",
+                progress=min(95, max(10, 10 + int(85 * completed))),
+                message=(
+                    f"학습 중... epoch {run_epoch:,}/{total_epochs:,} · "
+                    f"batch {batch:,}/{total_batches:,} · loss {loss:.4f}"
+                ),
+                step=(run_epoch - 1) * total_batches + batch,
+                steps=total_epochs * total_batches,
+                loss=loss
+            )
+            return
+
         m = re.search(r"Epoch\s+(\d+).*train\s+([0-9.]+).*val\s+([0-9.]+)", line)
         if m:
             epoch = int(m.group(1))
