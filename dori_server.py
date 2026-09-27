@@ -180,8 +180,11 @@ class H(BaseHTTPRequestHandler):
                 length = int(self.headers.get("Content-Length", "0"))
                 data = json.loads(self.rfile.read(length).decode("utf-8")) if length else {}
                 if path.endswith("/start"):
-                    epochs = max(1, min(1000, int(data.get("epochs") or os.getenv("DORI_TRAIN_EPOCHS", "10"))))
-                    ok, message = learner.start(epochs)
+                    mode = str(data.get("mode") or "normal")
+                    epochs = data.get("epochs")
+                    max_batches = data.get("max_batches")
+                    batch_size = data.get("batch_size")
+                    ok, message = learner.start(epochs, mode=mode, max_batches=max_batches, batch_size=batch_size)
                     self.send(202 if ok else 409, {"ok": ok, "message": message, "status": learner.get_status()})
                 else:
                     self.send(200, {"ok": learner.stop(), "status": learner.get_status()})
