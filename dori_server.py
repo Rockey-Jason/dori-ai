@@ -72,6 +72,16 @@ def _token_from_request(handler):
     h = handler.headers.get("Authorization", "")
     return h[7:].strip() if h.lower().startswith("bearer ") else ""
 
+def _verified_admin(handler):
+    token = _token_from_request(handler)
+    uid = _supabase_user_from_token(token)
+    if not uid:
+        return None
+    # Use the verified user's access token for the users-table lookup.
+    # The server anon key can be blocked by RLS, causing valid admins to get 403.
+    authorized_site = site.with_token(token)
+    return uid if authorized_site.is_admin(uid) else None
+
 def _sse_event(obj):
     return "data: " + json.dumps(obj, ensure_ascii=False) + "\n\n"
 
@@ -134,8 +144,7 @@ class H(BaseHTTPRequestHandler):
             })
             return
         if path == "/training/status":
-            uid = _supabase_user_from_token(_token_from_request(self))
-            if not uid or not site.is_admin(uid):
+            if not _verified_admin(self):
                 self.send(403, {"error": "관리자만 학습 모드를 사용할 수 있어."})
                 return
             self.send(200, learner.get_status())
@@ -143,8 +152,7 @@ class H(BaseHTTPRequestHandler):
         self.send(200, {"service": "Dori AI", "status": "online"})
 
     def _admin(self):
-        uid = _supabase_user_from_token(_token_from_request(self))
-        return uid if uid and site.is_admin(uid) else None
+        return _verified_admin(self)
 
     def do_POST(self):
         path = self.path.split("?", 1)[0]
