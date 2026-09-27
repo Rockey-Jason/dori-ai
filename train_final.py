@@ -226,13 +226,23 @@ def main():
     for epoch in range(start_epoch, start_epoch + args.epochs):
         train_losses, grad_norms = [], []
         iterator = iter_jsonl_text(train_path)
-        for _ in range(steps_per_epoch):
+        for batch_idx in range(1, steps_per_epoch + 1):
             batch = token_batch(iterator, tokenizer, seq_len, args.batch_size, rng)
             if batch is None:
                 break
             loss, grad_norm = cross_entropy_and_backward(model, optimizer, batch[0], batch[1], args.grad_clip)
             train_losses.append(loss)
             grad_norms.append(grad_norm)
+
+            # Emit periodic progress so the admin UI can show live movement
+            # even when a single epoch contains thousands of CPU batches.
+            if batch_idx == 1 or batch_idx % 25 == 0 or batch_idx == steps_per_epoch:
+                run_epoch = epoch - start_epoch + 1
+                print(
+                    f"TRAIN_PROGRESS epoch {run_epoch}/{args.epochs} "
+                    f"batch {batch_idx}/{steps_per_epoch} loss {loss:.4f}",
+                    flush=True
+                )
         if not train_losses:
             raise RuntimeError("학습 가능한 batch가 없어.")
 
