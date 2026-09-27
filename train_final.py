@@ -138,6 +138,7 @@ def build_args():
     p.add_argument("--chunk-chars", type=int, default=1800)
     p.add_argument("--val-fraction", type=float, default=0.10)
     p.add_argument("--val-batches", type=int, default=32)
+    p.add_argument("--max-batches", type=int, default=50, help="maximum training batches per epoch; 0 means all batches")
     p.add_argument("--tokenizer-sample-chars", type=int, default=2_000_000)
     p.add_argument("--retrain-tokenizer", action="store_true", help="rebuild tokenizer from the collected corpus sample; starts a fresh model")
     p.add_argument("--fresh", action="store_true", help="ignore resumable latest checkpoint and start a new model")
@@ -156,12 +157,15 @@ def main():
     manifest_path = DATASET / "manifest.json"
     if args.no_build_cache and manifest_path.exists() and (DATASET / "train.jsonl").exists() and (DATASET / "val.jsonl").exists():
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        print("Using existing streaming dataset cache.")
+        print("TRAIN_STAGE dataset_cache", flush=True)
+        print("Using existing streaming dataset cache.", flush=True)
     else:
-        print("Collecting TXT/JSON/JSONL data...")
+        print("TRAIN_STAGE collecting", flush=True)
+        print("Collecting TXT/JSON/JSONL data...", flush=True)
         manifest = builder.build()
 
-    print(f"Files: {manifest['files']:,} | chunks: {manifest['chunks']:,} | train: {manifest['train']:,} | val: {manifest['val']:,}")
+    print("TRAIN_STAGE dataset_ready", flush=True)
+    print(f"Files: {manifest['files']:,} | chunks: {manifest['chunks']:,} | train: {manifest['train']:,} | val: {manifest['val']:,}", flush=True)
     print(f"Duplicates removed: {manifest['duplicates']:,} | garbage removed: {manifest['garbage']:,}")
 
     tokenizer_path = ROOT / "data" / "tokenizer.json"
@@ -170,13 +174,15 @@ def main():
         sample = tokenizer_sample(builder, args.tokenizer_sample_chars)
         if not sample:
             raise RuntimeError("tokenizer를 학습할 데이터가 없어.")
-        print(f"Training BPE tokenizer from a {len(sample):,}-character sample...")
+        print("TRAIN_STAGE tokenizer", flush=True)
+        print(f"Training BPE tokenizer from a {len(sample):,}-character sample...", flush=True)
         tokenizer = BPETokenizer(args.vocab_size).train(sample)
         tokenizer.save(tokenizer_path)
         tokenizer_changed = True
     else:
         tokenizer = BPETokenizer.load(tokenizer_path)
 
+    print("TRAIN_STAGE checkpoint_loading", flush=True)
     latest = CHECKPOINTS / "latest.npz"
     latest_meta_path = Path(str(latest) + ".json")
     best = CHECKPOINTS / "best.npz"
@@ -220,7 +226,9 @@ def main():
     history_path.parent.mkdir(parents=True, exist_ok=True)
     seq_len = min(int(config["max_len"]), int(args.seq_len))
     rng = np.random.default_rng(args.seed + max(0, start_epoch - 1))
-    steps_per_epoch = max(1, int(np.ceil(manifest["train"] / max(1, args.batch_size))))
+    all_steps_per_epoch = max(1, int(np.ceil(manifest["train"] / max(1, args.batch_size))))
+    steps_per_epoch = all_steps_per_epoch if args.max_batches <= 0 else min(all_steps_per_epoch, max(1, int(args.max_batches)))
+    print(f"TRAIN_STAGE training steps_per_epoch={steps_per_epoch}/{all_steps_per_epoch}", flush=True)
     total_start = time.time()
 
     for epoch in range(start_epoch, start_epoch + args.epochs):
