@@ -182,14 +182,18 @@ def main():
     best = CHECKPOINTS / "best.npz"
     best_meta_path = Path(str(best) + ".json")
     resume = latest.exists() and latest_meta_path.exists() and not args.fresh and not tokenizer_changed
+    # If this is the first run of the streaming trainer, continue from the
+    # existing known-good best checkpoint instead of resetting the model.
+    resume_path = latest if resume else (best if best.exists() and not args.fresh and not tokenizer_changed else None)
 
-    if resume:
-        meta = json.loads(latest_meta_path.read_text(encoding="utf-8"))
+    if resume_path is not None:
+        meta = json.loads(Path(str(resume_path) + ".json").read_text(encoding="utf-8"))
+        resume = True
         config = meta["model_config"]
-        model = load_model(str(latest), config)
+        model = load_model(str(resume_path), config)
         start_epoch = int(meta.get("epoch", 0)) + 1
-        best_val = float(meta.get("best_val_loss", float("inf")))
-        print(f"Resuming from latest checkpoint: epoch {start_epoch - 1}")
+        best_val = float(meta.get("best_val_loss", meta.get("val_loss", float("inf"))))
+        print(f"Resuming from {resume_path.name}: epoch {start_epoch - 1}")
     else:
         config = dict(vocab_size=tokenizer.vocab_size, max_len=args.seq_len, dim=args.dim, heads=args.heads, ff_dim=args.ff_dim, layers=args.layers)
         model = DoriTransformer(**config)
@@ -201,7 +205,7 @@ def main():
         raise RuntimeError("tokenizer/model vocab size mismatch. Use --retrain-tokenizer with --fresh, or keep the existing tokenizer.")
 
     optimizer = Adam(model.parameters(), lr=args.lr, weight_decay=1e-5)
-    resumed_optimizer = resume and load_optimizer(latest, optimizer)
+    resumed_optimizer = resume and resume_path == latest and load_optimizer(latest, optimizer)
     if resume and not resumed_optimizer:
         print("Optimizer state not found; resuming model weights with a fresh Adam state.")
 
