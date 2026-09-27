@@ -32,6 +32,21 @@ class LearningManager:
                 self.status.update(json.loads(STATUS.read_text(encoding="utf-8")))
         except Exception:
             pass
+        # A Render restart kills the background trainer. Do not resurrect a
+        # persisted "running" state from the previous process.
+        if self.status.get("running"):
+            self.status.update({
+                "running": False,
+                "phase": "interrupted",
+                "progress": 100,
+                "message": "서버가 재시작되어 이전 학습이 중단되었어.",
+                "finished_at": time.time(),
+                "error": "trainer process was lost during server restart"
+            })
+            try:
+                self._save()
+            except Exception:
+                pass
 
     def _save(self):
         STATUS.parent.mkdir(parents=True, exist_ok=True)
@@ -138,8 +153,9 @@ class LearningManager:
             cmd = [
                 sys.executable, str(ROOT / "train_final.py"),
                 "--epochs", str(epochs),
-                "--seq-len", os.getenv("DORI_TRAIN_SEQ_LEN", "128"),
-                "--batch-size", os.getenv("DORI_TRAIN_BATCH_SIZE", "8"),
+                "--seq-len", os.getenv("DORI_TRAIN_SEQ_LEN", "96"),
+                "--batch-size", os.getenv("DORI_TRAIN_BATCH_SIZE", "2"),
+                "--max-batches", os.getenv("DORI_TRAIN_MAX_BATCHES", "50"),
                 "--dim", os.getenv("DORI_TRAIN_DIM", "64"),
                 "--heads", os.getenv("DORI_TRAIN_HEADS", "4"),
                 "--layers", os.getenv("DORI_TRAIN_LAYERS", "3"),
@@ -259,6 +275,46 @@ class LearningManager:
                 step=(run_epoch - 1) * total_batches + batch,
                 steps=total_epochs * total_batches,
                 loss=loss
+            )
+            return
+
+        m = re.search(r"TRAIN_STAGE\s+(.+)", line)
+        if m:
+            stage = m.group(1).strip()
+            messages = {
+                "collecting": "학습 데이터를 모으는 중...",
+                "dataset_ready": "학습 데이터 준비 완료. 모델을 준비하는 중...",
+                "tokenizer": "토크나이저를 준비하는 중...",
+                "checkpoint_loading": "기존 모델 체크포인트를 불러오는 중...",
+                "training": "Transformer 학습 계산을 시작하는 중..."
+            }
+            self._set(
+                phase="training" if stage.startswith("training") else "preparing",
+                progress=10 if not stage.startswith("training") else 12,
+                message=messages.get(stage.split()[0], f"학습 준비 중... {stage}")
+            )
+            return
+
+        m = re.search(
+            r"TRAIN_BATCH_START\s+epoch\s+(\d+)\s*/\s*(\d+)\s+"
+            r"batch\s+(\d+)\s*/\s*(\d+)",
+            line
+        )
+        if m:
+            run_epoch = int(m.group(1))
+            total_epochs = max(1, int(m.group(2)))
+            batch = int(m.group(3))
+            total_batches = max(1, int(m.group(4)))
+            completed = ((run_epoch - 1) + ((batch - 1) / total_batches)) / total_epochs
+            self._set(
+                phase="training",
+                progress=min(95, max(10, 10 + int(85 * completed))),
+                message=(
+                    f"학습 계산 중... epoch {run_epoch:,}/{total_epochs:,} · "
+                    f"batch {batch:,}/{total_batches:,}"
+                ),
+                step=(run_epoch - 1) * total_batches + batch - 1,
+                steps=total_epochs * total_batches
             )
             return
 
