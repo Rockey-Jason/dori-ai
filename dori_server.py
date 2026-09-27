@@ -76,11 +76,26 @@ def _verified_admin(handler):
     token = _token_from_request(handler)
     uid = _supabase_user_from_token(token)
     if not uid:
+        print("Dori AI admin auth: invalid/missing Supabase access token", flush=True)
         return None
-    # Use the verified user's access token for the users-table lookup.
-    # The server anon key can be blocked by RLS, causing valid admins to get 403.
+
+    # First try the verified user's token. This respects normal RLS.
     authorized_site = site.with_token(token)
-    return uid if authorized_site.is_admin(uid) else None
+    if authorized_site.is_admin(uid):
+        print(f"Dori AI admin auth: allowed user={uid}", flush=True)
+        return uid
+
+    # Server-side fallback for projects whose users table policy blocks
+    # authenticated REST reads. Never trust a browser-supplied admin flag.
+    service_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
+    if service_key:
+        service_site = SiteData(service_key)
+        if service_site.is_admin(uid):
+            print(f"Dori AI admin auth: allowed via service role user={uid}", flush=True)
+            return uid
+
+    print(f"Dori AI admin auth: verified user but not admin user={uid}", flush=True)
+    return None
 
 def _sse_event(obj):
     return "data: " + json.dumps(obj, ensure_ascii=False) + "\n\n"
