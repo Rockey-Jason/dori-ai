@@ -16,6 +16,7 @@ DEFAULT_ROOTS = (
     ROOT / "data" / "corpus",
     ROOT / "data" / "new",
     ROOT / "data" / "generated",
+    ROOT / "data" / "learning",
 )
 IGNORED_NAMES = {"tokenizer.json", "learning_status.json"}
 TEXT_KEYS = ("text", "content", "body", "document", "knowledge", "prompt")
