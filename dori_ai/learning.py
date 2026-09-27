@@ -153,21 +153,22 @@ class LearningManager:
             cmd = [
                 sys.executable, str(ROOT / "train_final.py"),
                 "--epochs", str(epochs),
-                "--seq-len", os.getenv("DORI_TRAIN_SEQ_LEN", "96"),
-                "--batch-size", os.getenv("DORI_TRAIN_BATCH_SIZE", "2"),
-                "--max-batches", os.getenv("DORI_TRAIN_MAX_BATCHES", "50"),
-                "--dim", os.getenv("DORI_TRAIN_DIM", "64"),
-                "--heads", os.getenv("DORI_TRAIN_HEADS", "4"),
-                "--layers", os.getenv("DORI_TRAIN_LAYERS", "3"),
-                "--ff-dim", os.getenv("DORI_TRAIN_FF_DIM", "256"),
+                "--seq-len", os.getenv("DORI_TRAIN_SEQ_LEN", "32" if os.getenv("RENDER") else "96"),
+                "--batch-size", os.getenv("DORI_TRAIN_BATCH_SIZE", "1" if os.getenv("RENDER") else "2"),
+                "--max-batches", os.getenv("DORI_TRAIN_MAX_BATCHES", "1" if os.getenv("RENDER") else "50"),
+                "--dim", os.getenv("DORI_TRAIN_DIM", "32" if os.getenv("RENDER") else "64"),
+                "--heads", os.getenv("DORI_TRAIN_HEADS", "2" if os.getenv("RENDER") else "4"),
+                "--layers", os.getenv("DORI_TRAIN_LAYERS", "1" if os.getenv("RENDER") else "3"),
+                "--ff-dim", os.getenv("DORI_TRAIN_FF_DIM", "64" if os.getenv("RENDER") else "256"),
                 "--lr", os.getenv("DORI_TRAIN_LR", "2e-4"),
-                "--grad-clip", os.getenv("DORI_TRAIN_GRAD_CLIP", "1.0")
+                "--grad-clip", os.getenv("DORI_TRAIN_GRAD_CLIP", "1.0"),
+                "--val-batches", os.getenv("DORI_TRAIN_VAL_BATCHES", "1" if os.getenv("RENDER") else "32")
             ]
 
             self._set(
                 phase="training",
                 progress=10,
-                message=f"대용량 Transformer 학습 중... {epochs} epoch"
+                message=(f"Transformer 학습 중... {epochs} epoch" + (" · Render 안전 모드" if os.getenv("RENDER") else ""))
             )
 
             # -u is important on Render: without unbuffered stdout, the
