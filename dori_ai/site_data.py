@@ -2,12 +2,13 @@
 import json, os, urllib.parse, urllib.request
 
 class SiteData:
-    def __init__(self, access_token=None):
+    def __init__(self, access_token=None, api_key=None):
         self.url=os.getenv("SUPABASE_URL","").rstrip("/")
-        self.key=os.getenv("SUPABASE_ANON_KEY","")
+        self.key=api_key or os.getenv("SUPABASE_ANON_KEY","")
         self.access_token=access_token
 
-    def with_token(self, token): return SiteData(token or self.access_token)
+    def with_token(self, token):
+        return SiteData(token or self.access_token, self.key)
 
     def _get(self, table, params, timeout=6):
         if not self.url or not self.key: return None
