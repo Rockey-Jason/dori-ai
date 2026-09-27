@@ -79,11 +79,23 @@ class LearningManager:
             self._save()
             return True
 
-    def start(self, epochs=None):
+    def start(self, epochs=None, mode="normal", max_batches=None, batch_size=None):
         with self.lock:
             if self.running:
                 return False, "이미 학습 중이야."
-            n = max(1, min(1000, int(epochs or os.getenv("DORI_TRAIN_EPOCHS", "10"))))
+            presets = {
+                "test": {"epochs": 3, "max_batches": 5, "batch_size": 1},
+                "light": {"epochs": 10, "max_batches": 25, "batch_size": 1},
+                "normal": {"epochs": 20, "max_batches": 100, "batch_size": 1},
+                "large": {"epochs": 10, "max_batches": 250, "batch_size": 1},
+            }
+            mode = str(mode or "normal").lower()
+            if mode not in presets and mode != "custom":
+                mode = "normal"
+            preset = presets.get(mode, {})
+            n = max(1, min(1000, int(epochs if epochs is not None else preset.get("epochs", os.getenv("DORI_TRAIN_EPOCHS", "10")))))
+            mb = max(1, min(100000, int(max_batches if max_batches is not None else preset.get("max_batches", os.getenv("DORI_TRAIN_MAX_BATCHES", "50")))))
+            bs = max(1, min(64, int(batch_size if batch_size is not None else preset.get("batch_size", os.getenv("DORI_TRAIN_BATCH_SIZE", "1")))))
             self.running = True
             self.stop_requested = False
             self.process = None
@@ -91,11 +103,12 @@ class LearningManager:
                 "running": True, "phase": "starting", "progress": 0,
                 "message": "대용량 학습을 준비하는 중...", "examples": 0,
                 "tokens": 0, "step": 0, "steps": n, "epochs": n, "model_epoch": None,
-                "loss": None, "started_at": time.time(),
+                "loss": None, "started_at": time.time(), "mode": mode,
+                "max_batches": mb, "batch_size": bs,
                 "finished_at": None, "error": None
             })
             self._save()
-            threading.Thread(target=self._run, args=(n,), daemon=True, name="dori-streaming-learning").start()
+            threading.Thread(target=self._run, args=(n, mb, bs, mode), daemon=True, name="dori-streaming-learning").start()
             return True, "대용량 학습을 시작했어."
 
     def collect(self):
@@ -143,7 +156,7 @@ class LearningManager:
         )
         return clean
 
-    def _run(self, epochs):
+    def _run(self, epochs, max_batches, batch_size, mode):
         try:
             self.collect()
             if self._stop():
@@ -154,8 +167,8 @@ class LearningManager:
                 sys.executable, str(ROOT / "train_final.py"),
                 "--epochs", str(epochs),
                 "--seq-len", os.getenv("DORI_TRAIN_SEQ_LEN", "32" if os.getenv("RENDER") else "96"),
-                "--batch-size", os.getenv("DORI_TRAIN_BATCH_SIZE", "1" if os.getenv("RENDER") else "2"),
-                "--max-batches", os.getenv("DORI_TRAIN_MAX_BATCHES", "1" if os.getenv("RENDER") else "50"),
+                "--batch-size", str(batch_size),
+                "--max-batches", str(max_batches),
                 "--dim", os.getenv("DORI_TRAIN_DIM", "32" if os.getenv("RENDER") else "64"),
                 "--heads", os.getenv("DORI_TRAIN_HEADS", "2" if os.getenv("RENDER") else "4"),
                 "--layers", os.getenv("DORI_TRAIN_LAYERS", "1" if os.getenv("RENDER") else "3"),
@@ -168,7 +181,7 @@ class LearningManager:
             self._set(
                 phase="training",
                 progress=10,
-                message=(f"Transformer 학습 중... {epochs} epoch" + (" · Render 안전 모드" if os.getenv("RENDER") else ""))
+                message=(f"Transformer 학습 중... {epochs} epoch · {max_batches} batch/epoch · {mode}")
             )
 
             # -u is important on Render: without unbuffered stdout, the
