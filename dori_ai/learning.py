@@ -21,7 +21,7 @@ class LearningManager:
         self.status = {
             "running": False, "phase": "idle", "progress": 0,
             "message": "학습 대기 중", "examples": 0, "tokens": 0,
-            "step": 0, "steps": 0, "loss": None, "started_at": None,
+            "step": 0, "steps": 0, "model_epoch": None, "loss": None, "started_at": None,
             "finished_at": None, "error": None
         }
         self._load()
@@ -90,7 +90,7 @@ class LearningManager:
             self.status.update({
                 "running": True, "phase": "starting", "progress": 0,
                 "message": "대용량 학습을 준비하는 중...", "examples": 0,
-                "tokens": 0, "step": 0, "steps": n, "epochs": n,
+                "tokens": 0, "step": 0, "steps": n, "epochs": n, "model_epoch": None,
                 "loss": None, "started_at": time.time(),
                 "finished_at": None, "error": None
             })
@@ -232,7 +232,15 @@ class LearningManager:
                 running=False,
                 phase="complete",
                 progress=100,
-                message=f"학습 완료! best val loss={best_meta.get('val_loss', '—')}",
+                message=(
+                    f"학습 완료! {epochs:,} epoch · "
+                    f"best val loss={float(best_meta.get("val_loss")):.4f}"
+                    if best_meta.get("val_loss") is not None
+                    else f"학습 완료! {epochs:,} epoch"
+                ),
+                step=epochs,
+                steps=epochs,
+                model_epoch=best_meta.get("epoch"),
                 loss=best_meta.get("val_loss"),
                 finished_at=time.time()
             )
@@ -319,18 +327,41 @@ class LearningManager:
             )
             return
 
-        m = re.search(r"Epoch\s+(\d+).*train\s+([0-9.]+).*val\s+([0-9.]+)", line)
+        m = re.search(
+            r"TRAIN_EPOCH\s+run\s+(\d+)\s*/\s*(\d+)\s+"
+            r"model_epoch\s+(\d+).*train\s+([0-9.]+).*val\s+([0-9.]+)",
+            line
+        )
         if m:
-            epoch = int(m.group(1))
-            train_loss = float(m.group(2))
-            val_loss = float(m.group(3))
+            run_epoch = int(m.group(1))
+            total_epochs = max(1, int(m.group(2)))
+            model_epoch = int(m.group(3))
+            train_loss = float(m.group(4))
+            val_loss = float(m.group(5))
             self._set(
                 phase="training",
-                progress=min(95, 10 + int(85 * epoch / max(1, epochs))),
-                message=f"학습 중... epoch {epoch:,}/{epochs:,} · train {train_loss:.4f} · val {val_loss:.4f}",
-                step=epoch,
-                steps=epochs,
+                progress=min(95, 10 + int(85 * run_epoch / total_epochs)),
+                message=(
+                    f"학습 중... epoch {run_epoch:,}/{total_epochs:,} · "
+                    f"model epoch {model_epoch:,} · train {train_loss:.4f} · val {val_loss:.4f}"
+                ),
+                step=run_epoch,
+                steps=total_epochs,
+                model_epoch=model_epoch,
                 loss=val_loss
             )
+        else:
+            m = re.search(r"Epoch\s+(\d+).*train\s+([0-9.]+).*val\s+([0-9.]+)", line)
+            if m:
+                model_epoch = int(m.group(1))
+                train_loss = float(m.group(2))
+                val_loss = float(m.group(3))
+                self._set(
+                    phase="training",
+                    progress=95,
+                    message=f"학습 중... model epoch {model_epoch:,} · train {train_loss:.4f} · val {val_loss:.4f}",
+                    model_epoch=model_epoch,
+                    loss=val_loss
+                )
         elif line:
             self._set(message=line[-500:])
