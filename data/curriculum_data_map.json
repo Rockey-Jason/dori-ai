@@ -1,0 +1,16 @@
+{
+  "stages": [
+    {"name":"foundation","from":1,"to":80,"data_dirs":["data/corpus","data/new","data/generated","data/learning"]},
+    {"name":"korean_language","from":81,"to":160,"data_dirs":["data/curriculum/korean"]},
+    {"name":"site_mastery","from":161,"to":240,"data_dirs":["data/curriculum/site"]},
+    {"name":"qa_following","from":241,"to":320,"data_dirs":["data/curriculum/qa"]},
+    {"name":"reasoning","from":321,"to":400,"data_dirs":["data/curriculum/reasoning"]},
+    {"name":"instruction","from":401,"to":480,"data_dirs":["data/curriculum/instruction"]},
+    {"name":"worldbuilding","from":481,"to":560,"data_dirs":["data/curriculum/worldbuilding"]},
+    {"name":"tools_retrieval","from":561,"to":640,"data_dirs":["data/curriculum/tools"]},
+    {"name":"fact_safety","from":641,"to":720,"data_dirs":["data/curriculum/factsafety"]},
+    {"name":"dialogue","from":721,"to":800,"data_dirs":["data/curriculum/dialogue"]},
+    {"name":"adversarial","from":801,"to":900,"data_dirs":["data/curriculum/adversarial"]},
+    {"name":"stabilization","from":901,"to":1000,"data_dirs":["data/curriculum/stabilization"]}
+  ]
+}
