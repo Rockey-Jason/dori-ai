@@ -80,6 +80,13 @@ class LearningManager:
             return True
 
     def start(self, epochs=None, mode="normal", max_batches=None, batch_size=None):
+        # Render's web service and the continuous GitHub Actions trainer share
+        # the same small runtime only when this endpoint is explicitly enabled.
+        # Running a CPU/NumPy training subprocess beside the web server can push
+        # a 512 MB Free instance into an OOM/restart. GitHub Actions is the
+        # supported persistent 1000-round training path.
+        if os.getenv("RENDER") and os.getenv("DORI_ALLOW_IN_PROCESS_TRAINING", "0").lower() not in ("1", "true", "yes", "on"):
+            return False, "Render 웹 서버에서는 메모리 보호를 위해 직접 학습을 실행하지 않아. GitHub Actions의 지속 학습을 사용해줘."
         with self.lock:
             if self.running:
                 return False, "이미 학습 중이야."
