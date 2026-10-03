@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "chunk_chars": 1800,
+  "val_fraction": 0.1,
+  "files": 16,
+  "raw_records": 140832,
+  "chunks": 51999,
+  "train": 46856,
+  "val": 5143,
+  "duplicates": 82008,
+  "garbage": 6638
+}
