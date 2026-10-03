@@ -10,10 +10,10 @@
   },
   "tokenizer": "data/tokenizer.json",
   "tokenizer_sha256": "73760a320fd30032485803860a1293e2c21a7d6ff14d6e8b6d12458d593963b5",
-  "epoch": 580,
-  "train_loss": 1.7919594645994843,
-  "val_loss": 2.750165636413167,
-  "gradient_norm": 9.32452787329646,
+  "epoch": 600,
+  "train_loss": 1.227530540465746,
+  "val_loss": 1.6119876581776345,
+  "gradient_norm": 7.564443541302073,
   "best_val_loss": 3.5984253786575016,
   "version": "3.0.0-streaming",
   "dataset_manifest": "data/streaming/manifest.json",
@@ -21,14 +21,14 @@
     "version": 1,
     "chunk_chars": 1800,
     "val_fraction": 0.1,
-    "files": 46,
-    "raw_records": 195200,
-    "chunks": 53153,
-    "train": 47882,
-    "val": 5271,
-    "duplicates": 135216,
-    "garbage": 6644
+    "files": 17,
+    "raw_records": 140837,
+    "chunks": 52004,
+    "train": 46861,
+    "val": 5143,
+    "duplicates": 82008,
+    "garbage": 6638
   },
-  "steps_per_epoch": 27,
-  "optimizer_t": 1780
+  "steps_per_epoch": 9,
+  "optimizer_t": 1960
 }
