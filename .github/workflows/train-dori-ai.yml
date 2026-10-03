@@ -56,9 +56,19 @@ jobs:
           print("knowledge_rows_total=", total)
           PY
 
-      - name: Run 20 continuous training rounds
+      - name: Run continuous training through round 1000
         run: |
-          python scripts/continuous_train.py             --rounds 20             --max-batches 48             --batch-size 2             --seq-len 128             --lr 1.5e-4             --grad-clip 1.0
+          # One invocation requests all remaining rounds.
+          # Four batches per micro-round keeps the full 1000-round curriculum
+          # within the GitHub Actions execution window while still performing
+          # 4000 optimizer batches across the complete curriculum.
+          python scripts/continuous_train.py \
+            --rounds 1000 \
+            --max-batches 4 \
+            --batch-size 2 \
+            --seq-len 128 \
+            --lr 1.5e-4 \
+            --grad-clip 1.0
 
       - name: Run Dori AI preflight tests
         run: |
@@ -71,16 +81,19 @@ jobs:
           from pathlib import Path
           best = Path("checkpoints/best.npz")
           meta = Path("checkpoints/best.npz.json")
-          assert best.exists() and meta.exists()
+          state = Path("runtime/training_round.json")
+          assert best.exists() and meta.exists() and state.exists()
           data = json.loads(meta.read_text(encoding="utf-8"))
+          training_round = json.loads(state.read_text(encoding="utf-8"))["round"]
           assert data["model_config"]["vocab_size"] == 768
+          assert training_round == 1000, f"Expected round 1000, got {training_round}"
           print("best_epoch=", data.get("epoch"))
           print("train_loss=", data.get("train_loss"))
           print("val_loss=", data.get("val_loss"))
-          print("training_round=", json.loads(Path("runtime/training_round.json").read_text())["round"])
+          print("training_round=", training_round)
           PY
 
-      - name: Commit trained model and round state
+      - name: Commit trained model and round state safely
         run: |
           set -e
           git config user.name "dori-ai-training-bot"
@@ -94,16 +107,44 @@ jobs:
 
           git commit -m "Continue Dori AI training rounds"
 
-          # Another GitHub edit/workflow can update main while training is running.
-          # Rebase our training commit onto the newest main before pushing.
+          # Synchronize with main without blindly overwriting remote source
+          # changes. Only generated training artifacts may be resolved in favor
+          # of the newly trained result.
+          GENERATED_REGEX='^(checkpoints/|runtime/training_round[.]json$|runtime/continuous_rounds[.]jsonl$)'
+
           for attempt in 1 2 3; do
             echo "Synchronizing with origin/main (attempt $attempt/3)..."
             git fetch origin main
 
-            if ! git rebase origin/main; then
-              echo "::error::Rebase conflict detected. Refusing to overwrite remote changes."
-              git rebase --abort || true
-              exit 1
+            if git merge --no-edit --no-ff origin/main; then
+              echo "Remote main merged cleanly."
+            else
+              echo "Merge conflict detected. Inspecting conflicted paths..."
+              CONFLICTS="$(git diff --name-only --diff-filter=U)"
+              echo "$CONFLICTS"
+
+              UNSAFE=0
+              while IFS= read -r path; do
+                [ -z "$path" ] && continue
+                if [[ ! "$path" =~ $GENERATED_REGEX ]]; then
+                  echo "::error::Source conflict detected in $path; refusing to overwrite remote changes."
+                  UNSAFE=1
+                fi
+              done <<< "$CONFLICTS"
+
+              if [ "$UNSAFE" -ne 0 ]; then
+                git merge --abort || true
+                exit 1
+              fi
+
+              while IFS= read -r path; do
+                [ -z "$path" ] && continue
+                git checkout --ours -- "$path"
+                git add -- "$path"
+              done <<< "$CONFLICTS"
+
+              git commit --no-edit
+              echo "Only generated training artifacts conflicted; kept the new trained artifacts."
             fi
 
             if git push origin HEAD:main; then
@@ -111,7 +152,7 @@ jobs:
               exit 0
             fi
 
-            echo "Push raced with another update; retrying after a fresh fetch/rebase..."
+            echo "Push raced with another update; retrying after a fresh fetch/merge..."
             sleep 3
           done
 
