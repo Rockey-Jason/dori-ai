@@ -86,6 +86,10 @@ jobs:
           data = json.loads(meta.read_text(encoding="utf-8"))
           training_round = json.loads(state.read_text(encoding="utf-8"))["round"]
           assert data["model_config"]["vocab_size"] == 768
+          assert data["model_config"]["dim"] == 256
+          assert data["model_config"]["heads"] == 8
+          assert data["model_config"]["layers"] == 8
+          assert data["model_config"]["ff_dim"] == 1024
           assert training_round == 1000, f"Expected round 1000, got {training_round}"
           print("best_epoch=", data.get("epoch"))
           print("train_loss=", data.get("train_loss"))
