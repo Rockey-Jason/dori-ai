@@ -10,11 +10,11 @@
   },
   "tokenizer": "data/tokenizer.json",
   "tokenizer_sha256": "73760a320fd30032485803860a1293e2c21a7d6ff14d6e8b6d12458d593963b5",
-  "epoch": 560,
-  "train_loss": 2.2633153084126754,
-  "val_loss": 2.9252629717293934,
-  "gradient_norm": 8.319758855991036,
-  "best_val_loss": 2.9252629717293934,
+  "epoch": 580,
+  "train_loss": 1.7919594645994843,
+  "val_loss": 2.750165636413167,
+  "gradient_norm": 9.32452787329646,
+  "best_val_loss": 2.750165636413167,
   "version": "3.0.0-streaming",
   "dataset_manifest": "data/streaming/manifest.json",
   "dataset_counts": {
@@ -30,5 +30,5 @@
     "garbage": 6644
   },
   "steps_per_epoch": 27,
-  "optimizer_t": 1240
+  "optimizer_t": 1780
 }
