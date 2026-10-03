@@ -7,7 +7,8 @@ on:
   push:
     paths:
       - "data/new/**"
-      - "data/dori_knowledge_v26.jsonl"
+      - "data/generated/**"
+      - "data/dori_knowledge_v*.jsonl"
       - "scripts/**"
       - "train_final.py"
       - "dori_ai/**"
@@ -39,40 +40,51 @@ jobs:
 
       - name: Validate corpus
         run: |
-          python -m compileall dori_ai
+          python -m compileall dori_ai scripts
+          python - <<'PY'
+          import glob, json
+          paths = sorted(glob.glob("data/dori_knowledge_v*.jsonl"))
+          assert paths, "No versioned Dori knowledge JSONL found"
+          total = 0
+          for name in paths:
+              rows = [json.loads(x) for x in open(name, encoding="utf-8") if x.strip()]
+              assert rows and all(r.get("question") and r.get("answer") for r in rows)
+              total += len(rows)
+              print(name, "rows=", len(rows))
+          print("knowledge_rows_total=", total)
+          PY
+
+      - name: Run 20 continuous training rounds
+        run: |
+          python scripts/continuous_train.py             --rounds 20             --max-batches 30             --batch-size 2             --seq-len 128             --lr 1.5e-4             --grad-clip 1.0
+
+      - name: Verify best checkpoint
+        run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          p = Path("data/dori_knowledge_v26.jsonl")
-          rows = [json.loads(x) for x in p.read_text(encoding="utf-8").splitlines() if x.strip()]
-          assert rows and all(r.get("question") and r.get("answer") for r in rows)
-          print("knowledge_rows=", len(rows))
+          best = Path("checkpoints/best.npz")
+          meta = Path("checkpoints/best.npz.json")
+          assert best.exists() and meta.exists()
+          data = json.loads(meta.read_text(encoding="utf-8"))
+          assert data["model_config"]["vocab_size"] == 768
+          print("best_epoch=", data.get("epoch"))
+          print("train_loss=", data.get("train_loss"))
+          print("val_loss=", data.get("val_loss"))
+          print("training_round=", json.loads(Path("runtime/training_round.json").read_text())["round"])
           PY
 
-      - name: Build training data and train
-        run: |
-          python train_final.py             --epochs 60             --max-batches 180             --batch-size 2             --seq-len 128             --dim 64             --heads 4             --layers 3             --ff-dim 256             --lr 1.5e-4             --grad-clip 1.0
-
-      - name: Verify checkpoint
-        run: |
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          meta = json.loads(Path("checkpoints/best.npz.json").read_text(encoding="utf-8"))
-          assert Path("checkpoints/best.npz").exists()
-          assert meta["model_config"]["vocab_size"] == 768
-          print("best_epoch=", meta.get("epoch"))
-          print("train_loss=", meta.get("train_loss"))
-          print("val_loss=", meta.get("val_loss"))
-          PY
-
-      - name: Commit trained model
+      - name: Commit trained model and round state
         run: |
           git config user.name "dori-ai-training-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/dori_knowledge_v26.jsonl data/new checkpoints/best.npz checkpoints/best.npz.json checkpoints/latest.npz checkpoints/latest.npz.json data/streaming runtime/training_history.jsonl
-          git diff --cached --quiet && echo "No model changes to commit." || git commit -m "Train Dori AI v26 model"
-          git push
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Continue Dori AI training rounds"
+            git push
+          fi
 
       - name: Trigger Render deploy when a deploy hook is configured
         if: success()
@@ -83,5 +95,5 @@ jobs:
             curl --fail --silent --show-error --retry 3 --retry-delay 5 "$RENDER_DEPLOY_HOOK_URL"
             echo "Render deploy triggered."
           else
-            echo "RENDER_DEPLOY_HOOK_URL is not configured; training result remains in GitHub."
+            echo "RENDER_DEPLOY_HOOK_URL is not configured; GitHub model update completed."
           fi
