@@ -2,6 +2,8 @@ import json
 import os
 import urllib.error
 import urllib.request
+import gc
+import threading
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -32,6 +34,11 @@ def reload_bot():
     bot = ResponseEngine(tok, model)
 
 learner = LearningManager(reload_callback=reload_bot)
+
+# The Render Free instance has 512 MB RAM. ThreadingHTTPServer can otherwise
+# run several Transformer inference graphs at once and multiply peak memory.
+CHAT_CONCURRENCY = max(1, int(os.getenv("DORI_CHAT_CONCURRENCY", "1")))
+CHAT_SEMAPHORE = threading.BoundedSemaphore(CHAT_CONCURRENCY)
 
 CORS = {
     "Access-Control-Allow-Origin": "*",
@@ -196,7 +203,13 @@ class H(BaseHTTPRequestHandler):
             self.send(404, {"error": "not found"})
             return
 
+        acquired_chat = False
         try:
+            if path == "/chat":
+                acquired_chat = CHAT_SEMAPHORE.acquire(timeout=20)
+                if not acquired_chat:
+                    self.send(503, {"error": "Dori AI가 현재 다른 요청을 처리하고 있어. 잠시 후 다시 시도해줘.", "type": "busy"})
+                    return
             length = int(self.headers.get("Content-Length", "0"))
             if length <= 0 or length > 16384:
                 raise ValueError("request too large or empty")
@@ -248,6 +261,12 @@ class H(BaseHTTPRequestHandler):
         except Exception as exc:
             print("Dori AI /chat error:", repr(exc), flush=True)
             self.send(500, {"error": "Dori AI 내부 오류가 발생했어.", "type": "server_error"})
+        finally:
+            if acquired_chat:
+                CHAT_SEMAPHORE.release()
+                # Release temporary NumPy/autograd objects before the next
+                # request. This is a safety valve, not a substitute for limits.
+                gc.collect()
 
     def log_message(self, *args):
         pass
