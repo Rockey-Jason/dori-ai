@@ -56,7 +56,11 @@ jobs:
 
       - name: Run 20 continuous training rounds
         run: |
-          python scripts/continuous_train.py             --rounds 20             --max-batches 30             --batch-size 2             --seq-len 128             --lr 1.5e-4             --grad-clip 1.0
+          python scripts/continuous_train.py             --rounds 20             --max-batches 48             --batch-size 2             --seq-len 128             --lr 1.5e-4             --grad-clip 1.0
+
+      - name: Run Dori AI preflight tests
+        run: |
+          python scripts/preflight_dori_ai.py
 
       - name: Verify best checkpoint
         run: |
