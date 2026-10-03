@@ -1,0 +1,115 @@
+{"question":"돌이 AI는 무엇이야?","answer":"돌이 AI는 돌이사이트 전용 AI야. 돌이신문, 돌돌증권, 사용자 정보 같은 사이트 데이터를 실시간으로 확인할 수 있고, 자체 Transformer와 지식 검색을 함께 사용해 답변해."}
+{"question":"돌이 AI는 어떤 모델을 사용해?","answer":"현재 돌이 AI의 핵심 생성 모델은 외부 사전학습 가중치를 사용하지 않고 직접 구현한 NumPy Transformer야. 작은 모델의 한계를 보완하기 위해 결정적 답변, 검색, 사이트 데이터, 웹 검색을 함께 사용해."}
+{"question":"돌이 AI는 최신 정보를 어떻게 알아?","answer":"현재 정보가 필요한 질문은 가능한 경우 돌이사이트의 실시간 데이터나 웹 검색을 먼저 사용하고, 확인할 수 없는 정보는 추측하지 않는 방향으로 동작해."}
+{"question":"돌이사이트에는 무엇이 있어?","answer":"돌이사이트에는 돌이신문, 돌이 AI, 돌돌증권, 랜덤박스, 업적, 꾸미기와 여러 돌이 세계관 기능이 있어."}
+{"question":"돌이신문은 뭐야?","answer":"돌이신문은 돌이사이트의 뉴스 콘텐츠야. 사용자의 read_dori_news 권한에 따라 읽을 수 있는 호수가 달라지고, 각 신문에는 뉴스와 퀴즈가 포함될 수 있어."}
+{"question":"돌돌증권은 뭐야?","answer":"돌돌증권은 돌이사이트 안에서 돌돌코인을 이용해 주식을 사고팔 수 있도록 만든 가상 주식 시스템이야. 종목 가격, 변동률, 위험도와 종목별 특징을 확인할 수 있어."}
+{"question":"돌이 AI는 사용자 정보를 볼 수 있어?","answer":"로그인한 사용자의 유효한 Supabase access token을 서버에서 검증한 뒤 허용된 범위의 사이트 정보를 읽을 수 있어. 브라우저가 보내는 user_id만 믿어서 권한을 결정하지 않아."}
+{"question":"돌이 AI 관리자 학습은 무엇이야?","answer":"관리자 학습 기능은 학습 corpus를 모아 streaming trainer를 실행하고 checkpoint를 갱신하는 기능이야. 학습 상태와 epoch, loss 등을 관리자 화면에서 확인할 수 있도록 설계되어 있어."}
+{"question":"돌이 AI 학습 데이터는 어디에 있어?","answer":"기본 학습 데이터는 data/corpus, data/new, data/generated, data/learning 아래의 TXT, JSON, JSONL 파일을 수집하도록 되어 있어."}
+{"question":"돌이 AI의 학습 방식은 뭐야?","answer":"데이터를 정리하고 중복을 제거한 뒤 문단과 문장 경계를 고려해 chunk로 만들고, byte-level BPE tokenizer로 토큰화한 다음 Transformer를 streaming batch 방식으로 학습해."}
+{"question":"돌이 AI는 모르는 것을 지어내?","answer":"가능한 한 그러지 않도록 설계되어 있어. 정확한 도구나 지식 검색으로 확인할 수 없는 질문은 충분한 정보가 없다고 말하고 추측을 줄이는 방향이야."}
+{"question":"돌이 AI의 빠른 모드는 뭐야?","answer":"fast 모드는 단순 질문과 사이트 데이터, 검색, 짧은 생성 답변을 빠르게 처리하는 모드야."}
+{"question":"돌이 AI의 deep 모드는 뭐야?","answer":"deep 모드는 자체 Transformer 생성 단계에서 더 긴 출력 길이와 조금 더 낮은 생성 온도를 사용해 복잡한 질문에 더 많은 계산을 허용하는 모드야."}
+{"question":"돌이 인형은 어떤 설정이야?","answer":"돌이는 오로라·미요니 브랜드의 웰시코기 인형 캐릭터야. 돌이 세계관에서는 돌이사이트와 여러 게임 및 콘텐츠의 중심 캐릭터로 사용돼."}
+{"question":"돌이의 생일은 언제야?","answer":"돌이 캐릭터 설정상 생일은 2021년 10월 3일이야."}
+{"question":"돌이는 어떤 견종이야?","answer":"돌이는 웰시코기, 특히 펨브록 웰시코기 설정을 사용해."}
+{"question":"도로늄은 뭐야?","answer":"도로늄은 돌이 세계관의 중요한 자원·소재 이름이야. 도로늄과 도로늄 회사, 도로늄 공장 같은 설정이 여러 콘텐츠에서 사용돼."}
+{"question":"도로늄 공장은 어떤 게임이야?","answer":"도로늄 공장은 돌돌행성에 도착한 우주비행사가 고기 자원과 도로늄을 활용해 생산 시설을 확장하는 자동화 중심 게임 구상이야."}
+{"question":"돌이 랜덤박스는 뭐야?","answer":"돌이 랜덤박스는 돌돌코인을 사용해 보상을 얻는 시스템이야. 아이템 확률, 경험치 보상과 획득 기록을 관리하고 돌이 꾸미기와 연결될 수 있어."}
+{"question":"돌이 업적의 희귀도는 뭐야?","answer":"돌이 업적의 희귀도는 Common, Rare, Epic, Legendary, Myth, Doronum의 6단계로 구성돼."}
+{"question":"Doronum 희귀도는 어떤 의미야?","answer":"Doronum은 돌이 업적 시스템에서 가장 높은 희귀도 이름으로 사용되는 등급이야."}
+{"question":"돌이사이트의 주식 종목에는 뭐가 있어?","answer":"대표적으로 로키 페이퍼, 돌이 반도체, 로키 도로늄 등의 종목 설정이 있고 종목별 위험도와 가격 특성이 다르게 설계되어 있어."}
+{"question":"로키 페이퍼는 어떤 회사야?","answer":"로키 페이퍼는 돌이신문과 연결된 회사 설정으로, 비교적 안전하고 성장 속도가 느린 종목으로 설계되어 있어."}
+{"question":"돌이 반도체는 어떤 회사야?","answer":"돌이 반도체는 돌이 AI에 사용되는 칩과 연결된 종목 설정으로, 상승 가능성이 큰 대신 급락 위험도 큰 종목으로 설계되어 있어."}
+{"question":"로키 도로늄은 어떤 회사야?","answer":"로키 도로늄은 도로늄과 관련된 회사 설정으로, 좋은 도로늄이 등장하면 급등하고 인기가 줄어들면 다시 하락하는 특성을 가진 종목으로 설계되어 있어."}
+{"question":"용제의 뜻은 뭐야?","answer":"용제는 다른 물질을 녹여 용액을 만드는 데 사용하는 물질이야. 영어로는 solvent라고 해."}
+{"question":"계발하다의 뜻은 뭐야?","answer":"계발하다는 사람의 능력이나 재능을 깨우고 발전시키는 것을 뜻해. 예를 들어 재능을 계발하다라고 말해."}
+{"question":"옹호자의 뜻은 뭐야?","answer":"옹호자는 어떤 사람이나 주장, 권리 등을 지지하고 보호하는 사람이야."}
+{"question":"망명자의 뜻은 뭐야?","answer":"망명자는 정치적·사회적 박해 등을 피해 다른 나라로 피신한 사람이야."}
+{"question":"허영심의 뜻은 뭐야?","answer":"허영심은 자신의 외모, 능력, 지위 등을 실제보다 좋게 보이고 싶어 하는 마음이야."}
+{"question":"탁아소의 뜻은 뭐야?","answer":"탁아소는 보호자가 돌보기 어려운 어린아이를 일정 시간 맡아 돌보는 시설이야."}
+{"question":"intimacy의 뜻은 뭐야?","answer":"intimacy는 친밀함, 친밀한 관계, 가까움이라는 뜻이야."}
+{"question":"beleaguered의 뜻은 뭐야?","answer":"beleaguered는 곤경에 처한, 계속 어려움을 겪는, 포위당한이라는 뜻이야."}
+{"question":"registered의 뜻은 뭐야?","answer":"registered는 register의 과거형·과거분사로, 등록된 또는 등록했다는 뜻이야."}
+{"question":"sophisticated의 뜻은 뭐야?","answer":"sophisticated는 세련된, 정교한, 복잡하고 수준 높은이라는 뜻이야."}
+{"question":"altogether의 뜻은 뭐야?","answer":"altogether는 모두 합쳐서, 완전히, 전반적으로라는 뜻으로 문맥에 따라 사용돼."}
+{"question":"대한민국의 수도는 어디야?","answer":"대한민국의 수도는 서울이야. 🇰🇷"}
+{"question":"1+1은 얼마야?","answer":"1+1은 2야."}
+{"question":"12 곱하기 12는 얼마야?","answer":"12×12는 144야."}
+{"question":"100의 25퍼센트는 얼마야?","answer":"100의 25%는 25야."}
+{"question":"2차방정식의 근의 공식은 뭐야?","answer":"ax²+bx+c=0에서 a가 0이 아닐 때 근의 공식은 x=(-b±√(b²-4ac))/(2a)야."}
+{"question":"피타고라스 정리는 뭐야?","answer":"직각삼각형에서 빗변의 제곱은 나머지 두 변의 제곱의 합과 같다는 정리야. a²+b²=c²로 나타내."}
+{"question":"미분은 무엇을 구하는 거야?","answer":"미분은 함수의 순간적인 변화율, 즉 입력이 조금 변할 때 출력이 얼마나 변하는지를 구하는 방법이야."}
+{"question":"적분은 무엇과 관련 있어?","answer":"적분은 넓이, 누적량, 원시함수 등을 구하는 데 사용되는 수학적 방법이야."}
+{"question":"HTTP란 뭐야?","answer":"HTTP는 웹 브라우저와 서버가 데이터를 주고받기 위해 사용하는 애플리케이션 계층 프로토콜이야."}
+{"question":"API란 뭐야?","answer":"API는 서로 다른 소프트웨어가 정해진 규칙에 따라 기능이나 데이터를 요청하고 주고받을 수 있게 해주는 인터페이스야."}
+{"question":"JSON이란 뭐야?","answer":"JSON은 구조화된 데이터를 표현하기 위한 텍스트 형식으로, 객체와 배열 등을 이용해 데이터를 저장하고 전달할 수 있어."}
+{"question":"GitHub란 뭐야?","answer":"GitHub는 Git 저장소를 온라인에서 호스팅하고 코드 협업, 이슈, Pull Request, Actions 등을 사용할 수 있는 개발 플랫폼이야."}
+{"question":"GitHub Actions는 뭐야?","answer":"GitHub Actions는 저장소의 이벤트에 따라 테스트, 빌드, 학습, 배포 같은 자동화 작업을 실행하는 CI/CD 플랫폼이야."}
+{"question":"Render는 뭐야?","answer":"Render는 웹 서비스, 백그라운드 작업, 데이터베이스 등 애플리케이션 인프라를 배포하고 운영할 수 있는 클라우드 플랫폼이야."}
+{"question":"Supabase는 뭐야?","answer":"Supabase는 PostgreSQL 데이터베이스를 중심으로 인증, 저장소, API, 실시간 기능 등을 제공하는 개발 플랫폼이야."}
+{"question":"Transformer는 뭐야?","answer":"Transformer는 attention을 핵심으로 사용하는 신경망 구조로, 자연어 처리와 다양한 순차 데이터 문제에 널리 사용돼."}
+{"question":"attention은 뭐야?","answer":"attention은 현재 처리하는 토큰이 입력의 다른 토큰 중 어떤 부분을 얼마나 참고할지 가중치를 계산하는 메커니즘이야."}
+{"question":"BPE는 뭐야?","answer":"BPE(Byte Pair Encoding)는 자주 함께 나타나는 토큰 쌍을 반복적으로 합쳐 어휘를 만드는 토큰화 방법이야."}
+{"question":"RAG란 뭐야?","answer":"RAG는 질문에 관련된 외부 지식이나 문서를 검색한 뒤 그 근거를 사용해 답변을 만드는 방식이야."}
+{"question":"overfitting이란 뭐야?","answer":"overfitting은 모델이 학습 데이터에 지나치게 맞춰져 새로운 데이터에서는 성능이 떨어지는 현상이야."}
+{"question":"validation loss는 왜 봐?","answer":"validation loss는 학습에 직접 사용하지 않은 검증 데이터에서 모델이 얼마나 잘 예측하는지 보는 지표야. 과적합을 확인하고 좋은 checkpoint를 선택하는 데 도움을 줘."}
+{"question":"gradient clipping은 왜 사용해?","answer":"gradient clipping은 gradient가 지나치게 커지는 것을 제한해 학습이 불안정해지는 것을 줄이는 방법이야."}
+{"question":"Adam optimizer는 뭐야?","answer":"Adam은 gradient의 1차·2차 모멘트를 이용해 파라미터별 학습률을 조절하는 최적화 알고리즘이야."}
+{"question":"파이썬에서 리스트와 튜플의 차이는 뭐야?","answer":"리스트는 변경 가능한 자료구조이고 튜플은 일반적으로 생성 후 원소를 변경할 수 없는 자료구조야."}
+{"question":"SQL이란 뭐야?","answer":"SQL은 관계형 데이터베이스의 데이터를 조회, 삽입, 수정, 삭제하고 구조를 관리하기 위한 언어야."}
+{"question":"SELECT는 뭐야?","answer":"SELECT는 SQL에서 데이터를 조회할 때 사용하는 명령이야."}
+{"question":"primary key란 뭐야?","answer":"primary key는 테이블에서 각 행을 고유하게 식별하기 위한 열 또는 열 조합이야."}
+{"question":"foreign key란 뭐야?","answer":"foreign key는 다른 테이블의 키를 참조해 테이블 사이의 관계를 표현하는 열이야."}
+{"question":"돌이 AI의 목적은?","answer":"돌이사이트 이용자를 돕는 전용 AI로서 사이트 정보와 일반 지식을 함께 제공하는 것이 목적이야."}
+{"question":"돌이 AI가 가장 먼저 확인하는 것은?","answer":"질문의 성격에 따라 결정적 답변, 돌이사이트 실시간 데이터, 로컬 지식 검색, 최신 웹 검색을 우선 확인한 뒤 필요할 때 자체 Transformer가 생성해."}
+{"question":"학습 데이터가 많으면 무조건 좋아져?","answer":"아니야. 데이터의 양뿐 아니라 정확성, 중복 제거, 데이터 구성, 검증 데이터, 모델 크기와 학습 방법이 모두 중요해."}
+{"question":"모델을 계속 학습시키면 무조건 좋아져?","answer":"아니야. 반복 학습으로 과적합이나 성능 저하가 생길 수 있어서 validation loss와 실제 질문 테스트를 함께 확인해야 해."}
+{"question":"돌이 AI가 추측하면 어떻게 해?","answer":"확인 가능한 정보가 있는 경우 근거를 우선 사용하고, 충분한 근거가 없으면 모른다고 말하는 것이 더 안전한 답변 방식이야."}
+{"question":"학습 checkpoint란 뭐야?","answer":"학습 중인 모델의 파라미터와 필요한 학습 상태를 저장한 파일이야. 이후 학습을 이어가거나 가장 좋은 모델을 복원할 때 사용해."}
+{"question":"best checkpoint는 뭐야?","answer":"검증 데이터의 validation loss가 가장 낮았던 시점의 모델을 저장한 checkpoint야."}
+{"question":"streaming training이란 뭐야?","answer":"전체 학습 데이터를 한꺼번에 메모리에 올리지 않고 파일에서 작은 batch 단위로 읽으며 학습하는 방식이야."}
+{"question":"돌이 AI의 학습 corpus에는 어떤 파일을 넣을 수 있어?","answer":"현재 trainer는 TXT, JSON, JSONL 파일을 재귀적으로 수집하도록 되어 있어."}
+{"question":"돌이 AI가 사이트 데이터를 실시간으로 읽는 이유는?","answer":"주식 가격이나 사용자의 읽기 권한처럼 계속 변하는 정보는 오래된 학습 데이터보다 현재 데이터베이스 값을 사용하는 것이 정확하기 때문이야."}
+{"question":"돌이사이트의 레벨은 어떻게 돼?","answer":"돌이사이트 사용자 레벨은 Lv1 일반부터 Lv10 관리자까지 구성되어 있고, EXP에 따라 레벨이 올라가는 구조야."}
+{"question":"돌이사이트 EXP 레벨 기준은?","answer":"설정된 주요 EXP 기준은 0, 100, 500, 1,000, 5,000, 10,000, 20,000, 30,000, 40,000, 50,000, 100,000이야."}
+{"question":"첫 로그인 보상은?","answer":"설정된 첫 로그인 보상은 돌돌코인 100,000과 EXP 50이야."}
+{"question":"신문 퀴즈 정답 보상은?","answer":"설정된 신문 퀴즈 정답 보상은 돌돌코인 5,000과 EXP 500이야."}
+{"question":"돌이사이트 사용자 데이터에서 user_level은 뭐야?","answer":"user_level은 사이트의 회원 등급을 나타내며 EXP 자체와는 다른 값이야."}
+{"question":"돌이사이트의 login_id는 왜 중요해?","answer":"사이트 사용자 식별을 위한 필드로 login_id를 사용하는 흐름이 있으며, 일부 데이터 처리에서는 임의의 id 컬럼과 혼동하지 않도록 주의해야 해."}
+{"question":"돌이사이트의 업적 시스템은 어떤 희귀도를 사용해?","answer":"Common, Rare, Epic, Legendary, Myth, Doronum의 6개 희귀도를 사용해."}
+{"question":"돌이사이트의 Legendary 업적 효과는?","answer":"Legendary 업적 획득 시 사이트 전체 배경에 잠시 자연스러운 황금빛 효과를 주는 연출이 설계되어 있어."}
+{"question":"Myth 업적 효과는?","answer":"Myth 업적은 사이트 전체를 어두운 붉은 계열로 연출하고 인상적인 파티클 효과를 보여주는 방향으로 설계되어 있어."}
+{"question":"Doronum 업적 효과는?","answer":"Doronum 업적은 하늘색 계열과 가장 강한 고급 연출을 사용하는 최고 희귀도 효과로 설계되어 있어."}
+{"question":"돌이 랜덤박스의 비용은?","answer":"돌이 랜덤박스의 기본 비용은 1,000 돌돌코인으로 설정되어 있어."}
+{"question":"랜덤박스 보상 기록은 어디에 저장돼?","answer":"랜덤박스 관련 보상과 기록은 dori_box_items, dori_box_history, open_dori_box 같은 데이터 구조와 RPC를 이용하는 설계가 있어."}
+{"question":"돌돌증권의 로키 페이퍼 초기 가격은?","answer":"설정상 로키 페이퍼의 초기 가격은 10,000 돌돌코인이야."}
+{"question":"돌돌증권의 로키 페이퍼 주식 수는?","answer":"설정상 로키 페이퍼는 500주야."}
+{"question":"돌돌증권의 돌이 반도체 초기 가격은?","answer":"설정상 돌이 반도체의 초기 가격은 10,000,000 돌돌코인이야."}
+{"question":"돌돌증권의 돌이 반도체 총 주식 수는?","answer":"설정상 돌이 반도체의 총 주식 수는 100,000주야."}
+{"question":"돌돌증권의 로키 도로늄 초기 가격은?","answer":"설정상 로키 도로늄의 초기 가격은 500,000 돌돌코인이야."}
+{"question":"돌돌증권의 로키 도로늄 총 주식 수는?","answer":"설정상 로키 도로늄의 총 주식 수는 500,000주야."}
+{"question":"돌이 AI가 Render에서 실행되는 포트는?","answer":"현재 Render 배포에서는 서버가 0.0.0.0:10000에서 수신하도록 실행돼."}
+{"question":"돌이 AI 서버의 현재 Render URL은?","answer":"현재 배포된 돌이 AI 서비스의 Render 기본 주소는 https://dori-ai-u3kf.onrender.com 이야."}
+{"question":"돌이 AI 학습은 어떤 파일을 수집해?","answer":"학습 pipeline은 TXT, JSON, JSONL 파일을 재귀적으로 수집하고 중복과 불필요한 데이터를 정리한 뒤 streaming dataset을 만들어."}
+{"question":"돌이 AI는 왜 streaming training을 사용해?","answer":"전체 corpus를 한꺼번에 메모리에 올리는 대신 작은 batch로 읽어 CPU 메모리 사용량을 줄이고 더 큰 corpus를 처리하기 위해 사용해."}
+{"question":"돌이 AI의 validation split은?","answer":"기본 streaming trainer는 corpus를 train과 validation으로 나누며 기본 validation fraction은 0.10이야."}
+{"question":"돌이 AI의 기본 tokenizer vocabulary size는?","answer":"현재 streaming trainer의 기본 tokenizer vocabulary size는 768이야."}
+{"question":"돌이 AI의 기본 Transformer 크기는?","answer":"현재 trainer 기본값은 dimension 64, 4 attention heads, 3 layers, feed-forward dimension 256이야."}
+{"question":"돌이 AI는 gradient clipping을 사용해?","answer":"응. 학습 안정성을 위해 기본 gradient clipping 값 1.0을 사용하도록 trainer가 구성되어 있어."}
+{"question":"돌이 AI는 optimizer로 무엇을 사용해?","answer":"현재 streaming trainer는 Adam optimizer를 사용하고 weight decay 1e-5도 적용해."}
+{"question":"돌이 AI는 학습 중 best model을 어떻게 고르지?","answer":"각 epoch의 validation loss를 비교하고 더 낮아지면 best.npz checkpoint로 저장해."}
+{"question":"돌이 AI는 학습을 중단했다가 이어갈 수 있어?","answer":"응. latest checkpoint와 optimizer 상태를 저장해 다음 실행에서 이어 학습할 수 있도록 설계되어 있어."}
+{"question":"돌이 AI 학습 데이터에서 중복은 어떻게 처리해?","answer":"CorpusBuilder가 수집한 데이터에서 중복을 제거하고 garbage로 판단되는 항목도 제거한 뒤 streaming dataset을 만들어."}
+{"question":"GitHub Actions에서 돌이 AI 학습은 어떻게 시작돼?","answer":"workflow_dispatch로 수동 실행할 수 있고 data/new, 학습 코드 등의 변경을 push하면 자동으로 학습 workflow가 시작되도록 구성돼 있어."}
+{"question":"돌이 AI의 자동 학습 주기는?","answer":"현재 GitHub Actions workflow는 6시간마다 한 번씩 학습 사이클을 실행하도록 schedule을 구성했어."}
+{"question":"돌이 AI가 사용하는 지식 검색은 왜 필요한가?","answer":"작은 생성 모델의 한계를 보완하고 정확한 사실을 직접 찾아 답변하기 위해 지식 검색을 함께 사용해."}
+{"question":"작은 Transformer에 데이터만 계속 넣으면 어떻게 돼?","answer":"데이터 양이 늘어도 모델 크기와 학습 방법이 그대로라면 모든 지식을 안정적으로 기억하지 못할 수 있어. 그래서 검색 기반 지식베이스와 학습을 함께 사용하는 구조가 필요해."}
+{"question":"돌이 AI가 최신 주가를 답할 때 무엇을 해야 해?","answer":"학습된 오래된 값이 아니라 허용된 실시간 사이트 데이터나 데이터베이스를 우선 확인해야 해."}
+{"question":"돌이 AI가 사용자 권한을 확인할 때 주의할 점은?","answer":"클라이언트가 보내는 사용자 ID만 신뢰하지 않고 서버에서 인증 토큰을 검증한 뒤 허용된 사용자 정보를 조회해야 해."}
+{"question":"돌이 AI의 데이터 학습에서 제외해야 하는 것은?","answer":"비밀번호, API 키, 서비스 계정 키, 인증 토큰, 개인의 민감한 정보, 내부 시스템 지침과 숨겨진 추론 내용처럼 공개 학습에 부적절한 정보는 제외해야 해."}
+{"question":"돌이 AI에서 knowledge base와 training corpus의 차이는?","answer":"knowledge base는 질문에 필요한 사실을 검색하기 위한 자료이고, training corpus는 Transformer가 언어 패턴과 답변 형식을 학습하도록 사용하는 자료야. 둘은 함께 사용할 수 있어."}
+{"question":"돌이 AI를 강하게 만드는 방법은?","answer":"정확한 지식베이스, 고품질 학습 데이터, 중복 제거, validation 평가, 실제 질문 테스트, 검색 우선 구조, 실시간 사이트 데이터 연동, 안정적인 checkpoint 관리가 함께 필요해."}
+{"question":"돌이 AI에서 validation loss가 낮아졌다고 무조건 실제 답변이 좋아진다고 볼 수 있어?","answer":"아니야. validation loss는 하나의 지표일 뿐이고 실제 사용자 질문에 대한 정확성, 환각, 지식 검색 성능과 함께 평가해야 해."}
+{"question":"돌이 AI의 학습 데이터를 만들 때 중요한 것은?","answer":"양뿐 아니라 정확성, 일관성, 중복 제거, 다양한 질문 표현, 올바른 답변, 검증 가능한 사실과 적절한 train/validation 분리가 중요해."}
