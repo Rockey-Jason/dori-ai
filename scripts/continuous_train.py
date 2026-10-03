@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Persistent continuous trainer for Dori AI.
 
-Each invocation performs a fixed number of resumable micro-rounds. The round
-counter is stored in runtime/training_round.json so scheduled GitHub Actions
-runs continue where the previous run stopped. Every round resumes from the
-latest checkpoint and uses a different deterministic RNG seed.
+A single invocation can request all remaining rounds up to the 1000-round
+target. The round counter is stored in runtime/training_round.json so the
+training resumes safely after a job timeout or interruption.
 """
 import argparse
 import json
@@ -56,7 +55,8 @@ def stage_for(round_no):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--rounds", type=int, default=20)
+    # One invocation now requests every remaining round through round 1000.
+    p.add_argument("--rounds", type=int, default=1000)
     p.add_argument("--max-batches", type=int, default=30)
     p.add_argument("--batch-size", type=int, default=2)
     p.add_argument("--seq-len", type=int, default=128)
@@ -90,8 +90,6 @@ def main():
             "--grad-clip", str(args.grad_clip),
             "--seed", str(seed),
         ]
-        # Each curriculum directory is passed as an extra corpus source.
-        # train_final.py supports repeated --data paths.
         stage_dirs = {
             "korean_language": "data/curriculum/korean_language",
             "site_mastery": "data/curriculum/site_mastery",
