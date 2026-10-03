@@ -90,15 +90,17 @@ def main():
             "--grad-clip", str(args.grad_clip),
             "--seed", str(seed),
         ]
+        # Each curriculum directory is passed as an extra corpus source.
+        # train_final.py supports repeated --data paths.
         stage_dirs = {
-            "korean_language": "data/curriculum/korean",
-            "site_mastery": "data/curriculum/site",
-            "qa_following": "data/curriculum/qa",
+            "korean_language": "data/curriculum/korean_language",
+            "site_mastery": "data/curriculum/site_mastery",
+            "qa_following": "data/curriculum/qa_following",
             "reasoning": "data/curriculum/reasoning",
             "instruction": "data/curriculum/instruction",
             "worldbuilding": "data/curriculum/worldbuilding",
-            "tools_retrieval": "data/curriculum/tools",
-            "fact_safety": "data/curriculum/factsafety",
+            "tools_retrieval": "data/curriculum/tools_retrieval",
+            "fact_safety": "data/curriculum/fact_safety",
             "dialogue": "data/curriculum/dialogue",
             "adversarial": "data/curriculum/adversarial",
             "stabilization": "data/curriculum/stabilization",
