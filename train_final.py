@@ -126,9 +126,9 @@ def build_args():
     p.add_argument("--epochs", type=int, default=10)
     p.add_argument("--seq-len", type=int, default=128)
     p.add_argument("--batch-size", type=int, default=8)
-    p.add_argument("--dim", type=int, default=64)
-    p.add_argument("--heads", type=int, default=4)
-    p.add_argument("--layers", type=int, default=3)
+    p.add_argument("--dim", type=int, default=1024)
+    p.add_argument("--heads", type=int, default=8)
+    p.add_argument("--layers", type=int, default=8)
     p.add_argument("--ff-dim", type=int, default=256)
     p.add_argument("--lr", type=float, default=2e-4)
     p.add_argument("--seed", type=int, default=20260924)
@@ -192,21 +192,33 @@ def main():
     # existing known-good best checkpoint instead of resetting the model.
     resume_path = latest if resume else (best if best.exists() and not args.fresh and not tokenizer_changed else None)
 
+    requested_config = dict(vocab_size=tokenizer.vocab_size, max_len=args.seq_len, dim=args.dim, heads=args.heads, ff_dim=args.ff_dim, layers=args.layers)
     if resume_path is not None:
         meta = json.loads(Path(str(resume_path) + ".json").read_text(encoding="utf-8"))
-        resume = True
-        config = meta["model_config"]
-        model = load_model(str(resume_path), config)
-        start_epoch = int(meta.get("epoch", 0)) + 1
-        best_val = float(meta.get("best_val_loss", meta.get("val_loss", float("inf"))))
-        print(f"Resuming from {resume_path.name}: epoch {start_epoch - 1}")
+        checkpoint_config = meta.get("model_config", {})
+        compatible = all(checkpoint_config.get(k) == v for k, v in requested_config.items())
+        if compatible:
+            resume = True
+            config = checkpoint_config
+            model = load_model(str(resume_path), config)
+            start_epoch = int(meta.get("epoch", 0)) + 1
+            best_val = float(meta.get("best_val_loss", meta.get("val_loss", float("inf"))))
+            print(f"Resuming from {resume_path.name}: epoch {start_epoch - 1}")
+        else:
+            print("Existing checkpoint architecture differs; starting the requested large model.", flush=True)
+            print(f"old_config={checkpoint_config}", flush=True)
+            print(f"new_config={requested_config}", flush=True)
+            resume = False
+            config = requested_config
+            model = DoriTransformer(**config)
+            start_epoch = 1
+            best_val = float("inf")
     else:
-        config = dict(vocab_size=tokenizer.vocab_size, max_len=args.seq_len, dim=args.dim, heads=args.heads, ff_dim=args.ff_dim, layers=args.layers)
+        config = requested_config
         model = DoriTransformer(**config)
         start_epoch = 1
         best_val = float("inf")
         print("Starting a fresh model.")
-
     if model.vocab_size != tokenizer.vocab_size:
         raise RuntimeError("tokenizer/model vocab size mismatch. Use --retrain-tokenizer with --fresh, or keep the existing tokenizer.")
 
