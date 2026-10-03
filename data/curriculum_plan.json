@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "target_rounds": 1000,
+  "stages": [
+    {"from":1,"to":80,"name":"foundation","goal":"기본 언어·돌이 핵심 지식·문장 안정화","lr":0.00015,"max_batches":30,"batch_size":2},
+    {"from":81,"to":160,"name":"korean_language","goal":"한국어 문법·어휘·문맥·자연스러운 문장","lr":0.00013,"max_batches":32,"batch_size":2},
+    {"from":161,"to":240,"name":"site_mastery","goal":"돌이사이트 기능·DB 개념·실시간 데이터 구분","lr":0.00013,"max_batches":34,"batch_size":2},
+    {"from":241,"to":320,"name":"qa_following","goal":"질문 이해·정확한 답변·지시 따르기","lr":0.00012,"max_batches":36,"batch_size":2},
+    {"from":321,"to":400,"name":"reasoning","goal":"수학·논리·단계적 문제 해결·모순 탐지","lr":0.00011,"max_batches":38,"batch_size":2},
+    {"from":401,"to":480,"name":"instruction","goal":"복합 지시·형식 준수·긴 문맥 유지","lr":0.00010,"max_batches":40,"batch_size":2},
+    {"from":481,"to":560,"name":"worldbuilding","goal":"돌이 세계관·인물·장소·설정 관계 유지","lr":0.00010,"max_batches":40,"batch_size":2},
+    {"from":561,"to":640,"name":"tools_retrieval","goal":"검색·Supabase·사이트 실시간 값과 학습 지식 구분","lr":0.00009,"max_batches":42,"batch_size":2},
+    {"from":641,"to":720,"name":"fact_safety","goal":"모르면 추측하지 않기·근거 우선·충돌 정보 처리","lr":0.00008,"max_batches":42,"batch_size":2},
+    {"from":721,"to":800,"name":"dialogue","goal":"대화 기억·후속 질문·자연스러운 한국어 대화","lr":0.00008,"max_batches":44,"batch_size":2},
+    {"from":801,"to":900,"name":"adversarial","goal":"환각·반복·깨진 UTF-8·엉뚱한 답변·버그 내성 테스트","lr":0.00007,"max_batches":44,"batch_size":2},
+    {"from":901,"to":1000,"name":"stabilization","goal":"검증셋 안정화·최적 체크포인트 선정·배포 전 회귀검사","lr":0.00005,"max_batches":48,"batch_size":2}
+  ]
+}
