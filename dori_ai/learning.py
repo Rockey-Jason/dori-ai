@@ -247,7 +247,7 @@ class LearningManager:
                 progress=100,
                 message=(
                     f"학습 완료! {epochs:,} epoch · "
-                    f"best val loss={float(best_meta.get("val_loss")):.4f}"
+                    f"best val loss={float(best_meta.get('val_loss')):.4f}"
                     if best_meta.get("val_loss") is not None
                     else f"학습 완료! {epochs:,} epoch"
                 ),
