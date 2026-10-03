@@ -23,6 +23,7 @@ class LocalKnowledge:
                 root / "dori_knowledge_v23.jsonl",
                 root / "dori_knowledge_v25.jsonl",
                 root / "dori_knowledge_v26.jsonl",
+                root / "dori_knowledge_v27.jsonl",
                 root / "instructions" / "train.jsonl",
             ]
             paths = [p for p in candidates if p.exists()]
