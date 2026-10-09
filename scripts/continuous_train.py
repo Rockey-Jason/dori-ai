@@ -110,6 +110,11 @@ def main():
         stage_dir = ROOT / stage_dirs.get(stage["name"], "")
         if stage_dir.exists():
             cmd += ["--data", str(stage_dir)]
+        # Build the cleaned streaming corpus once per workflow run. Rebuilding
+        # all source files for each of 1000 micro-rounds wastes most of the
+        # runner budget; later rounds safely reuse the manifest created above.
+        if round_no > current + 1:
+            cmd += ["--no-build-cache"]
         result = subprocess.run(cmd, cwd=ROOT)
         if result.returncode != 0:
             raise SystemExit(result.returncode)
