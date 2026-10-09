@@ -8,6 +8,7 @@ from .language import detect, normalize_query
 from .math_engine import answer as math_answer
 from .answer_quality import bad, clean
 from .llm_provider import answer as llm_answer, enabled as llm_enabled, model_name as llm_model_name
+from . import world_knowledge
 from generate_final import generate
 
 class ResponseEngine:
@@ -189,29 +190,52 @@ class ResponseEngine:
         # Deterministic facts must run before probabilistic local retrieval.
         # A weak KB match must never override an exact known fact.
         if ans is None: ans=self._builtin_answer(u)
-        # When configured, a pretrained chat model handles open-ended questions.
-        # Search evidence is provided to the model as context instead of being
-        # dumped as a list of snippets, and prior turns are passed for reference resolution.
+        # Broad world knowledge: retrieve encyclopedia evidence and cache it so
+        # factual questions do not depend on the tiny from-scratch model's weights.
+        # Resolve short follow-ups against the previous user turn before searching.
         web_results = None
+        world_results = None
+        factual = self._needs_web(u)
+        search_query = u
+        if factual and dialogue.history:
+            previous_user = next((t for role, t in reversed(dialogue.history) if role == "user"), "")
+            if previous_user and len(u.strip()) <= 70 and any(
+                x in u.lower() for x in ("그 사람", "그건", "그것", "그게", "그럼", "그 이유", "그때", "그 작품",
+                                          "it ", "that person", "they ", "he ", "she ", "what about", "why did")
+            ):
+                search_query = previous_user + " " + u
+        if factual:
+            world_results = world_knowledge.search(search_query, language=lang, limit=3)
+            if self.web_enabled:
+                web_results = web_search(search_query, limit=5, timeout=5)
+
+        # A configured pretrained model uses the retrieved evidence and recent
+        # conversation. Without it, Dori still returns source-linked encyclopedia
+        # summaries instead of random text for broad factual questions.
         if ans is None and self.llm_enabled:
-            evidence = None
-            if self.web_enabled and self._needs_web(u):
-                web_results = web_search(u, limit=6, timeout=7)
-                evidence = format_results(u, web_results) if web_results else None
+            evidence_parts = []
+            world_evidence = world_knowledge.format_evidence(world_results)
+            if world_evidence:
+                evidence_parts.append(world_evidence)
+            web_evidence = format_results(search_query, web_results) if web_results else None
+            if web_evidence:
+                evidence_parts.append(web_evidence)
             ans = llm_answer(
                 u,
                 history=dialogue.history,
-                evidence=evidence,
+                evidence="\n\n".join(evidence_parts) if evidence_parts else None,
                 language=lang,
             )
-        # Legacy local knowledge and the from-scratch model remain available as
-        # fallbacks when no provider is configured or the provider is unreachable.
-        if ans is None: ans=self.kb.answer(u,threshold=.70)
-        if ans is None and self.web_enabled and self._needs_web(u):
-            if web_results is None:
-                web_results=web_search(u,limit=6,timeout=5)
-            ans=format_results(u,web_results) if web_results else None
-        if ans is None: ans=self._neural(u,dialogue,lang,deep=(str(mode).lower()=="deep"))
+
+        # Local exact knowledge remains useful when the external provider is absent.
+        if ans is None:
+            ans = self.kb.answer(u, threshold=.70)
+        if ans is None and world_results:
+            ans = world_knowledge.as_answer(search_query, world_results, language=lang)
+        if ans is None and web_results:
+            ans = format_results(search_query, web_results)
+        if ans is None:
+            ans = self._neural(u, dialogue, lang, deep=(str(mode).lower()=="deep"))
         ans=clean(ans)
         if bad(ans):
             fallbacks={"en":"I don't have enough verified information to answer that reliably. Please make the question more specific.","ja":"十分に確認できる情報がありません。質問をもう少し具体的にしてください。","zh":"我没有足够的可靠信息来回答。请把问题说得更具体一些。"}
