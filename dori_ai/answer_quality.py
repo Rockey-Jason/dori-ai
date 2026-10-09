@@ -19,7 +19,7 @@ def bad(text):
 
     # Byte-BPE generation can concatenate a partial Hangul token with an
     # unrelated Latin fragment (for example, "룼formntrailing").
-    if re.search(r"[가-힣][A-Za-z]{4,}|[A-Za-z]{4,}[가-힣]", t):
+    if re.search(r"[가-힣][a-z]{8,}", t):
         return True
 
     chunks = re.findall(r"[가-힣A-Za-z0-9]+", t)
