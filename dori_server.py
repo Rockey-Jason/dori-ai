@@ -10,6 +10,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from dori_ai.bpe_tokenizer import BPETokenizer
 from dori_ai.core.transformer import load_model
 from dori_ai.response_engine import ResponseEngine
+from dori_ai.llm_provider import model_name as llm_model_name
 from dori_ai.site_data import SiteData
 from dori_ai.learning import LearningManager
 
@@ -158,6 +159,7 @@ class H(BaseHTTPRequestHandler):
                 "version": "2.8.0-fact-router",
                 "knowledge_entries": _knowledge_size(),
                 "web_search": bot.web_enabled,
+                "chat_provider": {"enabled": bot.llm_enabled, "model": llm_model_name()},
                 "model": meta.get("model_config"),
                 "training": learner.get_status(),
             })
