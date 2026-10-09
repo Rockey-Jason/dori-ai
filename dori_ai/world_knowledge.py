@@ -28,7 +28,7 @@ _HEADERS = {
 
 def _clean(value):
     value = html.unescape(str(value or ""))
-    return re.sub(r"\\s+", " ", value).strip()
+    return re.sub(r"\s+", " ", value).strip()
 
 
 def _language_codes(language):
@@ -115,7 +115,7 @@ def _page_extracts(pageids, language):
 def search(query, language="ko", limit=3):
     """Return source-linked encyclopedic summaries, preferring cached results."""
     query = _clean(query)
-    query = re.sub(r"^(?:검색해줘|알려줘|설명해줘|what is|who is|explain)\\s*", "", query, flags=re.I)
+    query = re.sub(r"^(?:검색해줘|알려줘|설명해줘|what is|who is|explain)\s*", "", query, flags=re.I)
     query = query[:240].strip()
     if len(query) < 2:
         return []
