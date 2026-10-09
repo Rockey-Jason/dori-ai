@@ -10,7 +10,7 @@ import urllib.request
 
 
 def _settings():
-    key = os.getenv("DORI_LLM_API_KEY", "").strip()
+    key = (os.getenv("DORI_LLM_API_KEY") or os.getenv("OPENAI_API_KEY") or "").strip()
     base = os.getenv("DORI_LLM_BASE_URL", "https://api.openai.com/v1").strip().rstrip("/")
     model = os.getenv("DORI_LLM_MODEL", "gpt-4.1-mini").strip()
     try:
