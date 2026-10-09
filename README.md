@@ -115,6 +115,24 @@ DORI_TRAIN_MICROBATCH=4
 DORI_TRAIN_LR=1.5e-4
 ~~~
 
+## 폭넓은 대화형 AI 제공자 (선택 기능)
+
+기본 from-scratch NumPy Transformer는 학습 규모와 문맥 길이에 한계가 있어, 다양한 주제의 지식과 자연스러운 대화를 단독으로 보장할 수 없다. 이를 보완하기 위해 OpenAI 호환 Chat Completions API를 선택적으로 연결할 수 있다.
+
+Render의 Dori AI Web Service 환경 변수에 다음 값을 설정하면 일반 질문과 문맥을 잇는 후속 질문을 외부 사전학습 모델로 처리한다. API 키는 서버 환경 변수에만 저장하며 브라우저로 보내지 않는다.
+
+~~~text
+DORI_LLM_API_KEY=your_api_key
+DORI_LLM_MODEL=gpt-4.1-mini
+DORI_LLM_BASE_URL=https://api.openai.com/v1
+DORI_LLM_TIMEOUT=35
+DORI_LLM_MAX_TOKENS=700
+~~~
+
+기존 `OPENAI_API_KEY` 환경 변수가 이미 있으면 `DORI_LLM_API_KEY` 대신 사용할 수도 있다. 다른 OpenAI 호환 제공자를 사용할 경우 해당 제공자의 기본 URL과 모델 이름을 지정한다. 제공자가 설정되지 않거나 요청에 실패하면 기존 로컬 경로로 대체된다. `/health`는 키를 노출하지 않고 제공자 활성 여부와 모델 이름만 보여준다.
+
+최신 정보가 필요한 질문은 웹 검색 결과를 모델에 참고 자료로 전달하도록 구성했다. 검색 결과는 신뢰할 수 없는 자료로 취급하며, 검색 자체가 실패할 수 있으므로 중요한 사실은 출처를 확인해야 한다.
+
 ## 원칙
 
 - OpenAI / Gemini / Claude / Ollama / Gemma / Llama / Qwen / Hugging Face pretrained weights를 핵심 모델로 사용하지 않는다.
