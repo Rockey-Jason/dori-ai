@@ -24,7 +24,7 @@ class WorldKnowledgeTests(unittest.TestCase):
         self.tmp.cleanup()
 
     def test_clean_normalizes_whitespace(self):
-        self.assertEqual(world_knowledge._clean("  Pythagoras\\n  theorem  "), "Pythagoras theorem")
+        self.assertEqual(world_knowledge._clean("  Pythagoras\n  theorem  "), "Pythagoras theorem")
 
     def test_search_retrieves_and_caches_source_linked_summaries(self):
         hits = [{"pageid": 42, "title": "Pythagoras"}]
@@ -34,8 +34,7 @@ class WorldKnowledgeTests(unittest.TestCase):
             "url": "https://en.wikipedia.org/wiki/Pythagoras",
             "language": "en",
         }]
-        with patch.object(world_knowledge, "_search_wikipedia", return_value=hits) as search, \\
-             patch.object(world_knowledge, "_page_extracts", return_value=pages):
+        with patch.object(world_knowledge, "_search_wikipedia", return_value=hits) as search, patch.object(world_knowledge, "_page_extracts", return_value=pages):
             result = world_knowledge.search("Pythagoras", language="en")
             self.assertEqual(result[0]["title"], "Pythagoras")
             self.assertTrue(self.cache_path.exists())
