@@ -45,6 +45,10 @@ jobs:
         run: |
           python scripts/collect_world_knowledge.py --pages-per-topic 2 --delay 0.08
 
+      - name: Invalidate stale streaming chunks
+        run: |
+          rm -rf data/streaming
+
       - name: Validate corpus
         run: |
           python -m compileall dori_ai scripts
