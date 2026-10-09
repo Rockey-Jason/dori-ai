@@ -12,6 +12,7 @@ on:
       - "data/curriculum_plan.json"
       - "data/dori_knowledge_v*.jsonl"
       - "scripts/**"
+      - "tests/**"
       - "train_final.py"
       - "dori_ai/**"
       - ".github/workflows/train-dori-ai.yml"
