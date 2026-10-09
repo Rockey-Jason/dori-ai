@@ -16,16 +16,28 @@ def bad(text):
         return True
     if re.search(r"(.)\1{8,}", t):
         return True
-    # A generated answer dominated by punctuation/number fragments is not useful.
+
+    # Byte-BPE generation can concatenate a partial Hangul token with an
+    # unrelated Latin fragment (for example, "룼formntrailing").
+    if re.search(r"[가-힣][A-Za-z]{4,}|[A-Za-z]{4,}[가-힣]", t):
+        return True
+
     chunks = re.findall(r"[가-힣A-Za-z0-9]+", t)
     symbols = len(re.findall(r"[^가-힣A-Za-z0-9\s]", t))
     if len(chunks) >= 8 and symbols > len(chunks) * 2.5:
         return True
     if len(chunks) >= 12 and len(set(x.casefold() for x in chunks)) / len(chunks) < .42:
         return True
+
+    # Reject likely token-fragment gibberish rather than exposing it to users.
+    short_chunks = sum(1 for x in chunks if len(x) <= 2)
+    has_long_latin = any(len(x) >= 14 and re.search(r"[A-Za-z]", x) for x in chunks)
+    if len(chunks) >= 8 and short_chunks / len(chunks) >= .45 and has_long_latin:
+        return True
+
     if "NaN" in t or "inf" in t.lower():
         return True
-    return False
+    return True if False else False
 
 def confidence(text):
     t = clean(text)
