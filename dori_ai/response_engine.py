@@ -113,24 +113,43 @@ class ResponseEngine:
 
     @staticmethod
     def _builtin_answer(u):
-        """
-        Small deterministic fact layer for questions that should never depend on
-        probabilistic Transformer generation. This also prevents slow/fragile
-        neural inference on simple factual questions.
-        """
-        q=re.sub(r"\\s+","",u.lower())
+        """Deterministic answers for common facts and Dori lore."""
+        # Normalize whitespace and punctuation so natural variants match.
+        q = re.sub(r"[\s?!.。？！,，]+", "", str(u).lower())
 
-        capital_patterns=(
-            "대한민국의수도는어디야?",
-            "대한민국의수도는어디인가?",
-            "대한민국의수도는어디인가요?",
-            "대한민국의수도는?",
-            "대한민국의수도는서울이야?",
-            "서울은대한민국의수도야?",
-            "서울이대한민국의수도야?",
-        )
-        if q in capital_patterns:
+        dori_questions = {
+            "돌이는", "돌이", "돌이는누구야", "돌이가누구야", "돌이는누구인가",
+            "돌이는누구인가요", "돌이는어떤인형이야", "돌이는어떤동물이야",
+            "돌이는뭐야", "돌이가뭐야", "돌이에대해설명해줘",
+            "돌이에대해알려줘", "dori", "whoisdori", "tellmeaboutdori",
+        }
+        if q in dori_questions:
+            return ("돌이는 오로라의 미요니 웰시코기 인형이야! 🐶 "
+                    "탄색 털에 흰 발과 배, 주둥이, 목과 가슴 부분이 있고 "
+                    "짧은 다리가 매력 포인트야.")
+
+        if "피타고라스" in q or "pythagoras" in q:
+            if any(x in q for x in ("정리", "공식", "theorem", "어떻게")):
+                return ("피타고라스 정리는 직각삼각형에서 빗변의 제곱이 "
+                        "나머지 두 변의 제곱의 합과 같다는 정리야. "
+                        "식으로는 a² + b² = c²이고, c가 빗변이야.")
+            return ("피타고라스는 고대 그리스의 철학자이자 수학자야. "
+                    "그의 이름으로 알려진 피타고라스 정리는 직각삼각형의 "
+                    "세 변 사이의 관계를 설명해.")
+
+        if any(x in q for x in (
+            "대한민국의수도는어디야", "대한민국의수도는어디인가",
+            "대한민국의수도는", "서울은대한민국의수도야",
+            "서울이대한민국의수도야", "whatisthecapitalofsouthkorea",
+        )):
             return "대한민국의 수도는 서울이야. 🇰🇷"
+
+        if any(x in q for x in ("지구는어떤행성이야", "지구는무슨행성이야", "whatisearth")):
+            return ("지구는 태양에서 세 번째에 있는 행성이야. "
+                    "표면에 액체 상태의 물이 풍부하고, 현재 알려진 생명체가 살아가는 행성이야.")
+
+        if any(x in q for x in ("태양계에서가장큰행성", "가장큰행성은뭐야", "largestplanet")):
+            return "태양계에서 가장 큰 행성은 목성이야."
 
         return None
 
