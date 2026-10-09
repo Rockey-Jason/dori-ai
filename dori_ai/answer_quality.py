@@ -37,7 +37,7 @@ def bad(text):
 
     if "NaN" in t or "inf" in t.lower():
         return True
-    return True if False else False
+    return False
 
 def confidence(text):
     t = clean(text)
