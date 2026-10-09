@@ -7,6 +7,7 @@ from .site_data import SiteData
 from .language import detect, normalize_query
 from .math_engine import answer as math_answer
 from .answer_quality import bad, clean
+from .llm_provider import answer as llm_answer, enabled as llm_enabled, model_name as llm_model_name
 from generate_final import generate
 
 class ResponseEngine:
@@ -22,6 +23,7 @@ class ResponseEngine:
         self.kb = LocalKnowledge()
         self.site = SiteData()
         self.web_enabled = os.getenv("DORI_WEB_SEARCH", "1").lower() not in ("0","false","off")
+        self.llm_enabled = llm_enabled()
         self.smalltalk = {
             "안녕":"안녕! 나는 돌이 AI야 🐶 무엇을 같이 알아볼까?",
             "안녕하세요":"안녕! 나는 돌이 AI야 🐶 질문을 정확하게 도와줄게!",
@@ -187,10 +189,28 @@ class ResponseEngine:
         # Deterministic facts must run before probabilistic local retrieval.
         # A weak KB match must never override an exact known fact.
         if ans is None: ans=self._builtin_answer(u)
+        # When configured, a pretrained chat model handles open-ended questions.
+        # Search evidence is provided to the model as context instead of being
+        # dumped as a list of snippets, and prior turns are passed for reference resolution.
+        web_results = None
+        if ans is None and self.llm_enabled:
+            evidence = None
+            if self.web_enabled and self._needs_web(u):
+                web_results = web_search(u, limit=6, timeout=7)
+                evidence = format_results(u, web_results) if web_results else None
+            ans = llm_answer(
+                u,
+                history=dialogue.history,
+                evidence=evidence,
+                language=lang,
+            )
+        # Legacy local knowledge and the from-scratch model remain available as
+        # fallbacks when no provider is configured or the provider is unreachable.
         if ans is None: ans=self.kb.answer(u,threshold=.70)
         if ans is None and self.web_enabled and self._needs_web(u):
-            results=web_search(u,limit=6,timeout=5)
-            ans=format_results(u,results) if results else None
+            if web_results is None:
+                web_results=web_search(u,limit=6,timeout=5)
+            ans=format_results(u,web_results) if web_results else None
         if ans is None: ans=self._neural(u,dialogue,lang,deep=(str(mode).lower()=="deep"))
         ans=clean(ans)
         if bad(ans):
