@@ -155,7 +155,18 @@ class ResponseEngine:
 
     @staticmethod
     def _needs_web(u):
-        return any(x in u.lower() for x in ("최신","현재","오늘","어제","내일","최근","실시간","지금","뉴스","날씨","환율","주가","가격","업데이트","latest","current","today","news","weather","price","最新","現在","今日"))
+        text = str(u).lower()
+        time_sensitive = ("최신", "현재", "오늘", "어제", "내일", "최근", "실시간",
+                          "지금", "뉴스", "날씨", "환율", "주가", "가격", "업데이트",
+                          "latest", "current", "today", "news", "weather", "price",
+                          "最新", "現在", "今日")
+        factual_question = ("누구야", "누구인가", "누구인가요", "무엇이야", "무엇인가",
+                            "뭐야", "무슨 뜻", "뜻이 뭐", "설명해줘", "알려줘",
+                            "어떻게 작동", "원리가 뭐", "왜 그런", "정의가 뭐",
+                            "who is", "what is", "what are", "why does", "how does",
+                            "explain", "meaning of")
+        # Site-specific and deterministic questions are handled before this route.
+        return any(x in text for x in time_sensitive) or any(x in text for x in factual_question)
 
     def _neural(self,u,dialogue,lang,deep=False):
         prompt=dialogue.build_prompt(u)
