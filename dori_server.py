@@ -13,6 +13,7 @@ from dori_ai.response_engine import ResponseEngine
 from dori_ai.llm_provider import model_name as llm_model_name
 from dori_ai.site_data import SiteData
 from dori_ai.learning import LearningManager
+from dori_ai import world_knowledge
 
 ROOT = Path(__file__).resolve().parent
 CP = ROOT / "checkpoints" / "best.npz"
@@ -156,10 +157,11 @@ class H(BaseHTTPRequestHandler):
             self.send(200, {
                 "status": "ok",
                 "service": "dori-ai",
-                "version": "3.0.0-general-chat-router",
+                "version": "3.1.0-world-knowledge",
                 "knowledge_entries": _knowledge_size(),
                 "web_search": bot.web_enabled,
                 "chat_provider": {"enabled": bot.llm_enabled, "model": llm_model_name()},
+                "world_knowledge": {"enabled": True, "source": "Wikipedia API", "cache_ttl_seconds": world_knowledge._TTL},
                 "model": meta.get("model_config"),
                 "training": learner.get_status(),
             })
