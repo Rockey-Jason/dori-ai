@@ -204,7 +204,7 @@ class ResponseEngine:
                                           "it ", "that person", "they ", "he ", "she ", "what about", "why did")
             ):
                 search_query = previous_user + " " + u
-        if factual:
+        if ans is None and factual:
             world_results = world_knowledge.search(search_query, language=lang, limit=3)
             if self.web_enabled:
                 web_results = web_search(search_query, limit=5, timeout=5)
