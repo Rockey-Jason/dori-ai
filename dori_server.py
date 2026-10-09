@@ -156,7 +156,7 @@ class H(BaseHTTPRequestHandler):
             self.send(200, {
                 "status": "ok",
                 "service": "dori-ai",
-                "version": "2.8.0-fact-router",
+                "version": "3.0.0-general-chat-router",
                 "knowledge_entries": _knowledge_size(),
                 "web_search": bot.web_enabled,
                 "chat_provider": {"enabled": bot.llm_enabled, "model": llm_model_name()},
