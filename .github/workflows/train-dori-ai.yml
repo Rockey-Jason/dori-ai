@@ -40,6 +40,10 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
 
+      - name: Collect broad multilingual world knowledge
+        run: |
+          python scripts/collect_world_knowledge.py --pages-per-topic 2 --delay 0.08
+
       - name: Validate corpus
         run: |
           python -m compileall dori_ai scripts
@@ -73,6 +77,10 @@ jobs:
       - name: Run Dori AI preflight tests
         run: |
           python scripts/preflight_dori_ai.py
+
+      - name: Run unit regression tests
+        run: |
+          python -m unittest discover -s tests -v
 
       - name: Verify best checkpoint
         run: |
