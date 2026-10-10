@@ -17,7 +17,7 @@
 7. 🧠 기존 + 신규 데이터 폴더를 함께 수집
 8. 📊 결정적 hash 기반 train/validation 자동 분리
 9. 📈 epoch별 train/validation loss를 기록
-10. 💾 validation loss가 가장 낮은 모델을 best checkpoint로 자동 저장
+10. 💾 validation loss가 가장 낮은 모델을 best checkpoint로 자동 저장\n11. 🛑 validation 성능이 일정 epoch 동안 개선되지 않으면 조기 종료해 과적합을 줄임
 
 ### 기본 데이터 위치
 
@@ -39,7 +39,7 @@ data/streaming/
 ### 기본 학습
 
 ~~~powershell
-python train_final.py --epochs 10 --seq-len 128 --batch-size 8 --dim 64 --heads 4 --layers 3 --ff-dim 256 --lr 2e-4 --grad-clip 1.0
+python train_final.py --epochs 100 --patience 10 --min-delta 0.001 --seq-len 128 --batch-size 8 --dim 64 --heads 4 --layers 3 --ff-dim 256 --lr 2e-4 --grad-clip 1.0
 ~~~
 
 ### 외부 파일/폴더 추가
