@@ -1,6 +1,6 @@
 # 🐶 Dori AI 3.1 — World Knowledge + Evidence-First Architecture
 
-돌이 AI는 직접 구현한 NumPy Transformer를 유지하면서, 다국어 Wikipedia 자료를 학습 corpus로 수집하는 파이프라인과 질문 시 출처 기반으로 정보를 찾아오는 세계 지식 검색 계층을 추가했다. 선택적으로 사전학습 대화 모델 API를 연결할 수도 있다. 작은 자체 제작 모델이 세계의 모든 지식을 혼자 학습했다고 주장하지 않으며, 학습된 가중치와 검색으로 가져온 근거를 구분한다.
+돌이 AI는 직접 구현한 NumPy Transformer, 다국어 공개 지식 수집·검색, 대화 문맥 처리, 근거 기반 답변을 결합한다. 외부 AI API는 사용하지 않는다. 자체 서버에서 실행하는 사전학습 모델은 선택적으로 private/local endpoint로 연결할 수 있으며, 실제 모델 가중치와 실행 자원은 운영자가 직접 제공한다. 작은 자체 제작 Transformer만으로 세상의 모든 지식을 학습했다고 주장하지 않는다.
 
 ## 🚀 대용량 학습 파이프라인
 
@@ -85,7 +85,7 @@ GitHub Actions의 학습 workflow는 이제 학습을 시작하기 전에 `scrip
 - 가져온 문서는 `data/corpus/world_wikipedia.jsonl`에 제목·언어·원문 링크·라이선스 정보를 붙여 저장한다.
 - 수집된 텍스트는 기존 `CorpusBuilder`에 의해 정리·중복 제거·chunking된 뒤 `train_final.py`의 학습 데이터에 포함되어 Transformer 가중치 업데이트에 실제로 사용된다.
 - `dori_ai/world_knowledge.py`는 사용자 질문에 따라 Wikipedia에서 관련 문서를 검색하고, 결과를 캐시에 저장한다.
-- 검색 근거는 외부 대화 모델이 설정된 경우 그 모델의 입력으로 전달된다. 외부 모델이 없으면 출처 링크가 포함된 백과사전 요약을 직접 반환해 무작위 Transformer 출력을 피한다.
+- 검색 근거는 로컬/자체 호스팅 모델이 설정된 경우에만 모델 입력으로 전달된다. 모델이 없으면 출처 링크가 포함된 백과사전 요약을 직접 반환해 무작위 Transformer 출력을 피한다.
 - 후속 질문은 직전 사용자 질문과 연결해 검색하도록 기본 처리를 추가했다.
 
 Wikipedia 텍스트의 재사용에는 CC BY-SA 등 라이선스 조건이 적용될 수 있다. 출처 메타데이터를 보존하고, 재배포 전에 관련 조건을 확인한다. 이 수집기는 제한된 주제 목록을 대상으로 하므로 Wikipedia 전체를 학습하는 것은 아니다.
@@ -127,27 +127,30 @@ DORI_TRAIN_MICROBATCH=4
 DORI_TRAIN_LR=1.5e-4
 ~~~
 
-## 폭넓은 대화형 AI 제공자 (선택 기능)
+## 자체 서버의 사전학습 모델 (선택 기능)
 
-기본 from-scratch NumPy Transformer는 학습 규모와 문맥 길이에 한계가 있어, 다양한 주제의 지식과 자연스러운 대화를 단독으로 보장할 수 없다. 이를 보완하기 위해 OpenAI 호환 Chat Completions API를 선택적으로 연결할 수 있다.
-
-Render의 Dori AI Web Service 환경 변수에 다음 값을 설정하면 일반 질문과 문맥을 잇는 후속 질문을 외부 사전학습 모델로 처리한다. API 키는 서버 환경 변수에만 저장하며 브라우저로 보내지 않는다.
+외부 AI API 키를 사용하지 않는다. 필요하면 운영자가 관리하는 **자체 호스팅 llama.cpp 호환 서버**를 \`DORI_LOCAL_LLM_URL\`로 연결할 수 있다. URL은 localhost, 사설 IP 또는 내부 호스트 이름만 허용하며, 공개 AI 서비스 주소는 코드에서 거부한다.
 
 ~~~text
-DORI_LLM_API_KEY=your_api_key
-DORI_LLM_MODEL=gpt-4.1-mini
-DORI_LLM_BASE_URL=https://api.openai.com/v1
-DORI_LLM_TIMEOUT=35
-DORI_LLM_MAX_TOKENS=700
+DORI_LOCAL_LLM_URL=http://127.0.0.1:8080
+DORI_LOCAL_LLM_MODEL=dori-local-model
+DORI_LOCAL_LLM_TIMEOUT=20
+DORI_LOCAL_LLM_MAX_TOKENS=600
 ~~~
 
-기존 `OPENAI_API_KEY` 환경 변수가 이미 있으면 `DORI_LLM_API_KEY` 대신 사용할 수도 있다. 다른 OpenAI 호환 제공자를 사용할 경우 해당 제공자의 기본 URL과 모델 이름을 지정한다. 제공자가 설정되지 않거나 요청에 실패하면 기존 로컬 경로로 대체된다. `/health`는 키를 노출하지 않고 제공자 활성 여부와 모델 이름만 보여준다.
+예시 주소는 로컬 서버가 실제로 실행 중일 때만 작동한다. Render의 현재 작은 메모리 인스턴스에서 큰 사전학습 모델을 함께 실행한다고 가정하지 않는다. 모델을 실행할 별도 자체 호스트가 필요할 수 있으며, 연결하지 않으면 Dori AI는 자체 Transformer와 검색/규칙 기반 경로를 사용한다. \`llama.cpp\`는 양자화 모델을 CPU에서 실행할 수 있지만, 모델 크기와 속도는 실제 자원에 따라 달라진다.
 
-최신 정보가 필요한 질문은 웹 검색 결과를 모델에 참고 자료로 전달하도록 구성했다. 검색 결과는 신뢰할 수 없는 자료로 취급하며, 검색 자체가 실패할 수 있으므로 중요한 사실은 출처를 확인해야 한다.
+## 돌이신문 및 사이트 검색 권한
+
+- 돌이신문의 본문 검색은 로그인한 사용자의 \`read_dori_news\` 한도 이하의 기사만 DB에서 가져온다.
+- 열람 한도보다 높은 호수는 검색 결과·본문·퀴즈를 반환하지 않는다.
+- 돌이신문 본문은 정적 학습 corpus에 복사하지 않는다. 권한이 달라질 수 있는 콘텐츠는 질문 시점에 인증된 사용자 기준으로 조회한다.
+- 돌이사이트 관련 질문은 자체 사이트 자료와 로컬 지식만 사용하고, 확인할 수 없는 내용을 일반 웹 검색이나 생성형 추측으로 채우지 않는다.
+- 일반 지식은 공개 백과사전 검색과 로컬 자료를 활용한다. 인터넷 검색이 꺼져 있거나 실패할 수 있으므로 출처가 확인되지 않은 사실은 불확실하다고 알린다.
 
 ## 원칙
 
-- OpenAI / Gemini / Claude / Ollama / Gemma / Llama / Qwen / Hugging Face pretrained weights를 핵심 모델로 사용하지 않는다.
+- OpenAI / Gemini / Claude 등 외부 AI API는 사용하지 않는다. 자체 호스팅 사전학습 모델은 선택 기능이며 공개 endpoint를 허용하지 않는다.
 - 실시간 돌이사이트 데이터는 가능한 경우 학습된 모델보다 우선하여 읽는다.
 - 최신 정보는 선택적으로 웹 검색 결과를 사용한다.
 - 작은 Transformer가 확인할 수 없는 정보를 억지로 지어내지 않도록 품질 필터를 적용한다.
