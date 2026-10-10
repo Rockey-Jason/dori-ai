@@ -7,6 +7,32 @@ import threading
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
+# Cap request-handler threads as well as chat inference.
+class BoundedThreadingHTTPServer(ThreadingHTTPServer):
+    daemon_threads = True
+    block_on_close = False
+    request_queue_size = 32
+
+    def __init__(self, server_address, request_handler, max_workers=8):
+        self._worker_slots = threading.BoundedSemaphore(max(2, min(16, int(max_workers))))
+        super().__init__(server_address, request_handler)
+
+    def process_request(self, request, client_address):
+        self._worker_slots.acquire()
+        try:
+            super().process_request(request, client_address)
+        except Exception:
+            self._worker_slots.release()
+            raise
+
+    def process_request_thread(self, request, client_address):
+        try:
+            super().process_request_thread(request, client_address)
+        finally:
+            self._worker_slots.release()
+
+
+
 from dori_ai.bpe_tokenizer import BPETokenizer
 from dori_ai.core.transformer import load_model
 from dori_ai.response_engine import ResponseEngine
@@ -279,4 +305,5 @@ if __name__ == "__main__":
     host = os.getenv("DORI_HOST", "0.0.0.0")
     port = int(os.getenv("PORT", os.getenv("DORI_PORT", "8000")))
     print(f"Dori AI server listening on {host}:{port}", flush=True)
-    ThreadingHTTPServer((host, port), H).serve_forever()
+    max_http_workers = int(os.getenv("DORI_HTTP_MAX_WORKERS", "8"))
+    BoundedThreadingHTTPServer((host, port), H, max_workers=max_http_workers).serve_forever()
