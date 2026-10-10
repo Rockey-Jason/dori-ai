@@ -39,6 +39,40 @@ class SiteData:
         rows=self._get("rockey_news",{"select":"news_number,rockey_news,question,question_type,choice1,choice2,choice3,choice4,choice5","news_number":f"eq.{n}","limit":"1"}) or []
         return rows[0] if rows else None
 
+    def search_news(self, query, user_id=None, limit=5):
+        """Search only articles the authenticated user is currently allowed to read."""
+        readable_limit = self.readable_news_limit(user_id)
+        if readable_limit <= 0:
+            return []
+        # The database query itself is bounded to the user's read limit. Never fetch
+        # newer article bodies and rely on a later Python filter to hide them.
+        rows = self._get("rockey_news", {
+            "select": "news_number,rockey_news,question,question_type,choice1,choice2,choice3,choice4,choice5",
+            "news_number": f"lte.{readable_limit}",
+            "order": "news_number.desc",
+            "limit": "250",
+        }, timeout=8) or []
+        q = str(query or "").casefold()
+        terms = [x.casefold() for x in __import__("re").findall(r"[가-힣A-Za-z0-9]{2,}", q)]
+        stop = {"돌이신문", "신문에서", "신문", "기사", "관련", "검색", "찾아줘", "찾아", "알려줘", "내용", "있어", "무엇", "어떤", "제목"}
+        terms = [t for t in terms if t not in stop]
+        scored = []
+        for row in rows:
+            try:
+                number = int(row.get("news_number") or 0)
+            except (TypeError, ValueError):
+                continue
+            if number < 1 or number > readable_limit:
+                continue
+            body = " ".join(str(row.get(k) or "") for k in ("rockey_news", "question", "choice1", "choice2", "choice3", "choice4", "choice5")).casefold()
+            score = sum(min(4, body.count(term)) for term in terms)
+            if len(q.strip()) >= 2 and q.strip() in body:
+                score += 8
+            if score:
+                scored.append((score, number, row))
+        scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
+        return [row for _, _, row in scored[:max(1, min(10, int(limit)))]
+
     def news(self,number,user_id=None):
         try:n=int(number)
         except Exception:return None
@@ -58,5 +92,8 @@ class SiteData:
         return rows[0] if rows else None
 
     def site_summary(self):
-        news=self.public_news_all(); stocks=self.stock()
+        # Fetch only article numbers for counts; do not download every article body
+        # for a summary request.
+        news=self._get("rockey_news",{"select":"news_number","order":"news_number.asc","limit":"1000"},timeout=8) or []
+        stocks=self.stock()
         return {"news_count":len(news),"latest_news":max([int(x.get("news_number") or 0) for x in news],default=0),"stock_count":len(stocks),"stocks":stocks}
