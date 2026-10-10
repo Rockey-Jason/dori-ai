@@ -138,6 +138,8 @@ def build_args():
     p.add_argument("--chunk-chars", type=int, default=1800)
     p.add_argument("--val-fraction", type=float, default=0.10)
     p.add_argument("--val-batches", type=int, default=32)
+    p.add_argument("--patience", type=int, default=10, help="stop after this many epochs without meaningful validation improvement; 0 disables")
+    p.add_argument("--min-delta", type=float, default=0.001, help="minimum validation-loss improvement counted as meaningful")
     p.add_argument("--max-batches", type=int, default=50, help="maximum training batches per epoch; 0 means all batches")
     p.add_argument("--tokenizer-sample-chars", type=int, default=2_000_000)
     p.add_argument("--retrain-tokenizer", action="store_true", help="rebuild tokenizer from the collected corpus sample; starts a fresh model")
@@ -243,6 +245,7 @@ def main():
     print(f"TRAIN_STAGE training steps_per_epoch={steps_per_epoch}/{all_steps_per_epoch}", flush=True)
     total_start = time.time()
 
+    stale_epochs = 0
     for epoch in range(start_epoch, start_epoch + args.epochs):
         train_losses, grad_norms = [], []
         iterator = iter_jsonl_text(train_path)
@@ -295,6 +298,11 @@ def main():
             f.write(json.dumps({"timestamp": time.time(), **meta}, ensure_ascii=False) + "\n")
 
         run_epoch = epoch - start_epoch + 1
+        meaningful_improvement = np.isfinite(val_loss) and val_loss < best_val - max(0.0, args.min_delta)
+        if meaningful_improvement:
+            stale_epochs = 0
+        else:
+            stale_epochs += 1
         if np.isfinite(val_loss) and val_loss < best_val:
             best_val = val_loss
             meta["best_val_loss"] = best_val
@@ -313,6 +321,10 @@ def main():
                 f"| grad {np.mean(grad_norms):.4f} | best {best_val:.4f}",
                 flush=True
             )
+
+        if args.patience > 0 and stale_epochs >= args.patience:
+            print(f"TRAIN_EARLY_STOP patience={args.patience} best_val_loss={best_val:.4f}", flush=True)
+            break
 
     print(f"Training complete in {time.time() - total_start:.1f}s")
     print(f"Best checkpoint: {best}")
