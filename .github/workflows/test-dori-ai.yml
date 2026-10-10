@@ -12,6 +12,7 @@ on:
       - "generate_final.py"
       - "requirements.txt"
       - ".github/workflows/test-dori-ai.yml"
+      - ".github/workflows/train-dori-ai.yml"
 
 permissions:
   contents: read
@@ -36,5 +37,17 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Compile all application and test modules
         run: python -m compileall -q dori_ai tests scripts
+
+      - name: Verify training queue safety settings
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          workflow = Path(".github/workflows/train-dori-ai.yml").read_text(encoding="utf-8")
+          assert "group: dori-ai-training" in workflow, "Training concurrency group is missing"
+          assert "cancel-in-progress: true" in workflow, "Stale training runs must be cancellable"
+          assert "--rounds 1200" in workflow, "Expected training target round 1200"
+          assert "scripts/evaluate_and_gate.py" in workflow, "Held-out model evaluation gate is missing"
+          print("Training queue and evaluation-gate configuration passed.")
+          PY
       - name: Run unit and regression tests
         run: python -m unittest discover -s tests -v
