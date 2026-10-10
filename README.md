@@ -17,7 +17,8 @@
 7. 🧠 기존 + 신규 데이터 폴더를 함께 수집
 8. 📊 결정적 hash 기반 train/validation 자동 분리
 9. 📈 epoch별 train/validation loss를 기록
-10. 💾 validation loss가 가장 낮은 모델을 best checkpoint로 자동 저장\n11. 🛑 validation 성능이 일정 epoch 동안 개선되지 않으면 조기 종료해 과적합을 줄임
+10. 💾 validation loss가 가장 낮은 모델을 best checkpoint로 자동 저장
+11. 🛑 validation 성능이 일정 epoch 동안 개선되지 않으면 조기 종료해 과적합을 줄임
 
 ### 기본 데이터 위치
 
@@ -129,24 +130,42 @@ DORI_TRAIN_LR=1.5e-4
 
 ## 자체 서버의 사전학습 모델 (선택 기능)
 
-외부 AI API 키를 사용하지 않는다. 필요하면 운영자가 관리하는 **자체 호스팅 llama.cpp 호환 서버**를 \`DORI_LOCAL_LLM_URL\`로 연결할 수 있다. URL은 localhost, 사설 IP 또는 내부 호스트 이름만 허용하며, 공개 AI 서비스 주소는 코드에서 거부한다.
+외부 AI API는 사용하지 않는다. 운영자가 직접 관리하는 llama.cpp 호환 추론 서버만 연결할 수 있다. 설정된 호스트가 실제로 모델을 실행하고 있어야 하며, 연결하지 않으면 자체 Transformer와 검색/규칙 기반 경로가 사용된다.
+
+Windows 설치·실행 절차, 모델 크기 및 보안 연결 방식은 [`local-model/README.md`](local-model/README.md)를 참고한다. 추천 시작점은 Qwen3-4B-GGUF Q4_K_M이지만 가중치만 약 2.6GB이고 실행 메모리도 추가로 필요하다. 현재 Render Free 512MB 인스턴스 안에서 이 모델을 실행하면 메모리 초과가 발생할 가능성이 높으므로 별도의 본인 소유 호스트가 필요하다.
+
+환경 변수:
 
 ~~~text
-DORI_LOCAL_LLM_URL=http://127.0.0.1:8080
-DORI_LOCAL_LLM_MODEL=dori-local-model
-DORI_LOCAL_LLM_TIMEOUT=20
+DORI_LOCAL_LLM_URL=https://your-own-model-host.example.net
+DORI_LOCAL_LLM_MODEL=Qwen3-4B-GGUF:Q4_K_M
+DORI_LOCAL_LLM_TOKEN=<your-own-long-random-secret>
+DORI_LOCAL_LLM_TIMEOUT=25
 DORI_LOCAL_LLM_MAX_TOKENS=600
 ~~~
 
-예시 주소는 로컬 서버가 실제로 실행 중일 때만 작동한다. Render의 현재 작은 메모리 인스턴스에서 큰 사전학습 모델을 함께 실행한다고 가정하지 않는다. 모델을 실행할 별도 자체 호스트가 필요할 수 있으며, 연결하지 않으면 Dori AI는 자체 Transformer와 검색/규칙 기반 경로를 사용한다. \`llama.cpp\`는 양자화 모델을 CPU에서 실행할 수 있지만, 모델 크기와 속도는 실제 자원에 따라 달라진다.
+공개 AI 추론 제공자 주소는 코드에서 거부한다. 공개 HTTPS 호스트는 명시적인 토큰이 설정된 경우에만 허용한다. 토큰을 GitHub에 커밋하거나 채팅에 붙여 넣지 않는다. Render에서 localhost는 사용자 PC의 localhost가 아니므로, 자체 호스트 연결에는 보안이 설정된 사설 네트워크 또는 인증된 HTTPS 프록시가 필요하다.
+
+## 검증된 학습 자료 및 독립 평가
+
+- `data/curriculum/qa_following/verified_general_qa.jsonl`: 한국어 수학·과학·컴퓨터 과학·AI·보안·돌이 세계관을 포함한 검토용 시드 Q&A 54개.
+- `data/evaluation/general_qa.jsonl`: 학습 자료와 분리된 20개 평가 질문. 평가 질문은 학습 데이터로 복사하지 않는다.
+- `scripts/collect_world_knowledge.py`: 공개 백과사전에서 다국어 지식을 수집하는 기존 파이프라인.
+- `scripts/evaluate_live.py`: 실행 중인 돌이 AI에 평가 질문을 보내 키워드 커버리지와 응답 지연을 측정한다.
+
+~~~powershell
+python scripts/evaluate_live.py --base-url https://dori-ai-u3kf.onrender.com
+~~~
+
+키워드 커버리지는 빠른 회귀 신호일 뿐 이해력이나 사실 정확도를 완전히 측정하지 않는다. 실패 답변을 검토하고, 별도 평가 질문으로 다시 시험해야 한다.
 
 ## 돌이신문 및 사이트 검색 권한
 
-- 돌이신문의 본문 검색은 로그인한 사용자의 \`read_dori_news\` 한도 이하의 기사만 DB에서 가져온다.
+- 돌이신문 본문 검색은 로그인한 사용자의 `read_dori_news` 한도 이하 기사만 조회한다.
 - 열람 한도보다 높은 호수는 검색 결과·본문·퀴즈를 반환하지 않는다.
-- 돌이신문 본문은 정적 학습 corpus에 복사하지 않는다. 권한이 달라질 수 있는 콘텐츠는 질문 시점에 인증된 사용자 기준으로 조회한다.
-- 돌이사이트 관련 질문은 자체 사이트 자료와 로컬 지식만 사용하고, 확인할 수 없는 내용을 일반 웹 검색이나 생성형 추측으로 채우지 않는다.
-- 일반 지식은 공개 백과사전 검색과 로컬 자료를 활용한다. 인터넷 검색이 꺼져 있거나 실패할 수 있으므로 출처가 확인되지 않은 사실은 불확실하다고 알린다.
+- 돌이신문 본문은 정적 학습 corpus에 복사하지 않는다. 권한이 바뀔 수 있는 콘텐츠는 질문 시점에 인증된 사용자 기준으로 조회한다.
+- 돌이사이트 관련 질문은 자체 사이트 자료와 로컬 지식만 사용하고, 확인할 수 없는 내용을 생성형 추측으로 채우지 않는다.
+- 일반 지식은 공개 백과사전 검색과 로컬 자료를 활용한다. 검색 실패나 출처 부족 시 불확실성을 알려야 한다.
 
 ## 원칙
 
