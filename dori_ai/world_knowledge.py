@@ -19,6 +19,8 @@ CACHE_PATH = Path(os.getenv("DORI_WORLD_KNOWLEDGE_CACHE", str(ROOT / "data" / "w
 _LOCK = threading.Lock()
 _MEMORY = {}
 _TTL = max(3600, int(os.getenv("DORI_WORLD_KNOWLEDGE_TTL", str(7 * 24 * 3600))))
+# Keep retrieval cache bounded on small Render instances.
+_MAX_CACHE_ENTRIES = max(32, min(512, int(os.getenv("DORI_WORLD_KNOWLEDGE_MAX_ENTRIES", "256"))))
 _TIMEOUT = min(15, max(2, float(os.getenv("DORI_WORLD_KNOWLEDGE_TIMEOUT", "6"))))
 _HEADERS = {
     "User-Agent": "DoriAI/3.1 (general knowledge retrieval; https://github.com/Rockey-Jason/dori-ai)",
@@ -45,7 +47,18 @@ def _language_codes(language):
 def _load_cache():
     try:
         data = json.loads(CACHE_PATH.read_text(encoding="utf-8"))
-        return data if isinstance(data, dict) else {}
+        if not isinstance(data, dict):
+            return {}
+        now = time.time()
+        valid = {
+            key: value for key, value in data.items()
+            if isinstance(value, dict)
+            and isinstance(value.get("saved_at"), (int, float))
+            and now - value["saved_at"] < _TTL
+            and isinstance(value.get("results"), list)
+        }
+        newest = sorted(valid.items(), key=lambda item: item[1]["saved_at"], reverse=True)
+        return dict(newest[:_MAX_CACHE_ENTRIES])
     except (OSError, ValueError):
         return {}
 
@@ -141,6 +154,14 @@ def search(query, language="ko", limit=3):
     if results:
         with _LOCK:
             _MEMORY[key] = {"saved_at": now, "results": results}
+            if len(_MEMORY) > _MAX_CACHE_ENTRIES:
+                oldest = sorted(
+                    _MEMORY.items(),
+                    key=lambda item: float(item[1].get("saved_at", 0))
+                    if isinstance(item[1], dict) else 0,
+                )
+                for old_key, _ in oldest[:len(_MEMORY) - _MAX_CACHE_ENTRIES]:
+                    _MEMORY.pop(old_key, None)
             _save_cache()
     return results[:limit]
 
