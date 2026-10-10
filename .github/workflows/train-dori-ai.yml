@@ -22,7 +22,8 @@ permissions:
 
 concurrency:
   group: dori-ai-training
-  cancel-in-progress: false
+  # Newer runs cancel stale, long-running training instead of waiting indefinitely.
+  cancel-in-progress: true
 
 jobs:
   train:
