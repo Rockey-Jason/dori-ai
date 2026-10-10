@@ -127,7 +127,7 @@ class ResponseEngine:
     @staticmethod
     def _reasoning_answer(u, dialogue=None):
         """Handle common natural-language reasoning cases without a generative model."""
-        q = re.sub(r"\\s+", "", str(u).lower())
+        q = re.sub(r"\s+", "", str(u).lower())
 
         # Short follow-ups must use the actual previous answer, not just search keywords.
         if dialogue and any(x in q for x in ("그럼그도시", "그도시에서", "그도시의", "그곳에서")):
