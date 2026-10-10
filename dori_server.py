@@ -183,7 +183,7 @@ class H(BaseHTTPRequestHandler):
             self.send(200, {
                 "status": "ok",
                 "service": "dori-ai",
-                "version": "3.1.0-world-knowledge",
+                "version": "3.2.0-local-only-site-guard",
                 "knowledge_entries": _knowledge_size(),
                 "web_search": bot.web_enabled,
                 "chat_provider": {"enabled": bot.llm_enabled, "model": llm_model_name()},
