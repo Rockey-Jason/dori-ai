@@ -1,4 +1,5 @@
 import os, re
+from collections import OrderedDict
 from .retrieval import LocalKnowledge
 from .memory import MemoryStore
 from .dialogue import DialogueManager
@@ -20,7 +21,9 @@ class ResponseEngine:
     """
     def __init__(self, tok, model):
         self.tok, self.model = tok, model
-        self.dialogues = {}
+        # Bound per-user conversation objects: this service runs on a 512 MiB instance.
+        self.dialogues = OrderedDict()
+        self.max_dialogues = max(8, min(128, int(os.getenv("DORI_MAX_DIALOGUES", "64"))))
         self.kb = LocalKnowledge()
         self.site = SiteData()
         self.web_enabled = os.getenv("DORI_WEB_SEARCH", "1").lower() not in ("0","false","off")
@@ -41,10 +44,17 @@ class ResponseEngine:
         }
 
     def _dialogue(self, user_id):
-        key=str(user_id or "anonymous")
-        if key not in self.dialogues:
-            self.dialogues[key]=DialogueManager(MemoryStore(f"memory/users/{key}.json"))
-        return self.dialogues[key]
+        key = str(user_id or "anonymous")
+        dialogue = self.dialogues.get(key)
+        if dialogue is not None:
+            self.dialogues.move_to_end(key)
+            return dialogue
+
+        dialogue = DialogueManager(MemoryStore(f"memory/users/{key}.json"))
+        self.dialogues[key] = dialogue
+        while len(self.dialogues) > self.max_dialogues:
+            self.dialogues.popitem(last=False)
+        return dialogue
 
     @staticmethod
     def _news_number(u):
