@@ -77,3 +77,65 @@ def score(checkpoint, metadata, rows, tokenizer):
         "rate": passed / len(rows) if rows else 0.0,
         "cases": answers,
     }
+
+
+
+def read_dataset(path):
+    rows = []
+    for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"Invalid evaluation JSON on line {line_no}") from exc
+        if not isinstance(row, dict) or not row.get("question") or not isinstance(row.get("keywords"), list) or not row["keywords"]:
+            raise ValueError(f"Invalid evaluation case on line {line_no}")
+        rows.append(row)
+    if not rows:
+        raise ValueError("Held-out evaluation dataset is empty")
+    return rows
+
+
+def should_promote(baseline_result, candidate_result):
+    """Require strict held-out improvement; ties and regressions keep baseline."""
+    return candidate_result["rate"] > baseline_result["rate"]
+
+
+def main():
+    for path in (DATASET, BASELINE, BASELINE_META, CANDIDATE, CANDIDATE_META, ROOT / "data" / "tokenizer.json"):
+        if not path.is_file():
+            raise FileNotFoundError(f"Required evaluation file is missing: {path.relative_to(ROOT)}")
+
+    rows = read_dataset(DATASET)
+    tokenizer = BPETokenizer.load(ROOT / "data" / "tokenizer.json")
+
+    baseline_result = score(BASELINE, BASELINE_META, rows, tokenizer)
+    candidate_result = score(CANDIDATE, CANDIDATE_META, rows, tokenizer)
+    promoted = should_promote(baseline_result, candidate_result)
+
+    if not promoted:
+        shutil.copy2(BASELINE, CANDIDATE)
+        shutil.copy2(BASELINE_META, CANDIDATE_META)
+
+    report = {
+        "dataset": str(DATASET.relative_to(ROOT)),
+        "evaluation_cases": len(rows),
+        "metric": "held_out_keyword_coverage",
+        "promotion_rule": "candidate_rate_must_be_strictly_greater_than_baseline_rate",
+        "promoted_candidate": promoted,
+        "selected_checkpoint": "candidate" if promoted else "baseline",
+        "baseline": baseline_result,
+        "candidate": candidate_result,
+    }
+    REPORT.parent.mkdir(parents=True, exist_ok=True)
+    REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    print("HELDOUT_BASELINE=", baseline_result["passed"], "/", baseline_result["total"], f'({baseline_result["rate"]:.1%})')
+    print("HELDOUT_CANDIDATE=", candidate_result["passed"], "/", candidate_result["total"], f'({candidate_result["rate"]:.1%})')
+    print("PROMOTED_CANDIDATE=", promoted)
+    print("SELECTED_CHECKPOINT=", report["selected_checkpoint"])
+    print("HELDOUT_REPORT=", REPORT.relative_to(ROOT))
+
+
+if __name__ == "__main__":
+    main()
