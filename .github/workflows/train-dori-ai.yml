@@ -65,6 +65,14 @@ jobs:
           print("knowledge_rows_total=", total)
           PY
 
+      - name: Snapshot the current best checkpoint for a fair comparison
+        run: |
+          test -f checkpoints/best.npz
+          test -f checkpoints/best.npz.json
+          mkdir -p runtime
+          cp checkpoints/best.npz runtime/gate_baseline.npz
+          cp checkpoints/best.npz.json runtime/gate_baseline.npz.json
+
       - name: Run continuous training through round 1000
         run: |
           # One invocation requests all remaining rounds.
