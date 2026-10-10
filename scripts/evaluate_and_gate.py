@@ -20,7 +20,7 @@ from dori_ai import world_knowledge
 
 DATASET = ROOT / "data" / "evaluation" / "general_qa.jsonl"
 CHECKPOINTS = ROOT / "checkpoints"
-BASELINE = CHECKPOINTS / "best_before_streaming.npz"
+BASELINE = ROOT / "runtime" / "gate_baseline.npz"
 BASELINE_META = Path(str(BASELINE) + ".json")
 CANDIDATE = CHECKPOINTS / "best.npz"
 CANDIDATE_META = Path(str(CANDIDATE) + ".json")
@@ -89,6 +89,9 @@ def main():
     }
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    # Do not commit the temporary baseline copy; the report keeps the measured result.
+    BASELINE.unlink(missing_ok=True)
+    BASELINE_META.unlink(missing_ok=True)
     print(json.dumps({k: v for k, v in report.items() if k not in ("baseline_cases", "candidate_cases")}, ensure_ascii=False, indent=2))
     print("HELDOUT_GATE_REPORT=" + str(REPORT))
     if not promoted:
