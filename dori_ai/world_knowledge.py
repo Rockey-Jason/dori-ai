@@ -46,20 +46,36 @@ def _language_codes(language):
 
 def _load_cache():
     try:
+        if CACHE_PATH.stat().st_size > 2_500_000:
+            return {}
         data = json.loads(CACHE_PATH.read_text(encoding="utf-8"))
         if not isinstance(data, dict):
             return {}
         now = time.time()
-        valid = {
-            key: value for key, value in data.items()
-            if isinstance(value, dict)
-            and isinstance(value.get("saved_at"), (int, float))
-            and now - value["saved_at"] < _TTL
-            and isinstance(value.get("results"), list)
-        }
+        valid = {}
+        for key, value in data.items():
+            if not (
+                isinstance(value, dict)
+                and isinstance(value.get("saved_at"), (int, float))
+                and now - value["saved_at"] < _TTL
+                and isinstance(value.get("results"), list)
+            ):
+                continue
+            results = []
+            for item in value["results"][:3]:
+                if not isinstance(item, dict):
+                    continue
+                results.append({
+                    "title": _clean(item.get("title", ""))[:200],
+                    "text": _clean(item.get("text", ""))[:1600],
+                    "url": str(item.get("url", ""))[:500],
+                    "language": str(item.get("language", "ko"))[:8],
+                })
+            if results:
+                valid[str(key)[:300]] = {"saved_at": value["saved_at"], "results": results}
         newest = sorted(valid.items(), key=lambda item: item[1]["saved_at"], reverse=True)
         return dict(newest[:_MAX_CACHE_ENTRIES])
-    except (OSError, ValueError):
+    except (OSError, ValueError, TypeError):
         return {}
 
 
@@ -67,7 +83,28 @@ def _save_cache():
     try:
         CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
         tmp = CACHE_PATH.with_suffix(".tmp")
-        tmp.write_text(json.dumps(_MEMORY, ensure_ascii=False), encoding="utf-8")
+        newest = sorted(
+            _MEMORY.items(),
+            key=lambda item: float(item[1].get("saved_at", 0)) if isinstance(item[1], dict) else 0,
+            reverse=True,
+        )[:_MAX_CACHE_ENTRIES]
+        compact = {}
+        for key, value in newest:
+            if not isinstance(value, dict) or not isinstance(value.get("results"), list):
+                continue
+            compact[key[:300]] = {
+                "saved_at": float(value.get("saved_at", 0)),
+                "results": [
+                    {
+                        "title": _clean(item.get("title", ""))[:200],
+                        "text": _clean(item.get("text", ""))[:1600],
+                        "url": str(item.get("url", ""))[:500],
+                        "language": str(item.get("language", "ko"))[:8],
+                    }
+                    for item in value["results"][:3] if isinstance(item, dict)
+                ],
+            }
+        tmp.write_text(json.dumps(compact, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
         tmp.replace(CACHE_PATH)
     except OSError:
         # Render filesystems may be read-only or ephemeral; in-memory results
@@ -78,7 +115,10 @@ def _save_cache():
 def _get_json(url):
     request = urllib.request.Request(url, headers=_HEADERS)
     with urllib.request.urlopen(request, timeout=_TIMEOUT) as response:
-        return json.loads(response.read().decode("utf-8", "replace"))
+        raw = response.read(512_001)
+        if len(raw) > 512_000:
+            raise ValueError("Wikipedia response exceeded the memory safety limit")
+        return json.loads(raw.decode("utf-8", "replace"))
 
 
 def _search_wikipedia(query, language):
