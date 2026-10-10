@@ -8,7 +8,7 @@ from scripts.evaluate_and_gate import normalize_answer, read_dataset, should_pro
 
 class HeldOutGateTests(unittest.TestCase):
     def test_keyword_normalization_handles_spacing_and_superscripts(self):
-        self.assertEqual(normalize_answer("A² + B² = C²"), "a^2+b^2=c^2".replace("+", "").replace("=", ""))
+        self.assertEqual(normalize_answer("A² + B² = C²"), "a2b2c2")
 
     def test_candidate_must_strictly_improve(self):
         self.assertTrue(should_promote({"rate": 0.4}, {"rate": 0.45}))
