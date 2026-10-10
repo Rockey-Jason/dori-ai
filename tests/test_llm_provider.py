@@ -18,6 +18,20 @@ class LocalModelProviderTests(unittest.TestCase):
                 self.assertFalse(llm_provider.enabled(), url)
                 self.assertIsNone(llm_provider.answer("안녕"))
 
+    def test_self_hosted_https_requires_token_and_sends_it(self):
+        fake_response = MagicMock()
+        fake_response.__enter__.return_value.read.return_value = json.dumps({
+            "choices": [{"message": {"content": "확인된 답변"}}]
+        }).encode("utf-8")
+        with patch.dict(os.environ, {
+            "DORI_LOCAL_LLM_URL": "https://my-own-model.example.net",
+            "DORI_LOCAL_LLM_TOKEN": "self-hosted-secret",
+        }, clear=True), patch.object(llm_provider.urllib.request, "urlopen", return_value=fake_response) as urlopen:
+            self.assertTrue(llm_provider.enabled())
+            self.assertEqual(llm_provider.answer("테스트"), "확인된 답변")
+        request = urlopen.call_args.args[0]
+        self.assertEqual(request.get_header("Authorization"), "Bearer self-hosted-secret")
+
     def test_local_model_receives_history_and_evidence_without_api_key(self):
         fake_response = MagicMock()
         fake_response.__enter__.return_value.read.return_value = json.dumps({
