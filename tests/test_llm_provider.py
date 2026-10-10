@@ -34,6 +34,8 @@ class LLMProviderTests(unittest.TestCase):
         self.assertEqual(body["model"], "test-model")
         self.assertTrue(any(m["role"] == "assistant" and "고대 그리스의 수학자" in m["content"] for m in body["messages"]))
         self.assertTrue(any(m["role"] == "system" and "Test source" in m["content"] for m in body["messages"]))
+        self.assertTrue(any("cite the relevant source inline" in m["content"] for m in body["messages"] if m["role"] == "system"))
+        self.assertLessEqual(body["max_tokens"], 1200)
         self.assertNotIn("test-secret", request.data.decode("utf-8"))
 
 
