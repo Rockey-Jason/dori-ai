@@ -1,5 +1,5 @@
 """Read-only, live bridge to Dori site's Supabase data."""
-import json, os, urllib.parse, urllib.request
+import json, os, re, urllib.parse, urllib.request
 
 class SiteData:
     def __init__(self, access_token=None, api_key=None):
@@ -53,7 +53,7 @@ class SiteData:
             "limit": "250",
         }, timeout=8) or []
         q = str(query or "").casefold()
-        terms = [x.casefold() for x in __import__("re").findall(r"[가-힣A-Za-z0-9]{2,}", q)]
+        terms = [x.casefold() for x in re.findall(r"[가-힣A-Za-z0-9]{2,}", q)]
         stop = {"돌이신문", "신문에서", "신문", "기사", "관련", "검색", "찾아줘", "찾아", "알려줘", "내용", "있어", "무엇", "어떤", "제목"}
         terms = [t for t in terms if t not in stop]
         scored = []
