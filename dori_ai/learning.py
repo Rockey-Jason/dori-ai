@@ -123,17 +123,9 @@ class LearningManager:
         rows = []
         site = SiteData()
 
-        try:
-            for row in site.public_news_all():
-                n = row.get("news_number")
-                news = row.get("rockey_news", "")
-                if news:
-                    rows.append(f"돌이신문 제{n}호: {news}")
-                if row.get("question"):
-                    rows.append(f"돌이신문 퀴즈: {row.get('question','')}")
-        except Exception:
-            pass
-
+        # Newspaper bodies are intentionally excluded from model training.
+        # They are private, entitlement-gated live content; fetch them only at
+        # query time through SiteData.news/search_news using the verified user.
         try:
             for row in site.stock():
                 rows.append(
