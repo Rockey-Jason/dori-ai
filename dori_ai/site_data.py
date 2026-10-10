@@ -71,7 +71,7 @@ class SiteData:
             if score:
                 scored.append((score, number, row))
         scored.sort(key=lambda x: (x[0], x[1]), reverse=True)
-        return [row for _, _, row in scored[:max(1, min(10, int(limit)))]
+        return [row for _, _, row in scored[:max(1, min(10, int(limit)))]]
 
     def news(self,number,user_id=None):
         try:n=int(number)
