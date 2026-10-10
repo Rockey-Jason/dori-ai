@@ -1,0 +1,20 @@
+{"id":"eval_001","question":"직각삼각형의 두 직각변이 3과 4라면 빗변은?","keywords":["3²","4²","5"],"category":"math"}
+{"id":"eval_002","question":"원의 넓이 공식은?","keywords":["πr²"],"category":"math"}
+{"id":"eval_003","question":"삼각형 내각의 합은?","keywords":["180"],"category":"math"}
+{"id":"eval_004","question":"광합성은 무엇인가?","keywords":["빛","이산화탄소","산소"],"category":"science"}
+{"id":"eval_005","question":"계절이 생기는 이유는?","keywords":["자전축","기울어"],"category":"science"}
+{"id":"eval_006","question":"물의 화학식은?","keywords":["H₂O"],"category":"chemistry"}
+{"id":"eval_007","question":"전류와 전압의 차이를 설명해줘.","keywords":["전하","암페어","볼트"],"category":"physics"}
+{"id":"eval_008","question":"이진 탐색의 시간 복잡도는?","keywords":["정렬","log n"],"category":"computer_science"}
+{"id":"eval_009","question":"과적합이란?","keywords":["학습 데이터","새 데이터"],"category":"machine_learning"}
+{"id":"eval_010","question":"검색 증강 생성(RAG)이란?","keywords":["검색","근거"],"category":"machine_learning"}
+{"id":"eval_011","question":"상관관계는 인과관계를 증명해?","keywords":["아니","증명하지"],"category":"reasoning"}
+{"id":"eval_012","question":"대한민국의 수도는?","keywords":["서울"],"category":"geography"}
+{"id":"eval_013","question":"태양계에서 가장 큰 행성은?","keywords":["목성"],"category":"astronomy"}
+{"id":"eval_014","question":"빛과 소리 중 어느 것이 더 빨라?","keywords":["빛","소리"],"category":"physics"}
+{"id":"eval_015","question":"돌이는 실제 강아지야?","keywords":["인형","실제"],"category":"dori_lore"}
+{"id":"eval_016","question":"돌이 인형 설정상 생일은 언제야?","keywords":["2021년 10월 3일"],"category":"dori_lore"}
+{"id":"eval_017","question":"돌이 인형 설정상 크기는?","keywords":["17cm"],"category":"dori_lore"}
+{"id":"eval_018","question":"돌이신문의 읽을 수 없는 호수에 대해 물으면 어떻게 해야 해?","keywords":["권한","공개하면 안"],"category":"site_access"}
+{"id":"eval_019","question":"API 키를 GitHub 코드에 넣어도 돼?","keywords":["안 돼","환경 변수"],"category":"security"}
+{"id":"eval_020","question":"검증 손실이 낮아지면 항상 더 똑똑해진 거야?","keywords":["아니","평가"],"category":"evaluation"}
