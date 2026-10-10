@@ -84,6 +84,22 @@ class ResponseEngine:
                 if choices: out.append("\n".join(f"{i}. {v}" for i,v in enumerate(choices,1)))
             return "\n".join(x for x in out if x)
 
+        # Search is restricted at the database query to the user's current readable limit.
+        search_intent = any(x in u.lower() for x in ("검색", "찾아", "관련 기사", "관련된 기사", "기사 있어", "기사 있", "에서 찾아", "search", "find article"))
+        if self._asks_news(u) and search_intent:
+            limit=site.readable_news_limit(user_id)
+            if limit<=0:
+                return "돌이신문을 검색하려면 로그인과 열람 권한 확인이 필요해. 🐶"
+            matches=site.search_news(u,user_id,limit=5)
+            if not matches:
+                return f"네가 읽을 수 있는 제1호부터 제{limit}호까지에서 관련 기사를 찾지 못했어. 읽을 수 없는 신문은 검색하거나 내용을 알려주지 않아."
+            out=["🔎 읽을 수 있는 돌이신문에서 찾은 결과"]
+            for row in matches:
+                body=" ".join(str(row.get("rockey_news") or "").split())
+                snippet=body[:420] + ("…" if len(body)>420 else "")
+                out.append(f"\n📰 제{row.get('news_number')}호\n{snippet}\n[돌이신문 열기](https://rockey-jason.github.io/doldol-site/rockeynews.html)")
+            return "\n".join(out)
+
         if self._asks_news(u):
             limit=site.readable_news_limit(user_id)
             if limit<=0:return "로그인한 사용자의 돌이신문 열람 권한을 확인하지 못했어. 로그인 상태를 확인해줘. 🐶"
@@ -122,6 +138,19 @@ class ResponseEngine:
             for x in rows:
                 out.append(f"• {x.get('name','')} ({x.get('ticker','')}): {int(x.get('current_price') or 0):,} 돌돌코인 | {x.get('change_amount',0):+,} ({x.get('change_percent',0)}%) | 위험도 {x.get('risk_label','미지정')}")
             return "\n".join(out)
+        # Site-specific questions must stay within Dori's own indexed/live data.
+        # Do not fall through to general web search or neural guessing for these.
+        if any(x in low for x in (
+            "돌이사이트", "돌이 사이트", "돌이체스", "돌이 게임", "돌이게임",
+            "돌이 ai", "돌이ai", "돌돌코인", "랜덤박스", "일일미션",
+            "도로늄 공장", "돌이전쟁", "돌이신문", "돌돌증권"
+        )):
+            known=self.kb.answer(u, threshold=.70)
+            if known:
+                return known
+            return ("돌이사이트 내부 자료에서 이 질문에 대한 확인 가능한 정보를 찾지 못했어. 🐶\n"
+                    "돌이사이트 페이지 이름이나 기능 이름을 더 구체적으로 알려주면, 확인 가능한 자료 안에서 찾아볼게. "
+                    "읽을 수 없는 돌이신문 내용은 검색하거나 공개하지 않아.")
         return None
 
     @staticmethod
