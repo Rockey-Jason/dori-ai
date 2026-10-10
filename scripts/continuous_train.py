@@ -107,12 +107,18 @@ def main():
             "adversarial": "data/curriculum/adversarial",
             "stabilization": "data/curriculum/stabilization",
         }
-        stage_dir = ROOT / stage_dirs.get(stage["name"], "")
-        if stage_dir.exists():
-            cmd += ["--data", str(stage_dir)]
+        # Include every curriculum directory when building the cache on the
+        # first round. Later rounds reuse that complete cache; passing only the
+        # active stage here would silently omit all other stages after round 1.
+        # The stage still controls learning rate and batch budget, while the
+        # corpus remains a stable, mixed dataset for replay-safe training.
+        for relative_dir in sorted(set(stage_dirs.values())):
+            curriculum_dir = ROOT / relative_dir
+            if curriculum_dir.exists():
+                cmd += ["--data", str(curriculum_dir)]
         # Build the cleaned streaming corpus once per workflow run. Rebuilding
         # all source files for each of 1000 micro-rounds wastes most of the
-        # runner budget; later rounds safely reuse the manifest created above.
+        # runner budget; later rounds safely reuse the complete manifest above.
         if round_no > current + 1:
             cmd += ["--no-build-cache"]
         result = subprocess.run(cmd, cwd=ROOT)
