@@ -3,7 +3,7 @@ name: Train Dori AI
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 */6 * * *"
+    - cron: "17 */3 * * *"
   push:
     paths:
       - "data/new/**"
@@ -83,14 +83,13 @@ jobs:
           cp checkpoints/best.npz runtime/gate_baseline.npz
           cp checkpoints/best.npz.json runtime/gate_baseline.npz.json
 
-      - name: Run continuous training through round 1200
+      - name: Run a checkpointed training chunk (up to 250 rounds)
         run: |
-          # One invocation requests all remaining rounds through round 1200.
-          # Four batches per micro-round keeps each invocation within the
-          # GitHub Actions execution window while still performing optimizer
-          # batches across the complete curriculum.
+          # Persist a tested checkpoint every chunk instead of risking the
+          # GitHub Actions job timeout before the full 1200-round target.
+          # The next scheduled run resumes from the committed round counter.
           python scripts/continuous_train.py \
-            --rounds 1200 \
+            --rounds 250 \
             --max-batches 4 \
             --batch-size 2 \
             --seq-len 128 \
@@ -125,7 +124,7 @@ jobs:
           assert data["model_config"]["heads"] == 8
           assert data["model_config"]["layers"] == 8
           assert data["model_config"]["ff_dim"] == 1024
-          assert training_round == 1200, f"Expected round 1200, got {training_round}"
+          assert 1 <= training_round <= 1200, f"Training round outside target range: {training_round}"
           print("best_epoch=", data.get("epoch"))
           print("train_loss=", data.get("train_loss"))
           print("val_loss=", data.get("val_loss"))
