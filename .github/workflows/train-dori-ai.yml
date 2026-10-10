@@ -32,6 +32,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Synchronize to latest main after acquiring the training queue
+        run: |
+          # GitHub queues runs by event SHA. A previous training run may push
+          # a newer checkpoint while this run waits for the concurrency lock.
+          # Always resume from that latest committed checkpoint, not the stale
+          # event snapshot, before taking the baseline and continuing training.
+          git fetch origin main
+          git reset --hard origin/main
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -75,10 +84,10 @@ jobs:
 
       - name: Run continuous training through round 1200
         run: |
-          # One invocation requests all remaining rounds.
-          # Four batches per micro-round keeps the full 1000-round curriculum
-          # within the GitHub Actions execution window while still performing
-          # 4000 optimizer batches across the complete curriculum.
+          # One invocation requests all remaining rounds through round 1200.
+          # Four batches per micro-round keeps each invocation within the
+          # GitHub Actions execution window while still performing optimizer
+          # batches across the complete curriculum.
           python scripts/continuous_train.py \
             --rounds 1200 \
             --max-batches 4 \
