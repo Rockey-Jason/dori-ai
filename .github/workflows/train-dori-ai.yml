@@ -87,6 +87,10 @@ jobs:
         run: |
           python -m unittest discover -s tests -v
 
+      - name: Compare held-out QA and keep only a better checkpoint
+        run: |
+          python scripts/evaluate_and_gate.py
+
       - name: Verify best checkpoint
         run: |
           python - <<'PY'
@@ -127,7 +131,7 @@ jobs:
           # Synchronize with main without blindly overwriting remote source
           # changes. Only generated training artifacts may be resolved in favor
           # of the newly trained result.
-          GENERATED_REGEX='^(checkpoints/|runtime/training_round[.]json$|runtime/continuous_rounds[.]jsonl$)'
+          GENERATED_REGEX='^(checkpoints/|runtime/training_round[.]json$|runtime/continuous_rounds[.]jsonl$|runtime/heldout_gate_report[.]json$)'
 
           for attempt in 1 2 3; do
             echo "Synchronizing with origin/main (attempt $attempt/3)..."
