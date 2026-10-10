@@ -32,7 +32,7 @@ def normalize_answer(text):
         "²": "^2", "³": "^3", "₀": "0", "₁": "1", "₂": "2",
         "₃": "3", "₄": "4", "₅": "5", "π": "pi",
     }))
-    return re.sub(r"[\\s\\W_]+", "", text, flags=re.UNICODE)
+    return re.sub(r"[\s\W_]+", "", text, flags=re.UNICODE)
 
 
 def score(checkpoint, metadata, rows, tokenizer):
@@ -45,10 +45,10 @@ def score(checkpoint, metadata, rows, tokenizer):
         # rules, site retrieval, or search make a weak checkpoint look better.
         prompt = (
             "<system>너는 Dori AI다. 친절하고 정확하게 답한다. "
-            "모르면 추측하지 않는다. 질문에 직접 답한다.</system>\\n"
-            "<user>" + row["question"] + "</user>\\n<dori>"
+            "모르면 추측하지 않는다. 질문에 직접 답한다.\\n"
+            "<user>" + row["question"] + "<dori>"
         )
-        suffix = int(re.sub(r"\\D", "", row["id"]) or "0")
+        suffix = int(re.sub(r"\D", "", row["id"]) or "0")
         answer = str(generate(
             prompt, tokenizer, model,
             tokens=32, temperature=0.25, top_k=12, top_p=0.82,
