@@ -73,14 +73,14 @@ jobs:
           cp checkpoints/best.npz runtime/gate_baseline.npz
           cp checkpoints/best.npz.json runtime/gate_baseline.npz.json
 
-      - name: Run continuous training through round 1000
+      - name: Run continuous training through round 1200
         run: |
           # One invocation requests all remaining rounds.
           # Four batches per micro-round keeps the full 1000-round curriculum
           # within the GitHub Actions execution window while still performing
           # 4000 optimizer batches across the complete curriculum.
           python scripts/continuous_train.py \
-            --rounds 1000 \
+            --rounds 1200 \
             --max-batches 4 \
             --batch-size 2 \
             --seq-len 128 \
@@ -115,7 +115,7 @@ jobs:
           assert data["model_config"]["heads"] == 8
           assert data["model_config"]["layers"] == 8
           assert data["model_config"]["ff_dim"] == 1024
-          assert training_round == 1000, f"Expected round 1000, got {training_round}"
+          assert training_round == 1200, f"Expected round 1200, got {training_round}"
           print("best_epoch=", data.get("epoch"))
           print("train_loss=", data.get("train_loss"))
           print("val_loss=", data.get("val_loss"))
