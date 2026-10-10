@@ -237,11 +237,19 @@ class ResponseEngine:
         search_query = u
         if factual and dialogue.history:
             previous_user = next((t for role, t in reversed(dialogue.history) if role == "user"), "")
-            if previous_user and len(u.strip()) <= 70 and any(
-                x in u.lower() for x in ("그 사람", "그건", "그것", "그게", "그럼", "그 이유", "그때", "그 작품",
-                                          "it ", "that person", "they ", "he ", "she ", "what about", "why did")
-            ):
-                search_query = previous_user + " " + u
+            previous_answer = next((t for role, t in reversed(dialogue.history) if role in ("dori", "assistant")), "")
+            is_followup = len(u.strip()) <= 120 and any(
+                x in u.lower() for x in (
+                    "그 사람", "그건", "그것", "그게", "그럼", "그 도시", "그곳", "그 이유", "그때", "그 작품",
+                    "그 나라", "그 사람은", "이어서", "좀 더", "자세히", "it ", "that person", "they ", "he ",
+                    "she ", "what about", "why did", "tell me more", "there", "that city"
+                )
+            )
+            if is_followup and (previous_user or previous_answer):
+                # Include the assistant's previous answer too: it often contains the
+                # entity that a pronoun refers to (e.g. Seoul after a capital question).
+                context = " ".join(part for part in (previous_user, previous_answer) if part)
+                search_query = f"{u} (conversation context: {context})"[:600]
         if ans is None and factual:
             world_results = world_knowledge.search(search_query, language=lang, limit=3)
             if self.web_enabled:
