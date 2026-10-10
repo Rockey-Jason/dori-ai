@@ -32,7 +32,7 @@ def save_state(round_no, loss=None, val_loss=None):
         "updated_at": time.time(),
         "last_train_loss": loss,
         "last_val_loss": val_loss,
-        "target_rounds": 1000,
+        "target_rounds": 1200,
     }
     STATE.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     with HISTORY.open("a", encoding="utf-8") as f:
@@ -65,11 +65,11 @@ def main():
     args = p.parse_args()
 
     current = load_state()
-    target = 1000
+    target = 1200
     remaining = max(0, target - current)
     rounds = min(max(0, args.rounds), remaining)
     if rounds == 0:
-        print("1000 training rounds are already complete.")
+        print("1200 training rounds are already complete.")
         return
 
     for i in range(rounds):
