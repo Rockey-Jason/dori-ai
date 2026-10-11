@@ -75,6 +75,14 @@ jobs:
           print("knowledge_rows_total=", total)
           PY
 
+      - name: Run Dori AI preflight tests
+        run: |
+          python scripts/preflight_dori_ai.py
+
+      - name: Run unit regression tests
+        run: |
+          python -m unittest discover -s tests -v
+
       - name: Snapshot the current best checkpoint for a fair comparison
         run: |
           test -f checkpoints/best.npz
@@ -95,14 +103,6 @@ jobs:
             --seq-len 128 \
             --lr 1.5e-4 \
             --grad-clip 1.0
-
-      - name: Run Dori AI preflight tests
-        run: |
-          python scripts/preflight_dori_ai.py
-
-      - name: Run unit regression tests
-        run: |
-          python -m unittest discover -s tests -v
 
       - name: Compare held-out QA and keep only a better checkpoint
         run: |
