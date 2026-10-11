@@ -137,7 +137,10 @@ def validate_checkpoint(path, requested_config, tokenizer_hash):
             if "__model_config_json__" in data.files:
                 if json.loads(str(data["__model_config_json__"].item())) != config:
                     return None, meta, "embedded model config differs from sidecar"
-        return load_model(str(path), config), meta, None
+        # Reuse the already allocated probe model; allocating another full
+        # transformer here can double peak RAM on the training runner.
+        probe.load_weights(str(path))
+        return probe, meta, None
     except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
         return None, None, f"{type(exc).__name__}: {exc}"
 
@@ -343,6 +346,14 @@ def main():
         )
     if model.vocab_size != tokenizer.vocab_size:
         raise RuntimeError("tokenizer/model vocab size mismatch. Use --retrain-tokenizer with --fresh, or keep the existing tokenizer.")
+
+    # Preserve the previous best before a later epoch can promote over it.
+    # This is a byte-for-byte backup; compatibility is still checked before use.
+    if best.is_file() and not backup.exists():
+        shutil.copy2(best, backup)
+        best_sidecar = Path(str(best) + ".json")
+        if best_sidecar.is_file():
+            shutil.copy2(best_sidecar, Path(str(backup) + ".json"))
 
     optimizer = Adam(model.parameters(), lr=args.lr, weight_decay=1e-5)
     resumed_optimizer = resume and resume_path == latest and load_optimizer(latest, optimizer)
