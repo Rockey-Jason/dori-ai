@@ -317,10 +317,19 @@ def main():
     else:
         print("Checkpoint resume disabled by --fresh or tokenizer rebuild.", flush=True)
 
+    # Archive every rejected candidate even when a later fallback checkpoint
+    # was usable; otherwise a bad latest.npz could be overwritten at epoch end.
+    for candidate, reason in incompatible:
+        archive_checkpoint(candidate, reason)
+
+    # Explicit fresh/tokenizer-rebuild runs also preserve any checkpoints they
+    # are about to supersede.
+    if (args.fresh or tokenizer_changed) and not incompatible:
+        for candidate in (latest, best, backup):
+            if candidate.exists():
+                archive_checkpoint(candidate, "fresh model requested or tokenizer rebuilt")
+
     if model is None:
-        # Preserve rejected weights before the current run can replace latest/best.
-        for candidate, reason in incompatible:
-            archive_checkpoint(candidate, reason)
         config = requested_config
         model = DoriTransformer(**config)
         start_epoch = 1
@@ -340,10 +349,15 @@ def main():
     if resume and not resumed_optimizer:
         print("Optimizer state not found; resuming model weights with a fresh Adam state.")
 
-    if best.exists() and not (CHECKPOINTS / "best_before_streaming.npz").exists():
-        shutil.copy2(best, CHECKPOINTS / "best_before_streaming.npz")
-        if best_meta_path.exists():
-            shutil.copy2(best_meta_path, Path(str(CHECKPOINTS / "best_before_streaming.npz") + ".json"))
+    # Keep the legacy backup only when the best checkpoint is known to be
+    # compatible with the current model/tokenizer; never back up a rejected file.
+    if resume and best.exists() and not (CHECKPOINTS / "best_before_streaming.npz").exists():
+        best_model, best_meta_check, best_reason = validate_checkpoint(best, config, tokenizer_hash)
+        if best_model is not None:
+            shutil.copy2(best, CHECKPOINTS / "best_before_streaming.npz")
+            best_meta_path = Path(str(best) + ".json")
+            if best_meta_path.exists():
+                shutil.copy2(best_meta_path, Path(str(CHECKPOINTS / "best_before_streaming.npz") + ".json"))
 
     train_path = DATASET / "train.jsonl"
     val_path = DATASET / "val.jsonl"
