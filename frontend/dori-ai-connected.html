@@ -144,10 +144,18 @@ body {
 
 .dori-ai-welcome {
   text-align: center;
-
   margin-bottom: 45px;
-
   animation: doriAiFadeIn 0.7s ease;
+  transform-origin: center top;
+}
+
+.dori-ai-welcome.is-leaving {
+  animation: doriAiWelcomeOut 0.28s cubic-bezier(.2,.75,.25,1) forwards;
+  pointer-events: none;
+}
+
+@keyframes doriAiWelcomeOut {
+  to { opacity: 0; transform: translateY(-14px) scale(.985); filter: blur(4px); }
 }
 
 .dori-ai-welcome-icon {
@@ -378,29 +386,33 @@ body {
 }
 
 .dori-ai-send {
-  width: 42px;
-  height: 42px;
-
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  border: none;
-
-  border-radius: 12px;
-
-  background: #2563eb;
-
+  border: 1px solid rgba(147,197,253,.35);
+  border-radius: 14px;
+  background: linear-gradient(145deg, #3b82f6, #1d4ed8 72%);
   color: white;
-
   font-size: 20px;
-
   cursor: pointer;
-
-  transition: 0.2s;
+  box-shadow: 0 5px 18px rgba(37,99,235,.28), inset 0 1px 0 rgba(255,255,255,.18);
+  transition: background .24s ease, box-shadow .24s ease, transform .24s cubic-bezier(.2,.8,.2,1), border-radius .24s ease;
 }
+
+.dori-ai-send.is-stop {
+  background: linear-gradient(145deg, #f05265, #b91c1c 78%);
+  border-color: rgba(252,165,165,.45);
+  box-shadow: 0 5px 18px rgba(220,38,38,.25), inset 0 1px 0 rgba(255,255,255,.16);
+}
+
+.dori-ai-send.is-stop:hover { background: linear-gradient(145deg, #fb7185, #dc2626 78%); }
+.dori-ai-send .dori-ai-button-icon { display: inline-block; transition: transform .22s ease; }
+.dori-ai-send:hover .dori-ai-button-icon { transform: scale(1.08); }
+.dori-ai-send:focus-visible { outline: 3px solid rgba(147,197,253,.8); outline-offset: 3px; }
+.dori-ai-send:disabled { opacity: .7; cursor: wait; }
 
 .dori-ai-send:hover {
   background: #3b82f6;
@@ -795,15 +807,7 @@ body {
   ➤
 </button>
 
-<button
-  type="button"
-  class="dori-ai-stop"
-  id="doriAiStop"
-  aria-label="답변 생성 중지"
-  hidden
->
-  ■
-</button>
+
 
     </form>
 
@@ -835,8 +839,8 @@ const doriAiChat =
 const doriAiSend =
   document.getElementById("doriAiSend");
 
-const doriAiStop =
-  document.getElementById("doriAiStop");
+const doriAiWelcome = document.querySelector(".dori-ai-welcome");
+let doriAiHasStarted = false;
 
 const doriAiModeDescription =
   document.getElementById("doriAiModeDescription");
@@ -1047,24 +1051,17 @@ function createStreamingMessage() {
 ===================================================== */
 
 function setGeneratingState(generating) {
+  doriAiGenerating = generating;
+  doriAiInput.disabled = generating;
 
-  doriAiGenerating =
-    generating;
-
-
-  doriAiInput.disabled =
-    generating;
-
-  doriAiSend.disabled =
-    generating;
-
-
-  doriAiSend.hidden =
-    generating;
-
-  doriAiStop.hidden =
-    !generating;
-
+  // 전송/취소를 하나의 버튼에서 부드럽게 전환한다.
+  doriAiSend.disabled = false;
+  doriAiSend.classList.toggle("is-stop", generating);
+  doriAiSend.innerHTML = generating
+    ? '<span class="dori-ai-button-icon" aria-hidden="true">■</span>'
+    : '<span class="dori-ai-button-icon" aria-hidden="true">➤</span>';
+  doriAiSend.setAttribute("aria-label", generating ? "답변 생성 취소" : "메시지 전송");
+  doriAiSend.setAttribute("title", generating ? "답변 생성 취소" : "메시지 전송");
 
   document.querySelectorAll(".dori-ai-mode")
     .forEach(function(button) {
@@ -1326,16 +1323,13 @@ async function askDoriAI(message, bubble) {
    중지 버튼
 ===================================================== */
 
-doriAiStop.addEventListener(
-  "click",
-  function() {
-
-    if (!doriAiController) return;
-
-    doriAiController.abort();
-
-  }
-);
+// 같은 버튼이 생성 중에는 취소 동작을 수행한다.
+doriAiSend.addEventListener("click", function(event) {
+  if (!doriAiGenerating) return;
+  event.preventDefault();
+  event.stopPropagation();
+  if (doriAiController) doriAiController.abort();
+});
 
 
 /* =====================================================
@@ -1359,11 +1353,22 @@ doriAiForm.addEventListener(
     if (!message) return;
 
 
+    // 첫 질문이 전송되면 환영 문구와 초기 인사말을 우아하게 정리한다.
+    if (!doriAiHasStarted) {
+      doriAiHasStarted = true;
+      if (doriAiWelcome) {
+        doriAiWelcome.classList.add("is-leaving");
+        window.setTimeout(() => { doriAiWelcome.remove(); }, 290);
+      }
+      const initialGreeting = doriAiChat.querySelector(".dori-ai-message.bot");
+      if (initialGreeting) {
+        initialGreeting.classList.add("is-leaving");
+        window.setTimeout(() => { initialGreeting.remove(); }, 290);
+      }
+    }
+
     // 사용자 메시지 표시
-    addDoriAiMessage(
-      message,
-      "user"
-    );
+    addDoriAiMessage(message, "user");
 
 
     // 입력창 초기화
