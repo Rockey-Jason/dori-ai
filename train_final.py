@@ -305,6 +305,9 @@ def main():
             )
             if candidate_model is not None:
                 model, meta, resume_path = candidate_model, candidate_meta, candidate
+                # Set config on the resume path too; the training setup below
+                # uses config["max_len"] regardless of whether we resumed.
+                config = dict(meta["model_config"])
                 resume = True
                 start_epoch = int(meta.get("epoch", 0)) + 1
                 best_val = float(meta.get("best_val_loss", meta.get("val_loss", float("inf"))))
@@ -406,6 +409,13 @@ def main():
 
         train_loss = float(np.mean(train_losses))
         val_loss = evaluate(model, tokenizer, val_path, seq_len, args.batch_size, args.val_batches, args.seed + epoch)
+        improved = bool(np.isfinite(val_loss) and val_loss < best_val)
+        meaningful_improvement = bool(
+            np.isfinite(val_loss) and val_loss < best_val - max(0.0, args.min_delta)
+        )
+        if improved:
+            best_val = val_loss
+
         meta = {
             "tokenizer": "data/tokenizer.json",
             "tokenizer_sha256": tokenizer_hash,
@@ -420,19 +430,18 @@ def main():
             "steps_per_epoch": len(train_losses),
             "optimizer_t": optimizer.t,
         }
+        # latest always contains the latest model and its current best-loss
+        # watermark, so a subsequent micro-round resumes correctly.
         meta = save_checkpoint(latest, model, optimizer, meta)
         with history_path.open("a", encoding="utf-8") as f:
             f.write(json.dumps({"timestamp": time.time(), **meta}, ensure_ascii=False) + "\n")
 
         run_epoch = epoch - start_epoch + 1
-        meaningful_improvement = np.isfinite(val_loss) and val_loss < best_val - max(0.0, args.min_delta)
         if meaningful_improvement:
             stale_epochs = 0
         else:
             stale_epochs += 1
-        if np.isfinite(val_loss) and val_loss < best_val:
-            best_val = val_loss
-            meta["best_val_loss"] = best_val
+        if improved:
             save_checkpoint(best, model, optimizer, meta)
             print(
                 f"TRAIN_EPOCH run {run_epoch}/{args.epochs} "
