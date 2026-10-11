@@ -349,7 +349,7 @@ def main():
 
     # Preserve the previous best before a later epoch can promote over it.
     # This is a byte-for-byte backup; compatibility is still checked before use.
-    if best.is_file() and not backup.exists():
+    if resume and best.is_file() and not backup.exists():
         shutil.copy2(best, backup)
         best_sidecar = Path(str(best) + ".json")
         if best_sidecar.is_file():
