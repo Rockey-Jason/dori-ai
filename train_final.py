@@ -349,15 +349,9 @@ def main():
     if resume and not resumed_optimizer:
         print("Optimizer state not found; resuming model weights with a fresh Adam state.")
 
-    # Keep the legacy backup only when the best checkpoint is known to be
-    # compatible with the current model/tokenizer; never back up a rejected file.
-    if resume and best.exists() and not (CHECKPOINTS / "best_before_streaming.npz").exists():
-        best_model, best_meta_check, best_reason = validate_checkpoint(best, config, tokenizer_hash)
-        if best_model is not None:
-            shutil.copy2(best, CHECKPOINTS / "best_before_streaming.npz")
-            best_meta_path = Path(str(best) + ".json")
-            if best_meta_path.exists():
-                shutil.copy2(best_meta_path, Path(str(CHECKPOINTS / "best_before_streaming.npz") + ".json"))
+    # Do not eagerly load a second model just to create a legacy backup. Any
+    # rejected checkpoint has already been archived above, and existing backup
+    # candidates remain available for validated fallback.
 
     train_path = DATASET / "train.jsonl"
     val_path = DATASET / "val.jsonl"
