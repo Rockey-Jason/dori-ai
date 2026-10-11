@@ -142,6 +142,13 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
 
+          # latest.npz can grow beyond GitHub's 100 MB regular-file limit
+          # with the 256-dim/8-layer candidate. Keep it out of Git commits;
+          # the deployable best checkpoint and training metadata remain tracked.
+          # This avoids rejecting the entire training-state commit because of
+          # a temporary candidate checkpoint.
+          git reset -- checkpoints/latest.npz
+
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
