@@ -1,0 +1,34 @@
+{
+  "format_version": 6,
+  "model_config": {
+    "vocab_size": 768,
+    "max_len": 128,
+    "dim": 256,
+    "heads": 8,
+    "ff_dim": 1024,
+    "layers": 8
+  },
+  "tokenizer": "data/tokenizer.json",
+  "tokenizer_sha256": "73760a320fd30032485803860a1293e2c21a7d6ff14d6e8b6d12458d593963b5",
+  "epoch": 250,
+  "train_loss": 1.2030597144313877,
+  "val_loss": 5.1052585426653225,
+  "gradient_norm": 5.2938132309965305,
+  "best_val_loss": Infinity,
+  "version": "3.0.0-streaming",
+  "dataset_manifest": "data/streaming/manifest.json",
+  "dataset_counts": {
+    "version": 1,
+    "chunk_chars": 1800,
+    "val_fraction": 0.1,
+    "files": 25,
+    "raw_records": 141209,
+    "chunks": 52376,
+    "train": 47196,
+    "val": 5180,
+    "duplicates": 82008,
+    "garbage": 6638
+  },
+  "steps_per_epoch": 4,
+  "optimizer_t": 1000
+}
