@@ -1,0 +1,454 @@
+{
+  "dataset": "data/evaluation/general_qa.jsonl",
+  "evaluation_cases": 20,
+  "metric": "held_out_keyword_coverage",
+  "promotion_rule": "candidate_rate_must_be_strictly_greater_than_baseline_rate",
+  "promoted_candidate": false,
+  "selected_checkpoint": "baseline",
+  "baseline": {
+    "passed": 0,
+    "total": 20,
+    "rate": 0.0,
+    "cases": [
+      {
+        "id": "eval_001",
+        "category": "math",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "3²",
+          "4²",
+          "5"
+        ],
+        "answer_preview": ", 않은 않은 않은 않은 않은 않은 않은 않은 않은 않은"
+      },
+      {
+        "id": "eval_002",
+        "category": "math",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "πr²"
+        ],
+        "answer_preview": ", 중 결, 학습 않어. 수 않어. 않어. 않어."
+      },
+      {
+        "id": "eval_003",
+        "category": "math",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "180"
+        ],
+        "answer_preview": "이 중하하는 중 중을 겸어. 않pontralformer야"
+      },
+      {
+        "id": "eval_004",
+        "category": "science",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "빛",
+          "이산화탄소",
+          "산소"
+        ],
+        "answer_preview": "중 결, 중를 않고, 중우이터, 않어 않어."
+      },
+      {
+        "id": "eval_005",
+        "category": "science",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "자전축",
+          "기울어"
+        ],
+        "answer_preview": ", 검색"
+      },
+      {
+        "id": "eval_006",
+        "category": "chemistry",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "H₂O"
+        ],
+        "answer_preview": "이 중 중 중 중가 중 검색하고 않정보가 않어"
+      },
+      {
+        "id": "eval_007",
+        "category": "physics",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "전하",
+          "암페어",
+          "볼트"
+        ],
+        "answer_preview": "이 중 검, 중 않어 않어 않식 않식 않은 않식"
+      },
+      {
+        "id": "eval_008",
+        "category": "computer_science",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "정렬",
+          "log n"
+        ],
+        "answer_preview": "하는 중 중 경㈝야 않어 검쵬하고 중 않정보"
+      },
+      {
+        "id": "eval_009",
+        "category": "machine_learning",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "학습 데이터",
+          "새 데이터"
+        ],
+        "answer_preview": "이 기 중 중 결하고 중 중 중formPpontra"
+      },
+      {
+        "id": "eval_010",
+        "category": "machine_learning",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "검색",
+          "근거"
+        ],
+        "answer_preview": ", 기 지고 수 있고 껬하고 Ѥ방 있어 있어 있어"
+      },
+      {
+        "id": "eval_011",
+        "category": "reasoning",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "아니",
+          "증명하지"
+        ],
+        "answer_preview": "이 Ѥ트, 검색 핦룵을 AI: 수 있어 검색"
+      },
+      {
+        "id": "eval_012",
+        "category": "geography",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "서울"
+        ],
+        "answer_preview": "하지 겤풤됈정리, 지고 않idy 결, 경을 검"
+      },
+      {
+        "id": "eval_013",
+        "category": "astronomy",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "목성"
+        ],
+        "answer_preview": ", 중 중 중 겸어 중 중우이터, 않고 중"
+      },
+      {
+        "id": "eval_014",
+        "category": "physics",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "빛",
+          "소리"
+        ],
+        "answer_preview": "이 ь ь 성 지formPpontranば벘 않은"
+      },
+      {
+        "id": "eval_015",
+        "category": "dori_lore",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "인형",
+          "실제"
+        ],
+        "answer_preview": ", 줠 중 중를 않보가 않은 중 않어 않보됈정"
+      },
+      {
+        "id": "eval_016",
+        "category": "dori_lore",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "2021년 10월 3일"
+        ],
+        "answer_preview": ", 있어. 수 검, 중를 않어 벴된 검색하고 f"
+      },
+      {
+        "id": "eval_017",
+        "category": "dori_lore",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "17cm"
+        ],
+        "answer_preview": "가 결룕AI 중 껬하고 중고, 겸어 않intra"
+      },
+      {
+        "id": "eval_018",
+        "category": "site_access",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "권한",
+          "공개하면 안"
+        ],
+        "answer_preview": ", 줄일텈정보하고 않식띝 않는 결으로 있어 검"
+      },
+      {
+        "id": "eval_019",
+        "category": "security",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "안 돼",
+          "환경 변수"
+        ],
+        "answer_preview": ", 지식 겸어 former야. 지식 지식 럼 빠"
+      },
+      {
+        "id": "eval_020",
+        "category": "evaluation",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "아니",
+          "평가"
+        ],
+        "answer_preview": "모al게 않은 줝 럼고 지고 않이야 있어 수 답변,"
+      }
+    ]
+  },
+  "candidate": {
+    "passed": 0,
+    "total": 20,
+    "rate": 0.0,
+    "cases": [
+      {
+        "id": "eval_001",
+        "category": "math",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "3²",
+          "4²",
+          "5"
+        ],
+        "answer_preview": "평면일 구하는 조그 기하학, 관춄의"
+      },
+      {
+        "id": "eval_002",
+        "category": "math",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "πr²"
+        ],
+        "answer_preview": "으로 분야는 구하는 기하학, 구하는 분야에서"
+      },
+      {
+        "id": "eval_003",
+        "category": "math",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "180"
+        ],
+        "answer_preview": "포분야구하는 기하학은 부 부 조, 기"
+      },
+      {
+        "id": "eval_004",
+        "category": "science",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "빛",
+          "이산화탄소",
+          "산소"
+        ],
+        "answer_preview": "의 분야는 노하는 정리한 부분일 부로"
+      },
+      {
+        "id": "eval_005",
+        "category": "science",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "자전축",
+          "기울어"
+        ],
+        "answer_preview": "포하학, 분야에서 구 분의 영으로 그"
+      },
+      {
+        "id": "eval_006",
+        "category": "chemistry",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "H₂O"
+        ],
+        "answer_preview": "부분야는 구하는 부는 ힰ, 그 관"
+      },
+      {
+        "id": "eval_007",
+        "category": "physics",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "전하",
+          "암페어",
+          "볼트"
+        ],
+        "answer_preview": "은 구하는 분야는 기하학은 기하학, 기하학의 기"
+      },
+      {
+        "id": "eval_008",
+        "category": "computer_science",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "정렬",
+          "log n"
+        ],
+        "answer_preview": "으로 관력 구하는 그 구영부를 정의 기하"
+      },
+      {
+        "id": "eval_009",
+        "category": "machine_learning",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "학습 데이터",
+          "새 데이터"
+        ],
+        "answer_preview": "포조구하는 구하는 자, 구영 기하학은"
+      },
+      {
+        "id": "eval_010",
+        "category": "machine_learning",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "검색",
+          "근거"
+        ],
+        "answer_preview": "평를 나포조, 구하는 분다. 구춄"
+      },
+      {
+        "id": "eval_011",
+        "category": "reasoning",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "아니",
+          "증명하지"
+        ],
+        "answer_preview": "분의 부다. 부는 분야의 조구학은"
+      },
+      {
+        "id": "eval_012",
+        "category": "geography",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "서울"
+        ],
+        "answer_preview": "㑐 나, 관부는 부 그 구하는 조"
+      },
+      {
+        "id": "eval_013",
+        "category": "astronomy",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "목성"
+        ],
+        "answer_preview": "는 분야이다. 구하는 관하학은 기하함에서 다분의"
+      },
+      {
+        "id": "eval_014",
+        "category": "physics",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "빛",
+          "소리"
+        ],
+        "answer_preview": "히는 구학은 그 기하학의 기하학에서 분의"
+      },
+      {
+        "id": "eval_015",
+        "category": "dori_lore",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "인형",
+          "실제"
+        ],
+        "answer_preview": "구조부로 기하학은 부 관춄야에서"
+      },
+      {
+        "id": "eval_016",
+        "category": "dori_lore",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "2021년 10월 3일"
+        ],
+        "answer_preview": "구학, 나포하는 관이의 구조, 조"
+      },
+      {
+        "id": "eval_017",
+        "category": "dori_lore",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "17cm"
+        ],
+        "answer_preview": "한 구하는 분야 관적 구학, 구조"
+      },
+      {
+        "id": "eval_018",
+        "category": "site_access",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "권한",
+          "공개하면 안"
+        ],
+        "answer_preview": "구영 분야에서 구적인 기하학, 부"
+      },
+      {
+        "id": "eval_019",
+        "category": "security",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "안 돼",
+          "환경 변수"
+        ],
+        "answer_preview": "구학은 분야에서 수학의 그기하함정리하는"
+      },
+      {
+        "id": "eval_020",
+        "category": "evaluation",
+        "passed": false,
+        "matched_keywords": [],
+        "expected_keywords": [
+          "아니",
+          "평가"
+        ],
+        "answer_preview": "구하는 분야는 그기하학은 관조구한 이"
+      }
+    ]
+  }
+}

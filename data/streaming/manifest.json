@@ -2,11 +2,11 @@
   "version": 1,
   "chunk_chars": 1800,
   "val_fraction": 0.1,
-  "files": 17,
-  "raw_records": 140837,
-  "chunks": 52004,
-  "train": 46861,
-  "val": 5143,
+  "files": 25,
+  "raw_records": 141209,
+  "chunks": 52376,
+  "train": 47196,
+  "val": 5180,
   "duplicates": 82008,
   "garbage": 6638
 }
