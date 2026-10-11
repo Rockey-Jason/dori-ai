@@ -16,6 +16,7 @@ import json
 import os
 import shutil
 import time
+import uuid
 from pathlib import Path
 
 import numpy as np
@@ -39,34 +40,128 @@ def sha256(path):
     return h.hexdigest()
 
 
-def save_checkpoint(path, model, optimizer):
+def write_meta(path, meta):
+    """Atomically write checkpoint metadata."""
+    meta_path = Path(str(path) + ".json")
+    meta_path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = meta_path.with_name(meta_path.name + f".{uuid.uuid4().hex}.tmp")
+    tmp.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+    os.replace(tmp, meta_path)
+
+
+def save_checkpoint(path, model, optimizer, meta):
+    """Save weights with an embedded fingerprint, then atomically publish metadata."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
-    payload = {f"p{i}": p.data for i, p in enumerate(model.parameters())}
+    params = model.parameters()
+    checkpoint_id = uuid.uuid4().hex
+    saved_meta = dict(meta)
+    saved_meta.update({
+        "format_version": 7,
+        "checkpoint_id": checkpoint_id,
+        "model_config": model.config(),
+        "parameter_count": len(params),
+        "parameter_shapes": [list(p.data.shape) for p in params],
+    })
+    payload = {f"p{i}": p.data for i, p in enumerate(params)}
     state = optimizer.state_dict()
     payload.update({f"m{i}": x for i, x in enumerate(state["m"])})
     payload.update({f"v{i}": x for i, x in enumerate(state["v"])})
     payload["optimizer_t"] = np.asarray([state["t"]], dtype=np.int64)
-    tmp = path.with_name(path.stem + ".tmp.npz")
-    np.savez(tmp, **payload)
-    os.replace(tmp, path)
+    # '__' keys cannot be confused with numbered Adam moment keys.
+    payload["__checkpoint_id__"] = np.asarray(checkpoint_id)
+    payload["__model_config_json__"] = np.asarray(json.dumps(model.config(), sort_keys=True))
+    payload["__parameter_count__"] = np.asarray([len(params)], dtype=np.int64)
+    payload["__parameter_shapes_json__"] = np.asarray(json.dumps(saved_meta["parameter_shapes"]))
+    tmp = path.with_name(path.stem + f".{checkpoint_id}.tmp.npz")
+    try:
+        np.savez(tmp, **payload)
+        os.replace(tmp, path)
+        write_meta(path, saved_meta)
+    finally:
+        if tmp.exists():
+            tmp.unlink()
+    return saved_meta
 
 
 def load_optimizer(path, optimizer):
-    data = np.load(path, allow_pickle=False)
-    m = [data[k] for k in sorted((k for k in data.files if k.startswith("m")), key=lambda x: int(x[1:]))]
-    v = [data[k] for k in sorted((k for k in data.files if k.startswith("v")), key=lambda x: int(x[1:]))]
-    if len(m) != len(optimizer.m) or len(v) != len(optimizer.v) or "optimizer_t" not in data.files:
-        return False
     try:
-        optimizer.load_state_dict({"t": int(data["optimizer_t"][0]), "m": m, "v": v})
-        return True
-    except ValueError:
+        with np.load(path, allow_pickle=False) as data:
+            m = [data[k] for k in sorted((k for k in data.files if k.startswith("m") and k[1:].isdigit()), key=lambda x: int(x[1:]))]
+            v = [data[k] for k in sorted((k for k in data.files if k.startswith("v") and k[1:].isdigit()), key=lambda x: int(x[1:]))]
+            if len(m) != len(optimizer.m) or len(v) != len(optimizer.v) or "optimizer_t" not in data.files:
+                return False
+            optimizer.load_state_dict({"t": int(data["optimizer_t"][0]), "m": m, "v": v})
+            return True
+    except (OSError, ValueError, KeyError, TypeError):
         return False
 
 
-def write_meta(path, meta):
-    Path(str(path) + ".json").write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
+def validate_checkpoint(path, requested_config, tokenizer_hash):
+    """Validate sidecar AND real tensor shapes before attempting to resume."""
+    path = Path(path)
+    meta_path = Path(str(path) + ".json")
+    if not path.is_file() or not meta_path.is_file():
+        return None, None, "weights or metadata sidecar missing"
+    try:
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        config = meta.get("model_config")
+        if not isinstance(config, dict):
+            return None, meta, "model_config missing"
+        if any(config.get(k) != v for k, v in requested_config.items()):
+            return None, meta, f"model config differs: checkpoint={config}, requested={requested_config}"
+        recorded_hash = meta.get("tokenizer_sha256")
+        if recorded_hash and recorded_hash != tokenizer_hash:
+            return None, meta, "tokenizer fingerprint differs"
+
+        probe = DoriTransformer(**config)
+        expected = probe.parameters()
+        with np.load(path, allow_pickle=False) as data:
+            keys = sorted((k for k in data.files if k.startswith("p") and k[1:].isdigit()), key=lambda k: int(k[1:]))
+            if len(keys) != len(expected):
+                return None, meta, f"parameter count differs: checkpoint={len(keys)}, model={len(expected)}"
+            for i, param in enumerate(expected):
+                key = f"p{i}"
+                if key not in data.files or data[key].shape != param.data.shape:
+                    actual = None if key not in data.files else data[key].shape
+                    return None, meta, f"parameter {key} shape differs: checkpoint={actual}, model={param.data.shape}"
+            if "__parameter_count__" in data.files and int(data["__parameter_count__"][0]) != len(expected):
+                return None, meta, "embedded parameter count differs"
+            if "__parameter_shapes_json__" in data.files:
+                shapes = json.loads(str(data["__parameter_shapes_json__"].item()))
+                if shapes != [list(p.data.shape) for p in expected]:
+                    return None, meta, "embedded parameter shapes differ"
+            if "__checkpoint_id__" in data.files and meta.get("checkpoint_id"):
+                if str(data["__checkpoint_id__"].item()) != str(meta["checkpoint_id"]):
+                    return None, meta, "checkpoint ID differs from sidecar (interrupted write)"
+            if "__model_config_json__" in data.files:
+                if json.loads(str(data["__model_config_json__"].item())) != config:
+                    return None, meta, "embedded model config differs from sidecar"
+        return load_model(str(path), config), meta, None
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
+        return None, None, f"{type(exc).__name__}: {exc}"
+
+
+def archive_checkpoint(path, reason):
+    """Keep rejected weights for recovery instead of deleting them."""
+    path = Path(path)
+    if not path.is_file():
+        return None
+    archive_dir = CHECKPOINTS / "incompatible"
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    stamp = time.strftime("%Y%m%d-%H%M%S", time.gmtime())
+    target = archive_dir / f"{path.stem}-{stamp}{path.suffix}"
+    suffix = 1
+    while target.exists():
+        target = archive_dir / f"{path.stem}-{stamp}-{suffix}{path.suffix}"
+        suffix += 1
+    shutil.copy2(path, target)
+    sidecar = Path(str(path) + ".json")
+    if sidecar.is_file():
+        shutil.copy2(sidecar, Path(str(target) + ".json"))
+    Path(str(target) + ".reason.txt").write_text(reason, encoding="utf-8")
+    print(f"CHECKPOINT_PRESERVED path={target} reason={reason}", flush=True)
+    return target
 
 
 def cross_entropy_and_backward(model, optimizer, batch_x, batch_y, grad_clip):
@@ -186,41 +281,57 @@ def main():
 
     print("TRAIN_STAGE checkpoint_loading", flush=True)
     latest = CHECKPOINTS / "latest.npz"
-    latest_meta_path = Path(str(latest) + ".json")
     best = CHECKPOINTS / "best.npz"
-    best_meta_path = Path(str(best) + ".json")
-    resume = latest.exists() and latest_meta_path.exists() and not args.fresh and not tokenizer_changed
-    # If this is the first run of the streaming trainer, continue from the
-    # existing known-good best checkpoint instead of resetting the model.
-    resume_path = latest if resume else (best if best.exists() and not args.fresh and not tokenizer_changed else None)
-
+    backup = CHECKPOINTS / "best_before_streaming.npz"
     requested_config = dict(vocab_size=tokenizer.vocab_size, max_len=args.seq_len, dim=args.dim, heads=args.heads, ff_dim=args.ff_dim, layers=args.layers)
-    if resume_path is not None:
-        meta = json.loads(Path(str(resume_path) + ".json").read_text(encoding="utf-8"))
-        checkpoint_config = meta.get("model_config", {})
-        compatible = all(checkpoint_config.get(k) == v for k, v in requested_config.items())
-        if compatible:
-            resume = True
-            config = checkpoint_config
-            model = load_model(str(resume_path), config)
-            start_epoch = int(meta.get("epoch", 0)) + 1
-            best_val = float(meta.get("best_val_loss", meta.get("val_loss", float("inf"))))
-            print(f"Resuming from {resume_path.name}: epoch {start_epoch - 1}")
-        else:
-            print("Existing checkpoint architecture differs; starting the requested large model.", flush=True)
-            print(f"old_config={checkpoint_config}", flush=True)
-            print(f"new_config={requested_config}", flush=True)
-            resume = False
-            config = requested_config
-            model = DoriTransformer(**config)
-            start_epoch = 1
-            best_val = float("inf")
+    tokenizer_hash = sha256(tokenizer_path)
+    resume = False
+    resume_path = None
+    model = None
+    meta = None
+    incompatible = []
+
+    # Check newest first. A stale JSON sidecar must never be enough to trust a
+    # checkpoint: inspect actual parameter counts and tensor shapes first.
+    if not args.fresh and not tokenizer_changed:
+        for candidate in (latest, best, backup):
+            if not candidate.exists():
+                continue
+            candidate_model, candidate_meta, reason = validate_checkpoint(
+                candidate, requested_config, tokenizer_hash
+            )
+            if candidate_model is not None:
+                model, meta, resume_path = candidate_model, candidate_meta, candidate
+                resume = True
+                start_epoch = int(meta.get("epoch", 0)) + 1
+                best_val = float(meta.get("best_val_loss", meta.get("val_loss", float("inf"))))
+                print(
+                    f"CHECKPOINT_RESUME path={candidate.name} epoch={start_epoch - 1} "
+                    f"parameters={len(model.parameters())}",
+                    flush=True,
+                )
+                break
+            reason = reason or "checkpoint failed validation"
+            incompatible.append((candidate, reason))
+            print(f"CHECKPOINT_REJECTED path={candidate.name}: {reason}", flush=True)
     else:
+        print("Checkpoint resume disabled by --fresh or tokenizer rebuild.", flush=True)
+
+    if model is None:
+        # Preserve rejected weights before the current run can replace latest/best.
+        for candidate, reason in incompatible:
+            archive_checkpoint(candidate, reason)
         config = requested_config
         model = DoriTransformer(**config)
         start_epoch = 1
         best_val = float("inf")
-        print("Starting a fresh model.")
+        resume = False
+        resume_path = None
+        print(
+            "CHECKPOINT_FALLBACK fresh_model=true; original checkpoints preserved; "
+            f"requested_parameters={len(model.parameters())}",
+            flush=True,
+        )
     if model.vocab_size != tokenizer.vocab_size:
         raise RuntimeError("tokenizer/model vocab size mismatch. Use --retrain-tokenizer with --fresh, or keep the existing tokenizer.")
 
@@ -276,12 +387,9 @@ def main():
 
         train_loss = float(np.mean(train_losses))
         val_loss = evaluate(model, tokenizer, val_path, seq_len, args.batch_size, args.val_batches, args.seed + epoch)
-        save_checkpoint(latest, model, optimizer)
         meta = {
-            "format_version": 6,
-            "model_config": model.config(),
             "tokenizer": "data/tokenizer.json",
-            "tokenizer_sha256": sha256(tokenizer_path),
+            "tokenizer_sha256": tokenizer_hash,
             "epoch": epoch,
             "train_loss": train_loss,
             "val_loss": val_loss,
@@ -293,7 +401,7 @@ def main():
             "steps_per_epoch": len(train_losses),
             "optimizer_t": optimizer.t,
         }
-        write_meta(latest, meta)
+        meta = save_checkpoint(latest, model, optimizer, meta)
         with history_path.open("a", encoding="utf-8") as f:
             f.write(json.dumps({"timestamp": time.time(), **meta}, ensure_ascii=False) + "\n")
 
@@ -306,8 +414,7 @@ def main():
         if np.isfinite(val_loss) and val_loss < best_val:
             best_val = val_loss
             meta["best_val_loss"] = best_val
-            save_checkpoint(best, model, optimizer)
-            write_meta(best, meta)
+            save_checkpoint(best, model, optimizer, meta)
             print(
                 f"TRAIN_EPOCH run {run_epoch}/{args.epochs} "
                 f"model_epoch {epoch} train {train_loss:.4f} val {val_loss:.4f} "
