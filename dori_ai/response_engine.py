@@ -77,8 +77,31 @@ class ResponseEngine:
     @staticmethod
     def _asks_news(u): return any(x in u.lower() for x in ("돌이신문","신문","newspaper","news","新聞","报纸"))
 
+    @staticmethod
+    def _asks_latest_news(u):
+        low = re.sub(r"\\s+", "", str(u).lower())
+        return (any(x in low for x in ("최신", "가장최근", "최근", "마지막", "latest", "newest", "mostrecent"))
+                and any(x in low for x in ("돌이신문", "신문", "newspaper", "news", "新聞", "报纸")))
+
     def _site_answer(self,u,user_id=None,access_token=None):
         site=self.site.with_token(access_token)
+        # Latest-news intent must be handled before issue-number parsing.
+        if self._asks_latest_news(u):
+            print("Dori AI latest-news intent detected", flush=True)
+            limit = site.readable_news_limit(user_id)
+            print(f"Dori AI latest-news readable_limit={limit}", flush=True)
+            if limit <= 0:
+                return "돌이신문을 조회하려면 로그인과 열람 권한 확인이 필요해. 🐶"
+            row = site.latest_news(user_id)
+            if row and not row.get("denied"):
+                issue_number = int(row.get("news_number") or 0)
+                body = str(row.get("rockey_news") or "").strip()
+                print(f"Dori AI latest-news result issue={issue_number} body_length={len(body)}", flush=True)
+                if body:
+                    return f"📰 현재 읽을 수 있는 최신 돌이신문은 제{issue_number}호야.\\n\\n{body}"
+                return f"📰 최신으로 확인된 돌이신문은 제{issue_number}호지만, 기사 본문이 비어 있어."
+            print("Dori AI latest-news result empty", flush=True)
+            return "열람 권한은 확인했지만, 허용 범위 안에서 최신 신문을 찾지 못했어. 돌이신문 데이터를 다시 확인해야 해."
         n=self._news_number(u)
         if n is not None:
             row=site.news(n,user_id)
