@@ -4,6 +4,8 @@ import urllib.error
 import urllib.request
 import gc
 import threading
+import time
+from collections import defaultdict, deque
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -67,6 +69,40 @@ learner = LearningManager(reload_callback=reload_bot)
 # run several Transformer inference graphs at once and multiply peak memory.
 CHAT_CONCURRENCY = max(1, int(os.getenv("DORI_CHAT_CONCURRENCY", "1")))
 CHAT_SEMAPHORE = threading.BoundedSemaphore(CHAT_CONCURRENCY)
+
+# In-process sliding-window abuse guard for the single Render instance.
+# Limits are intentionally generous for normal use and apply before inference.
+RATE_LIMIT_WINDOW_SECONDS = 60
+RATE_LIMIT_IP_MAX = max(5, int(os.getenv("DORI_CHAT_IP_LIMIT_PER_MINUTE", "30")))
+RATE_LIMIT_USER_MAX = max(5, int(os.getenv("DORI_CHAT_USER_LIMIT_PER_MINUTE", "45")))
+_RATE_LOCK = threading.Lock()
+_RATE_EVENTS = defaultdict(deque)
+
+def _rate_limit(key, limit):
+    now = time.monotonic()
+    cutoff = now - RATE_LIMIT_WINDOW_SECONDS
+    with _RATE_LOCK:
+        events = _RATE_EVENTS[key]
+        while events and events[0] <= cutoff:
+            events.popleft()
+        if len(events) >= limit:
+            return max(1, int(RATE_LIMIT_WINDOW_SECONDS - (now - events[0])))
+        events.append(now)
+        # Bound memory when the service receives many one-off source keys.
+        if len(_RATE_EVENTS) > 10000:
+            for old_key in list(_RATE_EVENTS.keys())[:2000]:
+                old_events = _RATE_EVENTS[old_key]
+                while old_events and old_events[0] <= cutoff:
+                    old_events.popleft()
+                if not old_events:
+                    _RATE_EVENTS.pop(old_key, None)
+        return 0
+
+def _client_rate_key(handler):
+    # Render's edge proxy supplies X-Forwarded-For; fallback is the socket peer.
+    forwarded = handler.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+    ip = forwarded or (handler.client_address[0] if handler.client_address else "unknown")
+    return ip[:128] or "unknown"
 
 CORS = {
     # Only the GitHub Pages origin used by the public site and admin site.
@@ -253,9 +289,21 @@ class H(BaseHTTPRequestHandler):
             if not text or len(text) > 2000:
                 raise ValueError("text must be 1-2000 characters")
 
+            ip_key = _client_rate_key(self)
+            retry_after = _rate_limit("ip:" + ip_key, RATE_LIMIT_IP_MAX)
+            if retry_after:
+                self.send(429, {"error": "요청이 너무 많아. 잠시 후 다시 시도해줘.", "type": "rate_limited", "retry_after": retry_after})
+                return
+
             verified_uid = _supabase_user_from_token(_token_from_request(self))
             uid = verified_uid
-            print(f"Dori AI request mode={mode!r} authenticated={bool(uid)} user_id={uid!r}", flush=True)
+            if uid:
+                user_retry_after = _rate_limit("user:" + uid, RATE_LIMIT_USER_MAX)
+                if user_retry_after:
+                    self.send(429, {"error": "계정 요청 한도를 초과했어. 잠시 후 다시 시도해줘.", "type": "rate_limited", "retry_after": user_retry_after})
+                    return
+            # Never log user IDs, message contents, tokens, or provider error details.
+            print(f"Dori AI request mode={mode!r} authenticated={bool(uid)}", flush=True)
 
             answer = _deterministic_fact(text)
             if answer is None:
@@ -292,7 +340,7 @@ class H(BaseHTTPRequestHandler):
         except ValueError as exc:
             self.send(400, {"error": str(exc), "type": "request_error"})
         except Exception as exc:
-            print("Dori AI /chat error:", repr(exc), flush=True)
+            print("Dori AI /chat error:", type(exc).__name__, flush=True)
             self.send(500, {"error": "Dori AI 내부 오류가 발생했어.", "type": "server_error"})
         finally:
             if acquired_chat:
