@@ -85,8 +85,13 @@ def _knowledge_size():
 def _supabase_user_from_token(token):
     if not token:
         return None
-    url = os.getenv("SUPABASE_URL", "").rstrip("/")
-    key = os.getenv("SUPABASE_ANON_KEY", "")
+    url = (os.getenv("SUPABASE_URL") or os.getenv("DORI_SUPABASE_URL") or "").rstrip("/")
+    key = (
+        os.getenv("SUPABASE_ANON_KEY")
+        or os.getenv("DORI_SUPABASE_ANON_KEY")
+        or os.getenv("DORI_SUPABASE_KEY")
+        or ""
+    ).strip()
     if not url or not key:
         return None
     req = urllib.request.Request(
