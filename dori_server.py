@@ -150,31 +150,43 @@ def _token_from_request(handler):
     h = handler.headers.get("Authorization", "")
     return h[7:].strip() if h.lower().startswith("bearer ") else ""
 
+def _server_verified_admin_session(token):
+    # Use the database authorization function, which requires the current
+    # Supabase session to have completed the server-recorded email challenge.
+    url = (os.getenv("SUPABASE_URL") or os.getenv("DORI_SUPABASE_URL") or "").rstrip("/")
+    key = (os.getenv("SUPABASE_ANON_KEY") or os.getenv("DORI_SUPABASE_ANON_KEY") or os.getenv("DORI_SUPABASE_KEY") or "").strip()
+    if not url or not key or not token:
+        return False
+    request = urllib.request.Request(
+        url + "/rest/v1/rpc/admin_is_authorized",
+        data=b"{}",
+        headers={
+            "apikey": key,
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=5) as response:
+            if response.status != 200:
+                return False
+            return json.loads(response.read().decode("utf-8")) is True
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, ValueError):
+        return False
+
 def _verified_admin(handler):
     token = _token_from_request(handler)
     uid = _supabase_user_from_token(token)
     if not uid:
-        print("Dori AI admin auth: invalid/missing Supabase access token", flush=True)
+        print("Dori AI admin auth: missing or invalid session", flush=True)
         return None
-
-    # First try the verified user's token. This respects normal RLS.
-    authorized_site = site.with_token(token)
-    if authorized_site.is_admin(uid):
-        print(f"Dori AI admin auth: allowed user={uid}", flush=True)
-        return uid
-
-    # Server-side fallback for projects whose users table policy blocks
-    # authenticated REST reads. Never trust a browser-supplied admin flag.
-    service_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
-    if service_key:
-        # Service-role key must be used for BOTH API-key and bearer headers.
-        service_site = SiteData(access_token=service_key, api_key=service_key)
-        if service_site.is_admin(uid):
-            print(f"Dori AI admin auth: allowed via service role user={uid}", flush=True)
-            return uid
-
-    print(f"Dori AI admin auth: verified user but not admin user={uid}", flush=True)
-    return None
+    if not _server_verified_admin_session(token):
+        # Do not log user IDs or reveal which part of authorization failed.
+        print("Dori AI admin auth: server verification denied", flush=True)
+        return None
+    return uid
 
 def _sse_event(obj):
     return "data: " + json.dumps(obj, ensure_ascii=False) + "\n\n"
