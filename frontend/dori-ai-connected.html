@@ -862,30 +862,71 @@ let doriAiController = null;
 let doriAiGenerating = false;
 let doriAiTraining = false;
 
-function getDoriAccessToken() {
+const DORI_SUPABASE_URL = "https://scttowfhygcpdirrekqm.supabase.co";
+// Supabase anon/publishable key: safe for browser use; database access is controlled by RLS.
+const DORI_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNjdHRvd2ZoeWdjcGRpcnJla3FtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxOTg0MjYsImV4cCI6MjA5NTc3NDQyNn0.XwdQhJ4Ku_C61yXz0k65AztMF9Rfe7Qzn3Av7iWRBqY";
+
+async function getDoriAccessToken() {
+  const fixedKey = "sb-scttowfhygcpdirrekqm-auth-token";
+  let keys = [];
   try {
-    const direct = localStorage.getItem("sb-scttowfhygcpdirrekqm-auth-token");
-    const keys = direct ? ["sb-scttowfhygcpdirrekqm-auth-token"] : Object.keys(localStorage).filter(k => k.startsWith("sb-") && k.endsWith("-auth-token"));
-    for (const key of keys) {
+    keys = [fixedKey, ...Object.keys(localStorage).filter(k => k.startsWith("sb-") && k.endsWith("-auth-token") && k !== fixedKey)];
+  } catch (_) { return ""; }
+
+  for (const key of keys) {
+    try {
       const raw = localStorage.getItem(key);
       if (!raw) continue;
-      const data = JSON.parse(raw);
-      const token = data?.access_token || data?.currentSession?.access_token || data?.session?.access_token || "";
-      if (token) return token;
+      const stored = JSON.parse(raw);
+      const sessionKey = stored?.access_token ? "" : (stored?.currentSession ? "currentSession" : stored?.session ? "session" : "");
+      const session = sessionKey ? stored[sessionKey] : stored;
+      if (!session?.access_token) continue;
+
+      const expiresAt = Number(session.expires_at || 0);
+      if (!expiresAt || expiresAt * 1000 > Date.now() + 60_000) {
+        return session.access_token;
+      }
+
+      if (!session.refresh_token) continue;
+
+      // The standalone AI page doesn't run the site's Supabase client, so it
+      // must refresh expired sessions itself instead of sending a stale JWT.
+      const response = await fetch(DORI_SUPABASE_URL + "/auth/v1/token?grant_type=refresh_token", {
+        method: "POST",
+        headers: {
+          "apikey": DORI_SUPABASE_ANON_KEY,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ refresh_token: session.refresh_token })
+      });
+      if (!response.ok) continue;
+      const refreshed = await response.json();
+      if (!refreshed?.access_token) continue;
+
+      const mergedSession = { ...session, ...refreshed };
+      const mergedStored = sessionKey
+        ? { ...stored, [sessionKey]: mergedSession }
+        : mergedSession;
+      localStorage.setItem(key, JSON.stringify(mergedStored));
+      return refreshed.access_token;
+    } catch (error) {
+      console.warn("돌이 AI 로그인 세션을 확인하지 못했어.", error);
     }
-  } catch (_) {}
+  }
   return "";
 }
 
-function doriAuthHeaders() {
-  const token = getDoriAccessToken();
-  return token ? {"Content-Type":"application/json", "Authorization":"Bearer " + token} : {"Content-Type":"application/json"};
+async function doriAuthHeaders() {
+  const token = await getDoriAccessToken();
+  return token
+    ? { "Content-Type": "application/json", "Authorization": "Bearer " + token }
+    : { "Content-Type": "application/json" };
 }
 
 async function refreshDoriTrainingButton() {
   const button = document.getElementById("doriAiTrain");
   if (!button) return;
-  const token = getDoriAccessToken();
+  const token = await getDoriAccessToken();
   if (!token) { button.hidden = true; return; }
   try {
     const r = await fetch(`${DORI_AI_API_URL}/training/status`, {headers:{"Authorization":"Bearer " + token}});
@@ -903,7 +944,7 @@ async function startDoriTraining() {
   if (!token) return;
   doriAiTraining = true;
   try {
-    const r = await fetch(`${DORI_AI_API_URL}/training/start`, {method:"POST", headers:doriAuthHeaders(), body:JSON.stringify({steps:600})});
+    const r = await fetch(`${DORI_AI_API_URL}/training/start`, {method:"POST", headers:await doriAuthHeaders(), body:JSON.stringify({steps:600})});
     const data = await r.json();
     if (!r.ok) throw new Error(data.error || data.message || "학습 시작 실패");
     alert(data.message || "돌이 AI 학습을 시작했어.");
@@ -1116,7 +1157,7 @@ async function askDoriAI(message, bubble) {
       {
         method: "POST",
 
-        headers: doriAuthHeaders(),
+        headers: await doriAuthHeaders(),
 
         body: JSON.stringify({
           message: message,
