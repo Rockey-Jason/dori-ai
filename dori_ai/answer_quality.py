@@ -5,16 +5,16 @@ corruption/repetition patterns so the response engine can use its safe fallback.
 """
 import re
 
-_SPECIAL = re.compile(r"<\\/?(?:system|assistant|user|dori|eos|bos|pad|unk)>", re.I)
+_SPECIAL = re.compile(r"<\/?(?:system|assistant|user|dori|eos|bos|pad|unk)>", re.I)
 _WORDS = re.compile(r"[가-힣A-Za-z0-9]+")
 _NUMERIC_NONFINITE = re.compile(r"(?<![A-Za-z])(?:nan|[+-]?inf(?:inity)?)(?![A-Za-z])", re.I)
 
 
 def clean(text):
-    t = str(text or "").replace("\\x00", "").replace("\\ufffd", "").strip()
+    t = str(text or "").replace("\x00", "").replace("\ufffd", "").strip()
     t = _SPECIAL.sub("", t)
-    t = re.sub(r"\\n{4,}", "\\n\\n", t)
-    t = re.sub(r"[ \\t]{3,}", "  ", t)
+    t = re.sub(r"\n{4,}", "\n\n", t)
+    t = re.sub(r"[ \t]{3,}", "  ", t)
     return t.strip()
 
 
@@ -38,9 +38,9 @@ def bad(text):
     t = clean(text)
     if len(t) < 2 or len(t) > 12000:
         return True
-    if re.search(r"(.)\\1{8,}", t):
+    if re.search(r"(.)\1{8,}", t):
         return True
-    if any(ord(ch) < 32 and ch not in "\\n\\r\\t" for ch in t):
+    if any(ord(ch) < 32 and ch not in "\n\r\t" for ch in t):
         return True
 
     # Reject a Hangul syllable fused to an unrelated long Latin token, a
@@ -51,7 +51,7 @@ def bad(text):
         return True
 
     words = _WORDS.findall(t)
-    symbols = len(re.findall(r"[^가-힣A-Za-z0-9\\s]", t))
+    symbols = len(re.findall(r"[^가-힣A-Za-z0-9\s]", t))
     if len(words) >= 8 and symbols > len(words) * 2.5:
         return True
     if len(words) >= 12 and len(set(x.casefold() for x in words)) / len(words) < .42:
