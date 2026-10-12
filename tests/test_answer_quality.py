@@ -9,10 +9,24 @@ class AnswerQualityTests(unittest.TestCase):
         sample = "줸 중보룼formntrailing 검 결이터 학습 수 중복 중를"
         self.assertTrue(bad(sample))
 
+    def test_repeated_generation_loop_is_rejected(self):
+        sample = "오늘 날씨가 좋아 오늘 날씨가 좋아 오늘 날씨가 좋아 오늘 날씨가 좋아"
+        self.assertTrue(bad(sample))
+
+    def test_non_finite_numeric_tokens_are_rejected(self):
+        self.assertTrue(bad("계산 결과는 NaN입니다."))
+        self.assertTrue(bad("결과는 inf 입니다."))
+
     def test_normal_korean_answer_is_accepted(self):
         sample = "피타고라스는 고대 그리스의 철학자이자 수학자야."
         self.assertFalse(bad(sample))
         self.assertEqual(clean(sample), sample)
+
+    def test_normal_english_word_containing_inf_is_accepted(self):
+        self.assertFalse(bad("Information is useful when it is accurate."))
+
+    def test_normal_mixed_language_answer_is_accepted(self):
+        self.assertFalse(bad("돌이 AI는 Dori AI라는 이름을 사용해."))
 
 
 class BuiltinFactTests(unittest.TestCase):
