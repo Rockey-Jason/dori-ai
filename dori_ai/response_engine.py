@@ -103,15 +103,21 @@ class ResponseEngine:
         if self._asks_news(u):
             limit=site.readable_news_limit(user_id)
             if limit<=0:return "로그인한 사용자의 돌이신문 열람 권한을 확인하지 못했어. 로그인 상태를 확인해줘. 🐶"
-            row=site.news(limit,user_id)
+            # read_dori_news is an upper access limit; it may exceed the number
+            # of issues actually present in rockey_news. Query the latest existing
+            # issue at or below that limit rather than requesting issue == limit.
+            row=site.latest_news(user_id)
             if row and not row.get('denied'):
+                issue_number = int(row.get('news_number') or 0)
+                print(f"Dori AI live news lookup limit={limit} found_issue={issue_number}", flush=True)
                 if self._asks_quiz(u):
-                    out=[f"❓ 현재 읽을 수 있는 최신 퀴즈 — 돌이신문 제{limit}호",row.get('question','')]
+                    out=[f"❓ 현재 읽을 수 있는 최신 퀴즈 — 돌이신문 제{issue_number}호",row.get('question','')]
                     choices=[row.get(f'choice{i}') for i in range(1,6) if row.get(f'choice{i}')]
                     if choices:out.append("\n".join(f"{i}. {v}" for i,v in enumerate(choices,1)))
                     return "\n".join(x for x in out if x)
-                return f"📰 현재 읽을 수 있는 최신 돌이신문은 제{limit}호야.\n\n{row.get('rockey_news','')}"
-            return "현재 읽을 수 있는 돌이신문을 찾지 못했어."
+                return f"📰 현재 읽을 수 있는 최신 돌이신문은 제{issue_number}호야.\n\n{row.get('rockey_news','')}"
+            print(f"Dori AI live news lookup limit={limit} found_issue=none", flush=True)
+            return "돌이신문 열람 권한은 확인했지만, 허용 범위 안에서 실제 기사 데이터를 찾지 못했어. 잠시 후 다시 시도해줘."
 
         low=u.lower()
         if any(x in low for x in ("내 정보","내 등급","내 레벨","내 코인","내 경험치","my profile","my account")):
