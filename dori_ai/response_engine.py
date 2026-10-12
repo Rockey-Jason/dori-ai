@@ -58,9 +58,17 @@ class ResponseEngine:
 
     @staticmethod
     def _news_number(u):
-        for p in [r"(?:돌이\s*신문|신문|newspaper|news|新聞|报纸)\s*(?:제\s*)?(\d+)\s*(?:호|号)?", r"(?:제\s*)?(\d+)\s*(?:호|号)\s*(?:신문|news)"]:
-            m=re.search(p,u,re.I)
-            if m:return int(m.group(1))
+        # Accept natural Korean issue forms such as "제35호", "제 35호",
+        # "35호 돌이신문", and the common colloquial "제35회 돌이신문".
+        patterns = [
+            r"(?:돌이\s*신문|신문|newspaper|news|新聞|报纸)\s*(?:제\s*)?(\d+)\s*(?:호|회|号)?",
+            r"(?:제\s*)?(\d+)\s*(?:호|회|号)\s*(?:돌이\s*)?(?:신문|news)",
+            r"제\s*(\d+)\s*회\s*(?:돌이\s*)?신문",
+        ]
+        for pattern in patterns:
+            match = re.search(pattern, u, re.I)
+            if match:
+                return int(match.group(1))
         return None
     @staticmethod
     def _asks_quiz(u): return any(x in u.lower() for x in ("퀴즈","quiz","クイズ","测验","cuestionario"))
@@ -257,6 +265,11 @@ class ResponseEngine:
         key=re.sub(r"[?!？！，,.\s]+$","",u).lower()
         dialogue=self._dialogue(user_id)
         ans=self.smalltalk.get(key)
+        # Route all Dori News questions through the live database path first.
+        # This explicit guard prevents news questions from falling through to
+        # generic neural/knowledge responses if wording normalization changes.
+        if ans is None and self._asks_news(u):
+            ans=self._site_answer(u,user_id,access_token)
         if ans is None: ans=self._site_answer(u,user_id,access_token)
         if ans is None: ans=self._reasoning_answer(u, dialogue)
         if ans is None: ans=math_answer(u,lang)
