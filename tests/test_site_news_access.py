@@ -71,7 +71,7 @@ class ReadableNewspaperSearchTests(unittest.TestCase):
                 if table == "users":
                     return [{"read_dori_news": 2}]
                 if table == "rockey_news":
-                    self.assert_bounded = params.get("news_number") == "lte.2"
+                    self.assert_bounded = params.get("news_number") == "eq.2"
                     return [
                         {"news_number": 2, "rockey_news": "인공지능과 돌이 AI"},
                         {"news_number": 1, "rockey_news": "체스 전략"},
