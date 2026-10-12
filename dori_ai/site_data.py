@@ -189,6 +189,40 @@ class SiteData:
             row for _, _, row in scored[:max(1, min(10, int(limit)))]
         ]
 
+    def latest_news(self, user_id=None):
+        """Return the newest existing article the verified user is allowed to read.
+
+        read_dori_news is an access ceiling, not proof that an article with that
+        exact number exists. For example, a limit of 89 with 77 stored issues
+        must return issue 77 rather than report that the newspaper is missing.
+        """
+        readable_limit = self.readable_news_limit(user_id)
+        if readable_limit <= 0:
+            return {"denied": True, "max_readable": readable_limit}
+        params = {
+            "select": "news_number,rockey_news,question,question_type,choice1,choice2,choice3,choice4,choice5,answer",
+            "news_number": f"lte.{readable_limit}",
+            "order": "news_number.desc",
+            "limit": "1",
+        }
+        rows = self._get("rockey_news", params, timeout=8) or []
+        if not rows:
+            rows = self._get_verified_service_rows(
+                "rockey_news", params, user_id, timeout=8
+            ) or []
+        # Defense in depth: never return an issue above the user's access limit.
+        allowed = []
+        for row in rows:
+            try:
+                number = int(row.get("news_number") or 0)
+            except (TypeError, ValueError):
+                continue
+            if 1 <= number <= readable_limit:
+                allowed.append(row)
+        if not allowed:
+            return None
+        return max(allowed, key=lambda row: int(row.get("news_number") or 0))
+
     def news(self, number, user_id=None):
         try:
             n = int(number)
