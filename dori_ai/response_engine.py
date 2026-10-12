@@ -353,9 +353,17 @@ class ResponseEngine:
             ans = format_results(search_query, web_results)
         if ans is None:
             ans = self._neural(u, dialogue, lang, deep=(str(mode).lower()=="deep"))
-        ans=clean(ans)
-        if bad(ans):
-            fallbacks={"en":"I don't have enough verified information to answer that reliably. Please make the question more specific.","ja":"十分に確認できる情報がありません。質問をもう少し具体的にしてください。","zh":"我没有足够的可靠信息来回答。请把问题说得更具体一些。"}
-            ans=fallbacks.get(lang,"내가 확인할 수 있는 자료가 부족해서 추측하지 않을게. 질문을 조금 더 구체적으로 말해줘. 🐶")
+        # Live Dori News articles are verified database records. The generic
+        # answer-quality filter mistakes long article bodies for low-quality
+        # generated answers and replaces them with the "insufficient data" reply.
+        # Preserve verified news content instead of applying that generic fallback.
+        verified_news_answer = self._asks_news(u) and isinstance(ans, str) and (
+            ans.startswith("📰") or ans.startswith("❓")
+        )
+        if not verified_news_answer:
+            ans=clean(ans)
+            if bad(ans):
+                fallbacks={"en":"I don't have enough verified information to answer that reliably. Please make the question more specific.","ja":"十分に確認できる情報がありません。質問をもう少し具体的にしてください。","zh":"我没有足够的可靠信息来回答。请把问题说得更具体一些。"}
+                ans=fallbacks.get(lang,"내가 확인할 수 있는 자료가 부족해서 추측하지 않을게. 질문을 조금 더 구체적으로 말해줘. 🐶")
         dialogue.add_turn(u,ans)
         return ans
