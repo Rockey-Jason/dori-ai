@@ -100,7 +100,10 @@ def _rate_limit(key, limit):
 
 def _client_rate_key(handler):
     # Render's edge proxy supplies X-Forwarded-For; fallback is the socket peer.
-    forwarded = handler.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+    forwarded_values = handler.headers.get("X-Forwarded-For", "").split(",")
+    # Use the most recently appended address so a client-supplied leftmost
+    # value cannot trivially bypass the per-IP window on a proxy chain.
+    forwarded = forwarded_values[-1].strip() if forwarded_values else ""
     ip = forwarded or (handler.client_address[0] if handler.client_address else "unknown")
     return ip[:128] or "unknown"
 
