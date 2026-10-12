@@ -45,7 +45,7 @@ def bad(text):
 
     # Reject a Hangul syllable fused to an unrelated long Latin token, a
     # known byte-BPE failure mode (e.g. "룼formntrailing").
-    if re.search(r"[가-힣][A-Za-z]{5,}|[A-Za-z]{5,}[가-힣]", t):
+    if re.search(r"[가-힣][A-Za-z]{5,}", t):
         return True
     if re.search(r"[가-힣][a-z]{8,}", t):
         return True
