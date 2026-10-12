@@ -243,7 +243,7 @@
           "4²",
           "5"
         ],
-        "answer_preview": "기 수학은 수학은 수학은 중, 수학은 첬챰"
+        "answer_preview": ", 않은 않은 않은 않은 않은 않은 않은 않은 않은 않은"
       },
       {
         "id": "eval_002",
@@ -253,7 +253,7 @@
         "expected_keywords": [
           "πr²"
         ],
-        "answer_preview": "수학을 그 수학은 관을 첰나나은 =="
+        "answer_preview": ", 중 결, 학습 않어. 수 않어. 않어. 않어."
       },
       {
         "id": "eval_003",
@@ -263,7 +263,7 @@
         "expected_keywords": [
           "180"
         ],
-        "answer_preview": "수학을 구첰각으로 증하는 챰 수학은 중"
+        "answer_preview": "이 중하하는 중 중을 겸어. 않pontralformer야"
       },
       {
         "id": "eval_004",
@@ -275,7 +275,7 @@
           "이산화탄소",
           "산소"
         ],
-        "answer_preview": "나 수학은 대수학은 수학은 났차수학을"
+        "answer_preview": "중 결, 중를 않고, 중우이터, 않어 않어."
       },
       {
         "id": "eval_005",
@@ -286,7 +286,7 @@
           "자전축",
           "기울어"
         ],
-        "answer_preview": "학은 수학은 켘, 수학은 ============="
+        "answer_preview": ", 검색"
       },
       {
         "id": "eval_006",
@@ -296,7 +296,7 @@
         "expected_keywords": [
           "H₂O"
         ],
-        "answer_preview": "수학은 =========================="
+        "answer_preview": "이 중 중 중 중가 중 검색하고 않정보가 않어"
       },
       {
         "id": "eval_007",
@@ -308,7 +308,7 @@
           "암페어",
           "볼트"
         ],
-        "answer_preview": "학은 수학은 첕 첬하는 수학나에 구체"
+        "answer_preview": "이 중 검, 중 않어 않어 않식 않식 않은 않식"
       },
       {
         "id": "eval_008",
@@ -319,7 +319,7 @@
           "정렬",
           "log n"
         ],
-        "answer_preview": "나 수학은 수학, ====== 챰 체읨위"
+        "answer_preview": "하는 중 중 경㈝야 않어 검쵬하고 중 않정보"
       },
       {
         "id": "eval_009",
@@ -330,7 +330,7 @@
           "학습 데이터",
           "새 데이터"
         ],
-        "answer_preview": "로 수학은 수학은 수학, 수학은 책을 나,"
+        "answer_preview": "이 기 중 중 결하고 중 중 중formPpontra"
       },
       {
         "id": "eval_010",
@@ -341,7 +341,7 @@
           "검색",
           "근거"
         ],
-        "answer_preview": "을 수학은 중욬첰구하는 정리옘 수학은"
+        "answer_preview": ", 기 지고 수 있고 껬하고 Ѥ방 있어 있어 있어"
       },
       {
         "id": "eval_011",
@@ -352,7 +352,7 @@
           "아니",
           "증명하지"
         ],
-        "answer_preview": "나 줰을 기의 그 수학의 기등을 위의"
+        "answer_preview": "이 Ѥ트, 검색 핦룵을 AI: 수 있어 검색"
       },
       {
         "id": "eval_012",
@@ -362,7 +362,7 @@
         "expected_keywords": [
           "서울"
         ],
-        "answer_preview": "나 중을 수학은 수학은 첕 첬하는 증으로"
+        "answer_preview": "하지 겤풤됈정리, 지고 않idy 결, 경을 검"
       },
       {
         "id": "eval_013",
@@ -372,7 +372,7 @@
         "expected_keywords": [
           "목성"
         ],
-        "answer_preview": "수학을 법, 라 산옘푐 분야에서"
+        "answer_preview": ", 중 중 중 겸어 중 중우이터, 않고 중"
       },
       {
         "id": "eval_014",
@@ -383,7 +383,7 @@
           "빛",
           "소리"
         ],
-        "answer_preview": "윅을 그 수학은 첕으로 정리표 수학은"
+        "answer_preview": "이 ь ь 성 지formPpontranば벘 않은"
       },
       {
         "id": "eval_015",
@@ -394,7 +394,7 @@
           "인형",
           "실제"
         ],
-        "answer_preview": "수학은 벴읰관을 수학은 산=========="
+        "answer_preview": ", 줠 중 중를 않보가 않은 중 않어 않보됈정"
       },
       {
         "id": "eval_016",
@@ -404,7 +404,7 @@
         "expected_keywords": [
           "2021년 10월 3일"
         ],
-        "answer_preview": "수학의 그 수학은 벱을 ============"
+        "answer_preview": ", 있어. 수 검, 중를 않어 벴된 검색하고 f"
       },
       {
         "id": "eval_017",
@@ -414,7 +414,7 @@
         "expected_keywords": [
           "17cm"
         ],
-        "answer_preview": "학은 수학나 정리하는 첕은 수학은 수학은 수"
+        "answer_preview": "가 결룕AI 중 껬하고 중고, 겸어 않intra"
       },
       {
         "id": "eval_018",
@@ -425,7 +425,7 @@
           "권한",
           "공개하면 안"
         ],
-        "answer_preview": "================================"
+        "answer_preview": ", 줄일텈정보하고 않식띝 않는 결으로 있어 검"
       },
       {
         "id": "eval_019",
@@ -436,7 +436,7 @@
           "안 돼",
           "환경 변수"
         ],
-        "answer_preview": "수학은 라 러첰학은 옘 차기산을"
+        "answer_preview": ", 지식 겸어 former야. 지식 지식 럼 빠"
       },
       {
         "id": "eval_020",
@@ -447,7 +447,7 @@
           "아니",
           "평가"
         ],
-        "answer_preview": "수학은 수학은 나, 수학은 수학은 정리산"
+        "answer_preview": "모al게 않은 줝 럼고 지고 않이야 있어 수 답변,"
       }
     ]
   }
