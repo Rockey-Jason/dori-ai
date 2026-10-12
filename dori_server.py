@@ -69,7 +69,9 @@ CHAT_CONCURRENCY = max(1, int(os.getenv("DORI_CHAT_CONCURRENCY", "1")))
 CHAT_SEMAPHORE = threading.BoundedSemaphore(CHAT_CONCURRENCY)
 
 CORS = {
-    "Access-Control-Allow-Origin": "*",
+    # Only the GitHub Pages origin used by the public site and admin site.
+    # This is browser isolation, not a substitute for server-side authorization.
+    "Access-Control-Allow-Origin": "https://rockey-jason.github.io",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Accept, Authorization",
     "Access-Control-Max-Age": "86400",
@@ -185,16 +187,12 @@ class H(BaseHTTPRequestHandler):
     def do_GET(self):
         path = self.path.split("?", 1)[0]
         if path == "/health":
+            # Keep public health checks minimal. Detailed model/training status
+            # is available only through the authenticated /training/status route.
             self.send(200, {
                 "status": "ok",
                 "service": "dori-ai",
                 "version": "3.2.0-local-only-site-guard",
-                "knowledge_entries": _knowledge_size(),
-                "web_search": bot.web_enabled,
-                "chat_provider": {"enabled": bot.llm_enabled, "model": llm_model_name()},
-                "world_knowledge": {"enabled": True, "source": "Wikipedia API", "cache_ttl_seconds": world_knowledge._TTL},
-                "model": meta.get("model_config"),
-                "training": learner.get_status(),
             })
             return
         if path == "/training/status":
