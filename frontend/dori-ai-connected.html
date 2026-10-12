@@ -940,7 +940,7 @@ async function refreshDoriTrainingButton() {
 
 async function startDoriTraining() {
   if (doriAiTraining) return;
-  const token = getDoriAccessToken();
+  const token = await getDoriAccessToken();
   if (!token) return;
   doriAiTraining = true;
   try {
