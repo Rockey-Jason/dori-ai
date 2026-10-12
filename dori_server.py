@@ -4,6 +4,8 @@ import urllib.error
 import urllib.request
 import gc
 import threading
+import time
+from collections import defaultdict, deque
 from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -68,8 +70,47 @@ learner = LearningManager(reload_callback=reload_bot)
 CHAT_CONCURRENCY = max(1, int(os.getenv("DORI_CHAT_CONCURRENCY", "1")))
 CHAT_SEMAPHORE = threading.BoundedSemaphore(CHAT_CONCURRENCY)
 
+# In-process sliding-window abuse guard for the single Render instance.
+# Limits are intentionally generous for normal use and apply before inference.
+RATE_LIMIT_WINDOW_SECONDS = 60
+RATE_LIMIT_IP_MAX = max(5, int(os.getenv("DORI_CHAT_IP_LIMIT_PER_MINUTE", "30")))
+RATE_LIMIT_USER_MAX = max(5, int(os.getenv("DORI_CHAT_USER_LIMIT_PER_MINUTE", "45")))
+_RATE_LOCK = threading.Lock()
+_RATE_EVENTS = defaultdict(deque)
+
+def _rate_limit(key, limit):
+    now = time.monotonic()
+    cutoff = now - RATE_LIMIT_WINDOW_SECONDS
+    with _RATE_LOCK:
+        events = _RATE_EVENTS[key]
+        while events and events[0] <= cutoff:
+            events.popleft()
+        if len(events) >= limit:
+            return max(1, int(RATE_LIMIT_WINDOW_SECONDS - (now - events[0])))
+        events.append(now)
+        # Bound memory when the service receives many one-off source keys.
+        if len(_RATE_EVENTS) > 10000:
+            for old_key in list(_RATE_EVENTS.keys())[:2000]:
+                old_events = _RATE_EVENTS[old_key]
+                while old_events and old_events[0] <= cutoff:
+                    old_events.popleft()
+                if not old_events:
+                    _RATE_EVENTS.pop(old_key, None)
+        return 0
+
+def _client_rate_key(handler):
+    # Render's edge proxy supplies X-Forwarded-For; fallback is the socket peer.
+    forwarded_values = handler.headers.get("X-Forwarded-For", "").split(",")
+    # Use the most recently appended address so a client-supplied leftmost
+    # value cannot trivially bypass the per-IP window on a proxy chain.
+    forwarded = forwarded_values[-1].strip() if forwarded_values else ""
+    ip = forwarded or (handler.client_address[0] if handler.client_address else "unknown")
+    return ip[:128] or "unknown"
+
 CORS = {
-    "Access-Control-Allow-Origin": "*",
+    # Only the GitHub Pages origin used by the public site and admin site.
+    # This is browser isolation, not a substitute for server-side authorization.
+    "Access-Control-Allow-Origin": "https://rockey-jason.github.io",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type, Accept, Authorization",
     "Access-Control-Max-Age": "86400",
@@ -112,31 +153,43 @@ def _token_from_request(handler):
     h = handler.headers.get("Authorization", "")
     return h[7:].strip() if h.lower().startswith("bearer ") else ""
 
+def _server_verified_admin_session(token):
+    # Use the database authorization function, which requires the current
+    # Supabase session to have completed the server-recorded email challenge.
+    url = (os.getenv("SUPABASE_URL") or os.getenv("DORI_SUPABASE_URL") or "").rstrip("/")
+    key = (os.getenv("SUPABASE_ANON_KEY") or os.getenv("DORI_SUPABASE_ANON_KEY") or os.getenv("DORI_SUPABASE_KEY") or "").strip()
+    if not url or not key or not token:
+        return False
+    request = urllib.request.Request(
+        url + "/rest/v1/rpc/admin_is_authorized",
+        data=b"{}",
+        headers={
+            "apikey": key,
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=5) as response:
+            if response.status != 200:
+                return False
+            return json.loads(response.read().decode("utf-8")) is True
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, ValueError):
+        return False
+
 def _verified_admin(handler):
     token = _token_from_request(handler)
     uid = _supabase_user_from_token(token)
     if not uid:
-        print("Dori AI admin auth: invalid/missing Supabase access token", flush=True)
+        print("Dori AI admin auth: missing or invalid session", flush=True)
         return None
-
-    # First try the verified user's token. This respects normal RLS.
-    authorized_site = site.with_token(token)
-    if authorized_site.is_admin(uid):
-        print(f"Dori AI admin auth: allowed user={uid}", flush=True)
-        return uid
-
-    # Server-side fallback for projects whose users table policy blocks
-    # authenticated REST reads. Never trust a browser-supplied admin flag.
-    service_key = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "").strip()
-    if service_key:
-        # Service-role key must be used for BOTH API-key and bearer headers.
-        service_site = SiteData(access_token=service_key, api_key=service_key)
-        if service_site.is_admin(uid):
-            print(f"Dori AI admin auth: allowed via service role user={uid}", flush=True)
-            return uid
-
-    print(f"Dori AI admin auth: verified user but not admin user={uid}", flush=True)
-    return None
+    if not _server_verified_admin_session(token):
+        # Do not log user IDs or reveal which part of authorization failed.
+        print("Dori AI admin auth: server verification denied", flush=True)
+        return None
+    return uid
 
 def _sse_event(obj):
     return "data: " + json.dumps(obj, ensure_ascii=False) + "\n\n"
@@ -185,16 +238,12 @@ class H(BaseHTTPRequestHandler):
     def do_GET(self):
         path = self.path.split("?", 1)[0]
         if path == "/health":
+            # Keep public health checks minimal. Detailed model/training status
+            # is available only through the authenticated /training/status route.
             self.send(200, {
                 "status": "ok",
                 "service": "dori-ai",
                 "version": "3.2.0-local-only-site-guard",
-                "knowledge_entries": _knowledge_size(),
-                "web_search": bot.web_enabled,
-                "chat_provider": {"enabled": bot.llm_enabled, "model": llm_model_name()},
-                "world_knowledge": {"enabled": True, "source": "Wikipedia API", "cache_ttl_seconds": world_knowledge._TTL},
-                "model": meta.get("model_config"),
-                "training": learner.get_status(),
             })
             return
         if path == "/training/status":
@@ -255,9 +304,21 @@ class H(BaseHTTPRequestHandler):
             if not text or len(text) > 2000:
                 raise ValueError("text must be 1-2000 characters")
 
+            ip_key = _client_rate_key(self)
+            retry_after = _rate_limit("ip:" + ip_key, RATE_LIMIT_IP_MAX)
+            if retry_after:
+                self.send(429, {"error": "요청이 너무 많아. 잠시 후 다시 시도해줘.", "type": "rate_limited", "retry_after": retry_after})
+                return
+
             verified_uid = _supabase_user_from_token(_token_from_request(self))
             uid = verified_uid
-            print(f"Dori AI request mode={mode!r} authenticated={bool(uid)} user_id={uid!r}", flush=True)
+            if uid:
+                user_retry_after = _rate_limit("user:" + uid, RATE_LIMIT_USER_MAX)
+                if user_retry_after:
+                    self.send(429, {"error": "계정 요청 한도를 초과했어. 잠시 후 다시 시도해줘.", "type": "rate_limited", "retry_after": user_retry_after})
+                    return
+            # Never log user IDs, message contents, tokens, or provider error details.
+            print(f"Dori AI request mode={mode!r} authenticated={bool(uid)}", flush=True)
 
             answer = _deterministic_fact(text)
             if answer is None:
@@ -294,7 +355,7 @@ class H(BaseHTTPRequestHandler):
         except ValueError as exc:
             self.send(400, {"error": str(exc), "type": "request_error"})
         except Exception as exc:
-            print("Dori AI /chat error:", repr(exc), flush=True)
+            print("Dori AI /chat error:", type(exc).__name__, flush=True)
             self.send(500, {"error": "Dori AI 내부 오류가 발생했어.", "type": "server_error"})
         finally:
             if acquired_chat:
