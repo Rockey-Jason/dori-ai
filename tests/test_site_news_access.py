@@ -35,6 +35,38 @@ class ReadableNewspaperSearchTests(unittest.TestCase):
         self.assertTrue(rows)
         self.assertEqual(rows[0]["news_number"], 2)
 
+    def test_latest_news_uses_latest_existing_issue_when_limit_is_higher(self):
+        class LatestIssueSite(FakeSiteData):
+            def readable_news_limit(self, user_id=None):
+                return 89
+
+            def _get(self, table, params, timeout=6):
+                self.last_params = (table, params)
+                return [
+                    {"news_number": 77, "rockey_news": "실제 최신 제77호"},
+                    {"news_number": 76, "rockey_news": "제76호"},
+                ]
+
+        site = LatestIssueSite()
+        row = site.latest_news("verified-user")
+        self.assertEqual(row["news_number"], 77)
+        self.assertEqual(site.last_params[1]["news_number"], "lte.89")
+        self.assertEqual(site.last_params[1]["order"], "news_number.desc")
+
+    def test_latest_news_never_returns_issue_above_access_limit(self):
+        class DefensiveLatestSite(FakeSiteData):
+            def readable_news_limit(self, user_id=None):
+                return 77
+
+            def _get(self, table, params, timeout=6):
+                return [
+                    {"news_number": 78, "rockey_news": "접근 제한을 넘은 기사"},
+                    {"news_number": 77, "rockey_news": "허용된 기사"},
+                ]
+
+        row = DefensiveLatestSite().latest_news("verified-user")
+        self.assertEqual(row["news_number"], 77)
+
     def test_no_access_returns_no_articles(self):
         class NoAccessSite(FakeSiteData):
             def readable_news_limit(self, user_id=None):
