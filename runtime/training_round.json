@@ -1,7 +1,7 @@
 {
-  "round": 850,
-  "updated_at": 1791763560.2433517,
-  "last_train_loss": 1.4648512926780208,
-  "last_val_loss": 5.261504021883207,
+  "round": 1100,
+  "updated_at": 1791791248.0630498,
+  "last_train_loss": 1.4773683228922687,
+  "last_val_loss": 5.150086827070571,
   "target_rounds": 1200
 }
