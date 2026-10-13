@@ -108,17 +108,18 @@ class ResponseEngine:
             if row and row.get("denied"):
                 return f"그 신문은 아직 읽을 수 없어. 🐶 현재 네 계정에서 읽을 수 있는 돌이신문은 제{row.get('max_readable',0)}호까지야."
             if not row:return "그 번호의 돌이신문은 현재 존재하지 않아."
-            if self._asks_quiz(u) and row.get('question'):
+            if self._asks_quiz(u):
+                question = str(row.get('question') or '').strip()
+                if not question:
+                    return f"돌이신문 제{n}호의 퀴즈 문제가 데이터베이스에 등록되어 있지 않아. 기사 본문 대신 퀴즈 데이터의 question 항목을 확인해야 해."
                 profile = site.profile(user_id) or {}
                 readable_limit = int(profile.get("read_dori_news") or 0)
-                answers = profile.get("quiz_answers") or {}
-                submitted = isinstance(answers, dict) and str(n) in answers
-                submitted = submitted or (
+                submitted = (
                     bool(profile.get("quiz_answered"))
                     and str(profile.get("quiz_news_number") or "") == str(n)
                 )
                 next_issue_unlocked = readable_limit >= n + 1
-                out=[f"❓ 돌이신문 제{n}호 퀴즈", row.get('question','')]
+                out=[f"❓ 돌이신문 제{n}호 퀴즈", question]
                 choices=[row.get(f'choice{i}') for i in range(1,6) if row.get(f'choice{i}')]
                 if choices: out.append("\\n".join(f"{i}. {v}" for i,v in enumerate(choices,1)))
                 if submitted or next_issue_unlocked:
