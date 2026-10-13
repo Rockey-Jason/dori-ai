@@ -116,7 +116,7 @@ class ResponseEngine:
                 if not question:
                     normalized_body = re.sub(r"\\\\+n", "\\n", body)
                     match = re.search(
-                        r"(?:돌이\\s*퀴즈|추가\\s*주의사항(?:\\s*\\+\\s*\\d+)?)\\s*[:：]?\\s*(.*?)\\s*\\(\\s*정답은\\s*다음\\s*신문에\\s*\\)",
+                        r"(?:돌이\s*퀴즈|추가\s*주의사항(?:\s*\+\s*\d+)?)\s*[:：]?\s*(.*?)\s*\(\s*정답은\s*다음\s*신문에\s*\)",
                         normalized_body, re.S
                     )
                     if match:
