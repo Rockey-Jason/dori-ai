@@ -114,7 +114,7 @@ class ResponseEngine:
                 # while the dedicated question/choice/answer columns are empty.
                 question = str(row.get("question") or "").strip()
                 if not question:
-                    normalized_body = re.sub(r"\\\\+n", "\\n", body)
+                    normalized_body = re.sub(r"\\\\+n", chr(10), body)
                     match = re.search(
                         r"(?:돌이\s*퀴즈|추가\s*주의사항(?:\s*\+\s*\d+)?)\s*[:：]?\s*(.*?)\s*\(\s*정답은\s*다음\s*신문에\s*\)",
                         normalized_body, re.S
@@ -141,7 +141,7 @@ class ResponseEngine:
                     if not answer and next_issue_unlocked:
                         next_row = site.news(n + 1, user_id)
                         next_body = str((next_row or {}).get("rockey_news") or "")
-                        next_body = re.sub(r"\\\\+n", "\\n", next_body)
+                        next_body = re.sub(r"\\\\+n", chr(10), next_body)
                         answer_match = re.search(
                             r"저번\s*신문\s*답\s*[:：]\s*([^\n\r]+)",
                             next_body, re.I
