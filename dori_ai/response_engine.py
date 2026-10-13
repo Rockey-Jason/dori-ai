@@ -131,7 +131,10 @@ class ResponseEngine:
                 )
                 next_issue_unlocked = readable_limit >= n + 1
                 out=[f"❓ 돌이신문 제{n}호 퀴즈", question]
-                choices=[row.get(f'choice{i}') for i in range(1,6) if row.get(f'choice{i}')]
+                # 서술형 문제에는 선택지를 표시하지 않는다.
+                question_type = str(row.get("question_type") or "").strip().lower()
+                is_subjective = question_type in {"subjective", "서술형", "essay", "short_answer"}
+                choices=[] if is_subjective else [row.get(f'choice{i}') for i in range(1,6) if row.get(f'choice{i}')]
                 if choices:
                     out.append("\\n".join(f"{i}. {v}" for i,v in enumerate(choices,1)))
                 if submitted or next_issue_unlocked:
@@ -187,7 +190,9 @@ class ResponseEngine:
                 print(f"Dori AI live news lookup limit={limit} found_issue={issue_number}", flush=True)
                 if self._asks_quiz(u):
                     out=[f"❓ 현재 읽을 수 있는 최신 퀴즈 — 돌이신문 제{issue_number}호",row.get('question','')]
-                    choices=[row.get(f'choice{i}') for i in range(1,6) if row.get(f'choice{i}')]
+                    question_type = str(row.get("question_type") or "").strip().lower()
+                    is_subjective = question_type in {"subjective", "서술형", "essay", "short_answer"}
+                    choices=[] if is_subjective else [row.get(f'choice{i}') for i in range(1,6) if row.get(f'choice{i}')]
                     if choices:out.append("\n".join(f"{i}. {v}" for i,v in enumerate(choices,1)))
                     return "\n".join(x for x in out if x)
                 return f"📰 현재 읽을 수 있는 최신 돌이신문은 제{issue_number}호야.\n\n{row.get('rockey_news','')}"
