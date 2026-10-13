@@ -109,9 +109,20 @@ class ResponseEngine:
                 return f"그 신문은 아직 읽을 수 없어. 🐶 현재 네 계정에서 읽을 수 있는 돌이신문은 제{row.get('max_readable',0)}호까지야."
             if not row:return "그 번호의 돌이신문은 현재 존재하지 않아."
             if self._asks_quiz(u):
-                question = str(row.get('question') or '').strip()
+                body = str(row.get("rockey_news") or "")
+                # Older newspaper rows often store the quiz inside the article body,
+                # while the dedicated question/choice/answer columns are empty.
+                question = str(row.get("question") or "").strip()
                 if not question:
-                    return f"돌이신문 제{n}호의 퀴즈 문제가 데이터베이스에 등록되어 있지 않아. 기사 본문 대신 퀴즈 데이터의 question 항목을 확인해야 해."
+                    normalized_body = re.sub(r"\\\\+n", "\\n", body)
+                    match = re.search(
+                        r"(?:돌이\\s*퀴즈|추가\\s*주의사항(?:\\s*\\+\\s*\\d+)?)\\s*[:：]?\\s*(.*?)\\s*\\(\\s*정답은\\s*다음\\s*신문에\\s*\\)",
+                        normalized_body, re.S
+                    )
+                    if match:
+                        question = re.sub(r"\\s+", " ", match.group(1)).strip(" :：\\n\\r")
+                if not question:
+                    return f"돌이신문 제{n}호에서 퀴즈 문제를 찾지 못했어. 기사 본문과 퀴즈 항목을 다시 확인해야 해."
                 profile = site.profile(user_id) or {}
                 readable_limit = int(profile.get("read_dori_news") or 0)
                 submitted = (
@@ -121,13 +132,26 @@ class ResponseEngine:
                 next_issue_unlocked = readable_limit >= n + 1
                 out=[f"❓ 돌이신문 제{n}호 퀴즈", question]
                 choices=[row.get(f'choice{i}') for i in range(1,6) if row.get(f'choice{i}')]
-                if choices: out.append("\\n".join(f"{i}. {v}" for i,v in enumerate(choices,1)))
+                if choices:
+                    out.append("\\n".join(f"{i}. {v}" for i,v in enumerate(choices,1)))
                 if submitted or next_issue_unlocked:
-                    answer = str(row.get('answer') or '').strip()
+                    answer = str(row.get("answer") or "").strip()
+                    # The following issue records the previous issue's answer in its article body.
+                    # Only fetch it when the account can read that following issue.
+                    if not answer and next_issue_unlocked:
+                        next_row = site.news(n + 1, user_id)
+                        next_body = str((next_row or {}).get("rockey_news") or "")
+                        next_body = re.sub(r"\\\\+n", "\\n", next_body)
+                        answer_match = re.search(
+                            r"저번\\s*신문\\s*답\\s*[:：]\\s*([^\\n\\r]+)",
+                            next_body, re.I
+                        )
+                        if answer_match:
+                            answer = re.sub(r"\\s+", " ", answer_match.group(1)).strip(" *★")
                     if answer:
                         out.append(f"✅ 정답: {answer}")
                     else:
-                        out.append("⚠️ 이 신문의 정답이 데이터베이스에 등록되어 있지 않아.")
+                        out.append("⚠️ 이 신문의 정답을 확인할 수 없어. 다음 호의 ‘저번 신문 답’ 항목과 데이터베이스 정답을 확인해야 해.")
                     out.append("정답 공개 사유: " + ("이미 이 호수에 답을 제출했어." if submitted else f"제{n+1}호까지 읽을 수 있어."))
                 else:
                     out.append(f"정답은 아직 공개할 수 없어. 제{n}호 퀴즈에 답을 제출하거나 제{n+1}호까지 읽을 수 있게 되면 알려줄게.")
