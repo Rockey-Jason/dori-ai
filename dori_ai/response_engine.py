@@ -120,7 +120,7 @@ class ResponseEngine:
                         normalized_body, re.S
                     )
                     if match:
-                        question = re.sub(r"\\s+", " ", match.group(1)).strip(" :：\\n\\r")
+                        question = re.sub(r"\s+", " ", match.group(1)).strip(" :：\n\r")
                 if not question:
                     return f"돌이신문 제{n}호에서 퀴즈 문제를 찾지 못했어. 기사 본문과 퀴즈 항목을 다시 확인해야 해."
                 profile = site.profile(user_id) or {}
@@ -143,11 +143,11 @@ class ResponseEngine:
                         next_body = str((next_row or {}).get("rockey_news") or "")
                         next_body = re.sub(r"\\\\+n", "\\n", next_body)
                         answer_match = re.search(
-                            r"저번\\s*신문\\s*답\\s*[:：]\\s*([^\\n\\r]+)",
+                            r"저번\s*신문\s*답\s*[:：]\s*([^\n\r]+)",
                             next_body, re.I
                         )
                         if answer_match:
-                            answer = re.sub(r"\\s+", " ", answer_match.group(1)).strip(" *★")
+                            answer = re.sub(r"\s+", " ", answer_match.group(1)).strip(" *★")
                     if answer:
                         out.append(f"✅ 정답: {answer}")
                     else:
