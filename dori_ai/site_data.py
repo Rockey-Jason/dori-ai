@@ -266,7 +266,7 @@ class SiteData:
         if not user_id:
             return None
         params = {
-            "select": "name,user_level,exp_level,doldolcoin,exp,equipped_title,read_dori_news,quiz_right,quiz_news_number,quiz_answered,quiz_answers",
+            "select": "name,user_level,exp_level,doldolcoin,exp,equipped_title,read_dori_news,quiz_right,quiz_news_number,quiz_answered",
             "user_id": f"eq.{user_id}",
             "limit": "1",
         }
