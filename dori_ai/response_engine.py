@@ -327,6 +327,18 @@ class ResponseEngine:
         # Deterministic/site/KB answers are handled before this point.
         return generate(prompt,self.tok,self.model,80 if deep else 48,temp,12,.82)
 
+    @staticmethod
+    def _format_output(value):
+        """Normalize model/database text into readable, clean chat output."""
+        text = str(value or "")
+        text = text.replace("\\r\\n", "\n").replace("\\n", "\n").replace("/n", "\n")
+        text = text.replace("\r\n", "\n").replace("\r", "\n")
+        text = re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
+        lines = [line.rstrip() for line in text.split("\n")]
+        text = "\n".join(lines)
+        text = re.sub(r"\n[ \t]*\n(?:[ \t]*\n)+", "\n\n", text)
+        return text.strip()
+
     def reply(self,user,user_id=None,access_token=None,mode="fast"):
         u=normalize_query(user); lang=detect(u)
         key=re.sub(r"[?!？！，,.\s]+$","",u).lower()
@@ -409,5 +421,6 @@ class ResponseEngine:
             if bad(ans):
                 fallbacks={"en":"I don't have enough verified information to answer that reliably. Please make the question more specific.","ja":"十分に確認できる情報がありません。質問をもう少し具体的にしてください。","zh":"我没有足够的可靠信息来回答。请把问题说得更具体一些。"}
                 ans=fallbacks.get(lang,"내가 확인할 수 있는 자료가 부족해서 추측하지 않을게. 질문을 조금 더 구체적으로 말해줘. 🐶")
+        ans = self._format_output(ans)
         dialogue.add_turn(u,ans)
         return ans
