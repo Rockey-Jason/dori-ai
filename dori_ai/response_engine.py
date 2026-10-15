@@ -9,6 +9,7 @@ from .language import detect, normalize_query
 from .math_engine import answer as math_answer
 from .answer_quality import bad, clean
 from .llm_provider import answer as llm_answer, enabled as llm_enabled, model_name as llm_model_name
+from .quiz_generator import generate_quiz
 from . import world_knowledge
 from generate_final import generate
 
@@ -356,6 +357,16 @@ class ResponseEngine:
         key=re.sub(r"[?!？！，,.\s]+$","",u).lower()
         dialogue=self._dialogue(user_id)
         ans=self.smalltalk.get(key)
+        # Generate a new, verifiable quiz when the user asks Dori AI to quiz them.
+        if ans is None and self._asks_new_quiz(u):
+            quiz = generate_quiz()
+            lines = [f"🐶 **돌이 퀴즈 — {quiz['category']}**", "", quiz["question"]]
+            if quiz["type"] != "subjective" and quiz["choices"]:
+                lines.extend(["", *[f"{i}. {choice}" for i, choice in enumerate(quiz["choices"], 1)]])
+            lines.extend(["", "답을 입력해 줘! 정답과 해설은 네가 답한 뒤에 알려줄게."])
+            # Keep the answer with the dialogue object only for this process/session.
+            dialogue.last_generated_quiz = quiz
+            ans = "\\n".join(lines)
         # Route all Dori News questions through the live database path first.
         # This explicit guard prevents news questions from falling through to
         # generic neural/knowledge responses if wording normalization changes.
