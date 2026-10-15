@@ -359,7 +359,13 @@ class ResponseEngine:
         ans=self.smalltalk.get(key)
         # Generate a new, verifiable quiz when the user asks Dori AI to quiz them.
         if ans is None and self._asks_new_quiz(u):
-            quiz = generate_quiz()
+            quiz_category = "돌이"
+            requested = str(u).lower()
+            for keyword, category in (("과학","과학"),("역사","역사"),("사회","사회"),("영어","영어"),("국어","국어"),("지리","지리"),("수학","수학"),("계산","수학"),("서술형","서술형 수학"),("주관식","서술형 수학")):
+                if keyword in requested:
+                    quiz_category = category
+                    break
+            quiz = generate_quiz(category=quiz_category)
             lines = [f"🐶 **돌이 퀴즈 — {quiz['category']}**", "", quiz["question"]]
             if quiz["type"] != "subjective" and quiz["choices"]:
                 lines.extend(["", *[f"{i}. {choice}" for i, choice in enumerate(quiz["choices"], 1)]])
