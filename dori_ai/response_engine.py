@@ -73,6 +73,13 @@ class ResponseEngine:
     @staticmethod
     def _asks_quiz(u): return any(x in u.lower() for x in ("퀴즈","quiz","クイズ","测验","cuestionario"))
     @staticmethod
+    def _asks_new_quiz(u):
+        low = re.sub(r"\s+", "", str(u).lower())
+        asks = any(x in low for x in ("내줘", "내주세요", "내봐", "출제해", "만들어줘", "퀴즈하자", "quizme", "give me a quiz", "ask me a question"))
+        asks_answer = any(x in low for x in ("정답", "답도", "답을알려", "해설", "answer"))
+        return ResponseEngine._asks_quiz(low) and asks and not asks_answer
+
+    @staticmethod
     def _asks_stock(u): return any(x in u.lower() for x in ("주식","증권","stock","stocks","股票","株","돌돌증권"))
     @staticmethod
     def _asks_news(u): return any(x in u.lower() for x in ("돌이신문","신문","newspaper","news","新聞","报纸"))
