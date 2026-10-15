@@ -25,7 +25,7 @@ def _mc(question: str, answer: str, distractors: list[str], category: str, seed:
         "explanation": "",
     }
 
-def generate_quiz(seed: int | None = None) -> dict:
+def generate_quiz(seed: int | None = None, category: str = "돌이") -> dict:
     """Generate one quiz. The combinatorial template space exceeds 120,000 variants."""
     rng = random.SystemRandom() if seed is None else random.Random(seed)
     seed_value = rng.randrange(0, 2**31 - 1)
