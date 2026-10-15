@@ -30,7 +30,29 @@ def generate_quiz(seed: int | None = None) -> dict:
     rng = random.SystemRandom() if seed is None else random.Random(seed)
     seed_value = rng.randrange(0, 2**31 - 1)
     local = random.Random(seed_value)
-    kind = local.randrange(8)
+    normalized = str(category or "돌이").lower()
+    if any(x in normalized for x in ("과학", "science")):
+        facts = [("태양계에서 가장 큰 행성은?", "목성", ["지구","화성","금성"]), ("물의 화학식은?", "H₂O", ["CO₂","O₂","NaCl"])]
+        q, a, wrong = local.choice(facts)
+        return _mc(q, a, wrong, "과학", seed_value)
+    if any(x in normalized for x in ("역사", "history")):
+        facts = [("훈민정음을 창제한 조선의 왕은?", "세종대왕", ["정조","태종","영조"]), ("조선을 세운 인물은?", "이성계", ["왕건","세종대왕","정약용"])]
+        q, a, wrong = local.choice(facts)
+        return _mc(q, a, wrong, "역사", seed_value)
+    if any(x in normalized for x in ("영어", "english")):
+        facts = [("영어 단어 'apple'의 뜻은?", "사과", ["바나나","포도","복숭아"]), ("'Thank you'의 뜻은?", "고마워요", ["안녕하세요","미안해요","잘 가요"])]
+        q, a, wrong = local.choice(facts)
+        return _mc(q, a, wrong, "영어", seed_value)
+    if any(x in normalized for x in ("국어", "korean")):
+        facts = [("'기쁘다'와 뜻이 가까운 말은?", "즐겁다", ["슬프다","화나다","무겁다"])]
+        q, a, wrong = local.choice(facts)
+        return _mc(q, a, wrong, "국어", seed_value)
+    if any(x in normalized for x in ("수학", "math", "계산")):
+        kind = 0
+    elif any(x in normalized for x in ("돌이", "도로늄", "식빵이", "돌돌코인")):
+        kind = 7
+    else:
+        kind = 0
 
     if kind == 0:
         a, b = local.randint(12, 999), local.randint(11, 999)
@@ -112,12 +134,11 @@ def generate_quiz(seed: int | None = None) -> dict:
         }
 
     facts = [
-        ("태양계에서 가장 큰 행성은 무엇일까?", "목성", ["지구", "화성", "금성"], "과학"),
-        ("대한민국의 수도는 어디일까?", "서울", ["부산", "대전", "인천"], "사회"),
-        ("물의 화학식은 무엇일까?", "H₂O", ["CO₂", "O₂", "NaCl"], "과학"),
-        ("한글을 창제한 조선의 왕은 누구일까?", "세종대왕", ["정조", "태종", "영조"], "역사"),
-        ("지구가 태양 주위를 한 바퀴 도는 데 걸리는 시간은 약 얼마일까?", "1년", ["1일", "1개월", "10년"], "과학"),
-        ("돌이는 어떤 동물 품종을 본뜬 인형일까?", "웰시코기", ["고양이", "토끼", "시바견"], "돌이 세계관"),
+        ("돌이는 어떤 품종을 본뜬 인형일까?", "웰시코기", ["고양이", "토끼", "시바견"], "돌이 퀴즈"),
+        ("돌이의 생일은 언제일까?", "2021년 10월 3일", ["2020년 10월 3일", "2021년 3월 10일", "2022년 10월 3일"], "돌이 퀴즈"),
+        ("돌이의 동생인 고양이 인형 이름은?", "식빵이", ["복돌이", "모래", "스노우"], "돌이 퀴즈"),
+        ("돌이사이트의 가상 화폐 이름은?", "돌돌코인", ["도로늄", "로키코인", "식빵머니"], "돌이 퀴즈"),
+        ("돌이 세계관의 신비한 보석 이름은?", "도로늄", ["철광석", "달빛석", "태양석"], "돌이 퀴즈"),
     ]
     question, answer, wrong, category = local.choice(facts)
     return _mc(question, answer, wrong, category, seed_value)
