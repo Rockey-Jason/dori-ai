@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Persistent continuous trainer for Dori AI.
+"""Persistent trainer with bounded, fingerprint-driven growth cycles.
 
-A single invocation can request all remaining rounds up to the 1000-round
-target. The round counter is stored in runtime/training_round.json so the
-training resumes safely after a job timeout or interruption.
+Progress within a data version is stored in runtime/training_round.json.
+New training sources open another cycle; the held-out promotion gate decides
+whether the trained candidate can replace the accepted checkpoint.
 """
 import argparse
 import hashlib
@@ -53,6 +53,9 @@ def source_fingerprint(root=ROOT):
     tokenizer = data_root / "tokenizer.json"
     if tokenizer.is_file():
         paths.add(tokenizer)
+    curriculum_plan = data_root / "curriculum_plan.json"
+    if curriculum_plan.is_file():
+        paths.add(curriculum_plan)
 
     digest = hashlib.sha256()
     for path in sorted(paths, key=lambda p: p.as_posix()):
@@ -98,8 +101,8 @@ def stage_for(round_no):
 
 def main():
     p = argparse.ArgumentParser()
-    # One invocation now requests every remaining round through round 1000.
-    p.add_argument("--rounds", type=int, default=1000)
+    # Run a bounded chunk per invocation; progress resumes from the data fingerprint.
+    p.add_argument("--rounds", type=int, default=250)
     p.add_argument("--max-batches", type=int, default=30)
     p.add_argument("--batch-size", type=int, default=2)
     p.add_argument("--seq-len", type=int, default=128)
