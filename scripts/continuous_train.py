@@ -37,6 +37,7 @@ def source_fingerprint(root=ROOT):
         data_root / "corpus",
         data_root / "new",
         data_root / "generated",
+        data_root / "learning",
         data_root / "curriculum",
         data_root / "instructions",
     ]
@@ -197,6 +198,7 @@ def main():
             "dialogue": "data/curriculum/dialogue",
             "adversarial": "data/curriculum/adversarial",
             "stabilization": "data/curriculum/stabilization",
+            "instructions": "data/instructions",
         }
         if round_no == 1:
             # A changed corpus has a new validation distribution. Start the
@@ -208,9 +210,15 @@ def main():
         # The stage still controls learning rate and batch budget, while the
         # corpus remains a stable, mixed dataset for replay-safe training.
         for relative_dir in sorted(set(stage_dirs.values())):
-            curriculum_dir = ROOT / relative_dir
-            if curriculum_dir.exists():
-                cmd += ["--data", str(curriculum_dir)]
+            training_dir = ROOT / relative_dir
+            if training_dir.exists():
+                cmd += ["--data", str(training_dir)]
+        # These versioned Q&A sets are checked by preflight and are also useful
+        # for the model's language-model training. Site news articles are not
+        # part of these static knowledge files and must remain permission-gated.
+        for knowledge_file in sorted((ROOT / "data").glob("dori_knowledge*.jsonl")):
+            if knowledge_file.is_file():
+                cmd += ["--data", str(knowledge_file)]
         # Build the cleaned streaming corpus once per growth cycle. Rebuilding
         # all sources for every micro-round wastes included runner time; later
         # rounds reuse the validated manifest created during the first round.
