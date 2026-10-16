@@ -1,12 +1,7 @@
 name: Dori AI Live Response Quality Benchmark
 
 on:
-  # Run once when this workflow is introduced or updated; future runs can be
-  # started manually to avoid sending unnecessary traffic to the free service.
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/live-response-evaluation.yml"
+  # Manual only: this diagnostic sends requests to the memory-limited free service.
   workflow_dispatch:
 
 permissions:
@@ -19,7 +14,7 @@ concurrency:
 jobs:
   evaluate-live-service:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -33,14 +28,15 @@ jobs:
       - name: Install lightweight dependencies
         run: python -m pip install -r requirements.txt
 
-      - name: Evaluate actual answers from the deployed Dori AI service
+      - name: Evaluate a safe stratified sample of actual Dori AI answers
         run: |
           python scripts/evaluate_live.py \
             --base-url https://dori-ai-u3kf.onrender.com \
-            --timeout 25 \
+            --limit 8 \
+            --timeout 35 \
             --report runtime/live_response_quality_report.json
 
-      - name: Upload full per-question response report
+      - name: Upload per-question response report
         if: always() && hashFiles('runtime/live_response_quality_report.json') != ''
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
