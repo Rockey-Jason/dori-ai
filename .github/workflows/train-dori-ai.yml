@@ -54,10 +54,15 @@ jobs:
         run: python -m pip install -r requirements.txt
 
       - name: Collect broad multilingual world knowledge
+        id: collect
         run: |
-          python scripts/collect_world_knowledge.py --pages-per-topic 2 --max-queries-per-run 300 --max-frontier 8000 --delay 0.08
+          set -o pipefail
+          python scripts/collect_world_knowledge.py --pages-per-topic 2 --max-queries-per-run 300 --max-frontier 8000 --delay 0.08 | tee "$RUNNER_TEMP/world-knowledge.log"
+          new_pages="$(sed -n 's/.*WORLD_CORPUS .* new_pages=\([0-9][0-9]*\) .*/\1/p' "$RUNNER_TEMP/world-knowledge.log" | tail -n 1)"
+          echo "new_pages=\${new_pages:-0}" >> "$GITHUB_OUTPUT"
 
       - name: Invalidate stale streaming chunks
+        if: ${{ steps.collect.outputs.new_pages != '0' || github.event_name != 'schedule' }}
         run: |
           rm -rf data/streaming
 
@@ -86,6 +91,7 @@ jobs:
           python -m unittest discover -s tests -v
 
       - name: Snapshot the current best checkpoint for a fair comparison
+        if: ${{ steps.collect.outputs.new_pages != '0' || github.event_name != 'schedule' }}
         run: |
           test -f checkpoints/best.npz
           test -f checkpoints/best.npz.json
@@ -94,6 +100,7 @@ jobs:
           cp checkpoints/best.npz.json runtime/gate_baseline.npz.json
 
       - name: Run a checkpointed training chunk (up to 250 rounds)
+        if: ${{ steps.collect.outputs.new_pages != '0' || github.event_name != 'schedule' }}
         run: |
           # Persist each bounded chunk. Manual reruns resume this data version;
           # a changed source fingerprint opens a new cycle from the accepted model.
@@ -106,10 +113,12 @@ jobs:
             --grad-clip 1.0
 
       - name: Compare held-out QA and keep only a better checkpoint
+        if: ${{ steps.collect.outputs.new_pages != '0' || github.event_name != 'schedule' }}
         run: |
           python scripts/evaluate_and_gate.py
 
       - name: Verify best checkpoint
+        if: ${{ steps.collect.outputs.new_pages != '0' || github.event_name != 'schedule' }}
         run: |
           python - <<'PY'
           import json
@@ -155,12 +164,16 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Continue Dori AI training rounds"
+          if [[ "\${{ github.event_name }}" == "schedule" && "\${{ steps.collect.outputs.new_pages }}" == "0" ]]; then
+            git commit -m "Advance world-knowledge discovery frontier"
+          else
+            git commit -m "Continue Dori AI training rounds"
+          fi
 
           # Synchronize with main without blindly overwriting remote source
           # changes. Only generated training artifacts may be resolved in favor
           # of the newly trained result.
-          GENERATED_REGEX='^(checkpoints/|runtime/training_round[.]json$|runtime/continuous_rounds[.]jsonl$|runtime/heldout_gate_report[.]json$)'
+          GENERATED_REGEX='^(checkpoints/|runtime/training_round[.]json$|runtime/continuous_rounds[.]jsonl$|runtime/heldout_gate_report[.]json$|data/corpus/world_wikipedia[.]jsonl$|data/world_knowledge/collection_state[.]json$)'
 
           for attempt in 1 2 3; do
             echo "Synchronizing with origin/main (attempt $attempt/3)..."
@@ -210,7 +223,7 @@ jobs:
           exit 1
 
       - name: Trigger Render deploy when a deploy hook is configured
-        if: success()
+        if: ${{ success() && (steps.collect.outputs.new_pages != '0' || github.event_name != 'schedule') }}
         env:
           RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
         run: |
