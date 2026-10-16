@@ -116,10 +116,14 @@ def answer(user_text, history=None, evidence=None, language="ko", memory_context
         max_tokens = int(os.getenv("DORI_LOCAL_LLM_MAX_TOKENS", "800"))
     except ValueError:
         max_tokens = 600
+    try:
+        temperature = min(0.8, max(0.0, float(os.getenv("DORI_LOCAL_LLM_TEMPERATURE", "0.45"))))
+    except ValueError:
+        temperature = 0.45
     payload = {
         "model": model,
         "messages": messages,
-        "temperature": min(0.8, max(0.0, float(os.getenv("DORI_LOCAL_LLM_TEMPERATURE", "0.45")))),
+        "temperature": temperature,
         "max_tokens": min(900, max(128, max_tokens)),
     }
     headers = {"Content-Type": "application/json", "Accept": "application/json"}
