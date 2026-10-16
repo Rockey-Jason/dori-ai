@@ -166,6 +166,25 @@ def _language_integrity(answer, row):
         flags.append("malformed_or_repetitive_output")
 
     tokens = _TOKEN_RE.findall(text)
+    folded_tokens = [token.casefold() for token in tokens]
+    repeated_loop = False
+    # Catch short token loops directly, even when the response is too short
+    # for the separate diversity heuristic to activate.
+    for width in range(1, min(4, len(folded_tokens) // 3 + 1)):
+        for start in range(0, len(folded_tokens) - width * 3 + 1):
+            phrase = folded_tokens[start:start + width]
+            if all(
+                folded_tokens[start + width * repeat:start + width * (repeat + 1)] == phrase
+                for repeat in (1, 2)
+            ):
+                repeated_loop = True
+                break
+        if repeated_loop:
+            break
+    if repeated_loop and "malformed_or_repetitive_output" not in flags:
+        score -= 0.55
+        flags.append("malformed_or_repetitive_output")
+
     if len(text) < 2:
         score -= 0.35
         flags.append("too_short")
