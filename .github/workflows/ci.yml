@@ -45,3 +45,6 @@ jobs:
 
       - name: Validate checkpoint and inference smoke tests
         run: python scripts/preflight_dori_ai.py
+
+      - name: Report free growth-loop status
+        run: python scripts/growth_status.py
