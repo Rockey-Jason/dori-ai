@@ -178,8 +178,14 @@ def search(query, language="ko", limit=3):
         if not _MEMORY:
             _MEMORY.update(_load_cache())
         cached = _MEMORY.get(key)
-        if isinstance(cached, dict) and now - float(cached.get("saved_at", 0)) < _TTL:
-            return list(cached.get("results", []))[:limit]
+        if isinstance(cached, dict):
+            cached_results = cached.get("results", [])
+            # Remember misses briefly too; when a public source is unavailable,
+            # repeated questions should not each incur multiple network timeouts.
+            cache_ttl = _TTL if cached_results else 60
+            if now - float(cached.get("saved_at", 0)) < cache_ttl:
+                return list(cached_results)[:limit]
+            _MEMORY.pop(key, None)
 
     results = []
     for code in _language_codes(language):
@@ -191,19 +197,22 @@ def search(query, language="ko", limit=3):
         if results:
             break
 
-    if results:
-        with _LOCK:
-            _MEMORY[key] = {"saved_at": now, "results": results}
-            if len(_MEMORY) > _MAX_CACHE_ENTRIES:
-                oldest = sorted(
-                    _MEMORY.items(),
-                    key=lambda item: float(item[1].get("saved_at", 0))
-                    if isinstance(item[1], dict) else 0,
-                )
-                for old_key, _ in oldest[:len(_MEMORY) - _MAX_CACHE_ENTRIES]:
-                    _MEMORY.pop(old_key, None)
-            _save_cache()
-    return results[:limit]
+    key = language + ":" + query.casefold()
+    now = time.time()
+    with _LOCK:
+        if not _MEMORY:
+            _MEMORY.update(_load_cache())
+        cached = _MEMORY.get(key)
+        if isinstance(cached, dict):
+            cached_results = cached.get("results", [])
+            # Remember misses briefly too; when a public source is unavailable,
+            # repeated questions should not each incur multiple network timeouts.
+            cache_ttl = _TTL if cached_results else 60
+            if now - float(cached.get("saved_at", 0)) < cache_ttl:
+                return list(cached_results)[:limit]
+            _MEMORY.pop(key, None)
+
+    results = []
 
 
 def format_evidence(results, max_chars=9000):
