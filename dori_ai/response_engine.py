@@ -329,7 +329,7 @@ class ResponseEngine:
 
     @staticmethod
     def _is_transform_request(u):
-        text = re.sub(r"\\s+", "", str(u).lower())
+        text = re.sub(r"\s+", "", str(u).lower())
         # These are requests to create or transform user-supplied content, not
         # research questions. Searching the web for them adds noise and traffic.
         markers = (
