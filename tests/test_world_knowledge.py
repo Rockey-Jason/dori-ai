@@ -43,6 +43,12 @@ class WorldKnowledgeTests(unittest.TestCase):
             search.assert_not_called()
             self.assertEqual(cached[0]["url"], pages[0]["url"])
 
+    def test_empty_search_results_are_cached_briefly(self):
+        with patch.object(world_knowledge, "_search_wikipedia", side_effect=OSError("offline")) as search:
+            self.assertEqual(world_knowledge.search("unavailable topic", language="en"), [])
+            self.assertEqual(world_knowledge.search("unavailable topic", language="en"), [])
+        search.assert_called_once()
+
     def test_evidence_contains_source_url(self):
         evidence = world_knowledge.format_evidence([{
             "title": "Earth", "text": "Earth is a planet.", "url": "https://en.wikipedia.org/wiki/Earth"
