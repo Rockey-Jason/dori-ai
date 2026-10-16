@@ -102,7 +102,7 @@ def answer(user_text, history=None, evidence=None, language="ko", memory_context
         messages.append({
             "role": "system",
             "content": "Relevant remembered context from this same user's earlier conversations (may be incomplete; "
-                       "prefer the current message if it conflicts; use only when relevant):\\n"
+                       "prefer the current message if it conflicts; use only when relevant):\n"
                        + str(memory_context)[:5000],
         })
     for role, value in (history or [])[-10:]:
