@@ -72,7 +72,17 @@ class WorldKnowledgeTests(unittest.TestCase):
                 "His ideas influenced later mathematics."
             ),
         }
-        self.corpus_path.write_text(json.dumps(row) + "\n", encoding="utf-8")
+        # Put the matching document in a numbered shard to verify shard retrieval.
+        legacy_path = self.corpus_path.parent / "world_wikipedia.jsonl"
+        shard_path = self.corpus_path.parent / "world_wikipedia_0001.jsonl"
+        world_knowledge.CORPUS_PATH = legacy_path
+        legacy_path.write_text(json.dumps({
+            "title": "Earth",
+            "language": "en",
+            "source": "https://en.wikipedia.org/wiki/Earth",
+            "text": "Topic: Earth\nLanguage: en\nEncyclopedia summary: Earth is a planet."
+        }) + "\n", encoding="utf-8")
+        shard_path.write_text(json.dumps(row) + "\n", encoding="utf-8")
         with patch.object(world_knowledge, "_search_wikipedia", side_effect=OSError("offline")):
             results = world_knowledge.search("Pythagoras theorem", language="en")
         self.assertTrue(results)
