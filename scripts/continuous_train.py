@@ -67,6 +67,22 @@ def source_fingerprint(root=ROOT):
         digest.update(b"\\0")
     return digest.hexdigest()
 
+def resolve_cycle_state(stored_state, fingerprint):
+    """Resume only when the reviewed training-source fingerprint is unchanged."""
+    stored_state = stored_state if isinstance(stored_state, dict) else {}
+    same_dataset = (
+        bool(stored_state.get("source_fingerprint"))
+        and stored_state.get("source_fingerprint") == fingerprint
+    )
+    return {
+        "same_dataset": same_dataset,
+        "round": max(0, int(stored_state.get("round", 0))) if same_dataset else 0,
+        "cumulative_round": max(
+            0, int(stored_state.get("cumulative_round", stored_state.get("round", 0)))
+        ),
+        "cycle_started_at": stored_state.get("cycle_started_at") if same_dataset else time.time(),
+    }
+
 def save_state(round_no, loss=None, val_loss=None, *, source_hash="", cumulative_round=0, cycle_started_at=None):
     STATE.parent.mkdir(parents=True, exist_ok=True)
     payload = {
@@ -113,10 +129,11 @@ def main():
     target = 1200
     stored_state = load_state_data()
     fingerprint = source_fingerprint()
-    cumulative_before = max(0, int(stored_state.get("cumulative_round", stored_state.get("round", 0))))
-    same_dataset = bool(stored_state.get("source_fingerprint")) and stored_state.get("source_fingerprint") == fingerprint
-    current = max(0, int(stored_state.get("round", 0))) if same_dataset else 0
-    cycle_started_at = stored_state.get("cycle_started_at") if same_dataset else time.time()
+    cycle_state = resolve_cycle_state(stored_state, fingerprint)
+    same_dataset = cycle_state["same_dataset"]
+    current = cycle_state["round"]
+    cumulative_before = cycle_state["cumulative_round"]
+    cycle_started_at = cycle_state["cycle_started_at"]
 
     if not same_dataset:
         print("GROWTH_CYCLE=NEW_DATASET_OR_LEGACY_STATE", flush=True)
@@ -194,9 +211,9 @@ def main():
             curriculum_dir = ROOT / relative_dir
             if curriculum_dir.exists():
                 cmd += ["--data", str(curriculum_dir)]
-        # Build the cleaned streaming corpus once per workflow run. Rebuilding
-        # all source files for each of 1000 micro-rounds wastes most of the
-        # runner budget; later rounds safely reuse the complete manifest above.
+        # Build the cleaned streaming corpus once per growth cycle. Rebuilding
+        # all sources for every micro-round wastes included runner time; later
+        # rounds reuse the validated manifest created during the first round.
         if round_no > current + 1:
             cmd += ["--no-build-cache"]
         result = subprocess.run(cmd, cwd=ROOT)
