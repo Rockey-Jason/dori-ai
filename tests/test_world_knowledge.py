@@ -14,11 +14,21 @@ class WorldKnowledgeTests(unittest.TestCase):
         self.cache_path = Path(self.tmp.name) / "cache.json"
         self.old_path = world_knowledge.CACHE_PATH
         self.old_memory = dict(world_knowledge._MEMORY)
+        self.old_corpus_path = world_knowledge.CORPUS_PATH
+        self.old_local_cache = world_knowledge._LOCAL_CORPUS_CACHE
+        self.old_local_signature = world_knowledge._LOCAL_CORPUS_SIGNATURE
+        self.corpus_path = Path(self.tmp.name) / "corpus.jsonl"
         world_knowledge.CACHE_PATH = self.cache_path
+        world_knowledge.CORPUS_PATH = self.corpus_path
+        world_knowledge._LOCAL_CORPUS_CACHE = None
+        world_knowledge._LOCAL_CORPUS_SIGNATURE = None
         world_knowledge._MEMORY.clear()
 
     def tearDown(self):
         world_knowledge.CACHE_PATH = self.old_path
+        world_knowledge.CORPUS_PATH = self.old_corpus_path
+        world_knowledge._LOCAL_CORPUS_CACHE = self.old_local_cache
+        world_knowledge._LOCAL_CORPUS_SIGNATURE = self.old_local_signature
         world_knowledge._MEMORY.clear()
         world_knowledge._MEMORY.update(self.old_memory)
         self.tmp.cleanup()
@@ -48,6 +58,27 @@ class WorldKnowledgeTests(unittest.TestCase):
             self.assertEqual(world_knowledge.search("unavailable topic", language="en"), [])
             self.assertEqual(world_knowledge.search("unavailable topic", language="en"), [])
         search.assert_called_once()
+
+    def test_collected_corpus_is_used_when_live_search_is_offline(self):
+        row = {
+            "title": "Pythagoras",
+            "language": "en",
+            "source": "https://en.wikipedia.org/wiki/Pythagoras",
+            "license": "CC BY-SA",
+            "text": (
+                "Topic: Pythagoras\nLanguage: en\nEncyclopedia summary: "
+                "Pythagoras was an ancient Greek philosopher and mathematician. "
+                "The Pythagorean theorem relates the three sides of a right triangle. "
+                "His ideas influenced later mathematics."
+            ),
+        }
+        self.corpus_path.write_text(json.dumps(row) + "\n", encoding="utf-8")
+        with patch.object(world_knowledge, "_search_wikipedia", side_effect=OSError("offline")):
+            results = world_knowledge.search("Pythagoras theorem", language="en")
+        self.assertTrue(results)
+        self.assertEqual(results[0]["title"], "Pythagoras")
+        self.assertIn("Pythagorean theorem", results[0]["text"])
+        self.assertEqual(results[0]["url"], row["source"])
 
     def test_fallback_answer_selects_relevant_sentences_and_keeps_source(self):
         answer = world_knowledge.as_answer("largest planet in the solar system", [{
