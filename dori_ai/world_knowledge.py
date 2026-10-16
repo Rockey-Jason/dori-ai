@@ -236,7 +236,9 @@ def _relevant_sentences(query, text, limit=3):
     stop = {
         "what", "is", "are", "the", "a", "an", "of", "to", "for", "and",
         "or", "who", "when", "where", "why", "how", "which", "explain",
-        "tell", "me", "about", "meaning", "define", "please",
+        "tell", "me", "about", "meaning", "define", "please", "in", "on", "at",
+        "with", "it", "this", "that", "our", "was", "were", "has", "have", "had",
+        "into", "from", "by", "as", "be", "been", "also", "than",
         "알려줘", "알려주세요", "설명해줘", "설명해주세요", "뭐야", "무엇", "무엇인가",
         "누구", "어떻게", "왜", "언제", "어디", "뜻", "에대해", "대한", "좀", "정리해줘",
     }
