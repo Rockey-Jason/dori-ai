@@ -393,20 +393,27 @@ class ResponseEngine:
             "기분", "심심", "고민", "들어줄래", "들어줘", "수다", "네생각",
             "너는어때", "잘지내", "뭐해", "농담", "위로", "반가워",
             "howareyou", "whatdoyouthink", "ifeel", "imbored", "tellmeajoke",
-            "canwetalk", "im sad", "imsad", "imlonely", "imupset", "thankyou",
-            "nice tomeetyou", "whatsup"
+            "canwetalk", "imsad", "imlonely", "imupset", "thankyou",
+            "nicetomeetyou", "whatsup"
         )
         return any(x in text for x in markers)
 
     @staticmethod
     def _needs_web(u):
         text = str(u).lower()
-        #        # trigger unrelated source searches, unless the user explicitly asks
-        # for current information as part of the task.
+        # Content transformation and casual conversation do not need unrelated sources.
+        # Even when the user mentions "today", a personal/emotional message is not
+        # a request to look up today's events unless it names a live-information topic.
+        live_topic = any(x in text for x in (
+            "뉴스", "날씨", "환율", "주가", "가격", "업데이트", "news", "weather",
+            "exchange rate", "stock price", "price", "latest version"
+        ))
+        if ResponseEngine._is_transform_request(text) and not live_topic:
+            return False
+        if ResponseEngine._is_casual_conversation(text) and not live_topic:
+            return False
         if ResponseEngine._is_time_sensitive(text):
             return True
-        if ResponseEngine._is_transform_request(text) or ResponseEngine._is_casual_conversation(text):
-            return False
         factual_question = ("누구야", "누구인가", "누구인가요", "누가", "무엇이야", "무엇인가",
                             "뭐야", "뭔가", "무슨", "뜻", "설명", "알려줘", "언제", "어디",
                             "어떤", "어떻게", "왜", "얼마나", "누구", "원리", "정의",
