@@ -22,6 +22,11 @@ _TTL = max(3600, int(os.getenv("DORI_WORLD_KNOWLEDGE_TTL", str(7 * 24 * 3600))))
 # Keep retrieval cache bounded on small Render instances.
 _MAX_CACHE_ENTRIES = max(32, min(512, int(os.getenv("DORI_WORLD_KNOWLEDGE_MAX_ENTRIES", "256"))))
 _TIMEOUT = min(15, max(2, float(os.getenv("DORI_WORLD_KNOWLEDGE_TIMEOUT", "6"))))
+CORPUS_PATH = Path(os.getenv("DORI_WORLD_KNOWLEDGE_CORPUS", str(ROOT / "data" / "corpus" / "world_wikipedia.jsonl")))
+_LOCAL_LOCK = threading.Lock()
+_LOCAL_CORPUS_CACHE = None
+_LOCAL_CORPUS_SIGNATURE = None
+_LOCAL_MAX_DOCS = max(200, min(4000, int(os.getenv("DORI_WORLD_KNOWLEDGE_LOCAL_DOCS", "3000"))))
 _HEADERS = {
     "User-Agent": "DoriAI/3.1 (general knowledge retrieval; https://github.com/Rockey-Jason/dori-ai)",
     "Accept": "application/json",
@@ -165,6 +170,124 @@ def _page_extracts(pageids, language):
     return out
 
 
+
+def _load_local_corpus():
+    """Load a bounded, source-linked sample of the collected corpus for offline retrieval."""
+    global _LOCAL_CORPUS_CACHE, _LOCAL_CORPUS_SIGNATURE
+    try:
+        stat = CORPUS_PATH.stat()
+        signature = (stat.st_mtime_ns, stat.st_size)
+    except OSError:
+        return []
+
+    with _LOCAL_LOCK:
+        if _LOCAL_CORPUS_CACHE is not None and _LOCAL_CORPUS_SIGNATURE == signature:
+            return _LOCAL_CORPUS_CACHE
+
+        # Keep early documents plus recent documents without retaining the full corpus.
+        first_docs = []
+        tail_docs = []
+        tail_limit = max(100, _LOCAL_MAX_DOCS - min(500, _LOCAL_MAX_DOCS // 3))
+        try:
+            with CORPUS_PATH.open("r", encoding="utf-8") as handle:
+                for line in handle:
+                    try:
+                        row = json.loads(line)
+                    except (ValueError, TypeError):
+                        continue
+                    if not isinstance(row, dict):
+                        continue
+                    title = _clean(row.get("title", ""))[:200]
+                    text_value = str(row.get("text", "") or "")
+                    if not title or len(text_value) < 80:
+                        continue
+                    text_value = _clean(text_value)
+                    if "Encyclopedia summary:" in text_value:
+                        text_value = text_value.split("Encyclopedia summary:", 1)[1].strip()
+                    doc = {
+                        "title": title,
+                        "text": text_value[:2600],
+                        "url": str(row.get("source", "") or "")[:500],
+                        "language": str(row.get("language", "ko"))[:8],
+                    }
+                    if len(first_docs) < min(500, _LOCAL_MAX_DOCS // 3):
+                        first_docs.append(doc)
+                    tail_docs.append(doc)
+                    if len(tail_docs) > tail_limit:
+                        tail_docs.pop(0)
+        except OSError:
+            return []
+
+        combined = []
+        seen = set()
+        for doc in first_docs + tail_docs:
+            ident = (doc["language"], doc["title"].casefold())
+            if ident in seen:
+                continue
+            seen.add(ident)
+            combined.append(doc)
+        _LOCAL_CORPUS_CACHE = combined[-_LOCAL_MAX_DOCS:]
+        _LOCAL_CORPUS_SIGNATURE = signature
+        return _LOCAL_CORPUS_CACHE
+
+
+def _local_query_terms(query):
+    stop = {
+        "what", "who", "when", "where", "why", "how", "the", "and", "for",
+        "with", "from", "this", "that", "about", "please", "explain", "tell",
+        "topic", "history", "concept", "concepts", "basics", "overview",
+        "알려줘", "알려주세요", "설명해줘", "설명해주세요", "무엇", "무엇인가",
+        "뭐야", "누구", "어떻게", "왜", "언제", "어디", "에대해", "대한",
+        "정리해줘", "좀", "관련", "핵심", "개념", "원리",
+    }
+    terms = []
+    for term in re.findall(r"[가-힣A-Za-z0-9]+", str(query or "").casefold()):
+        term = re.sub(
+            r"(으로|에서|에게|은|는|이|가|의|을|를|에|로|와|과|도|만|까지|부터|보다)$",
+            "",
+            term,
+        )
+        if len(term) >= 2 and term not in stop and term not in terms:
+            terms.append(term)
+    return terms[:16]
+
+
+def _search_local_corpus(query, language="ko", limit=3):
+    """Retrieve already collected facts when live Wikipedia retrieval is unavailable."""
+    terms = _local_query_terms(query)
+    if not terms:
+        return []
+    docs = _load_local_corpus()
+    if not docs:
+        return []
+    scored = []
+    for index, item in enumerate(docs):
+        title = item["title"].casefold()
+        text_value = item["text"].casefold()
+        score = 0
+        matched = 0
+        for term in terms:
+            if term in title:
+                score += 5
+                matched += 1
+            elif term in text_value:
+                score += 1
+                matched += 1
+        if item.get("language") == language:
+            score += 0.25
+        if matched and (matched >= min(2, len(terms)) or any(term in title for term in terms)):
+            scored.append((score, index, item))
+    scored.sort(key=lambda value: (-value[0], -value[1]))
+    return [
+        {
+            "title": item["title"],
+            "text": item["text"],
+            "url": item["url"],
+            "language": item.get("language", "ko"),
+        }
+        for _, _, item in scored[:max(1, min(5, limit))]
+    ]
+
 def search(query, language="ko", limit=3):
     """Return source-linked encyclopedic summaries, preferring cached results."""
     query = _clean(query)
@@ -198,6 +321,10 @@ def search(query, language="ko", limit=3):
             results = []
         if results:
             break
+
+    if not results:
+        # Use the collected source corpus as an offline fallback.
+        results = _search_local_corpus(query, language, limit)
 
     with _LOCK:
         _MEMORY[key] = {"saved_at": now, "results": results}
