@@ -436,7 +436,7 @@ class ResponseEngine:
             ans = llm_answer(
                 u,
                 history=dialogue.history,
-                evidence="\\n\\n".join(evidence_parts) if evidence_parts else None,
+                evidence="\n\n".join(evidence_parts) if evidence_parts else None,
                 language=lang,
                 memory_context=memory_context,
             )
