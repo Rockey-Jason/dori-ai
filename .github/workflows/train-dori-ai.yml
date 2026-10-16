@@ -10,7 +10,7 @@ on:
   push:
     paths:
       - "data/corpus/**"
-      - "!data/corpus/world_wikipedia.jsonl"
+      - "!data/corpus/world_wikipedia*.jsonl"
       - "data/instructions/**"
       - "data/new/**"
       - "data/generated/**"

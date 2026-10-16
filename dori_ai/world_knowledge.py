@@ -172,14 +172,36 @@ def _page_extracts(pageids, language):
 
 
 
+
+def _local_corpus_paths():
+    """Support a legacy single file and the collector's numbered corpus shards."""
+    if CORPUS_PATH.name != "world_wikipedia.jsonl":
+        return [CORPUS_PATH]
+    paths = [CORPUS_PATH] if CORPUS_PATH.is_file() else []
+    numbered = []
+    for path in CORPUS_PATH.parent.glob("world_wikipedia_*.jsonl"):
+        try:
+            number = int(path.stem.rsplit("_", 1)[1])
+        except (IndexError, ValueError):
+            continue
+        if path.is_file():
+            numbered.append((number, path))
+    paths.extend(path for _, path in sorted(numbered))
+    return paths or [CORPUS_PATH]
+
 def _load_local_corpus():
     """Load a bounded, source-linked sample of the collected corpus for offline retrieval."""
     global _LOCAL_CORPUS_CACHE, _LOCAL_CORPUS_SIGNATURE
-    try:
-        stat = CORPUS_PATH.stat()
-        signature = (stat.st_mtime_ns, stat.st_size)
-    except OSError:
+    available = []
+    for path in _local_corpus_paths():
+        try:
+            stat = path.stat()
+            available.append((path, stat.st_mtime_ns, stat.st_size))
+        except OSError:
+            continue
+    if not available:
         return []
+    signature = tuple((str(path), mtime_ns, size) for path, mtime_ns, size in available)
 
     with _LOCAL_LOCK:
         if _LOCAL_CORPUS_CACHE is not None and _LOCAL_CORPUS_SIGNATURE == signature:
@@ -189,33 +211,34 @@ def _load_local_corpus():
         first_docs = []
         tail_limit = max(100, _LOCAL_MAX_DOCS - min(500, _LOCAL_MAX_DOCS // 3))
         tail_docs = deque(maxlen=tail_limit)
-        try:
-            with CORPUS_PATH.open("r", encoding="utf-8") as handle:
-                for line in handle:
-                    try:
-                        row = json.loads(line)
-                    except (ValueError, TypeError):
-                        continue
-                    if not isinstance(row, dict):
-                        continue
-                    title = _clean(row.get("title", ""))[:200]
-                    text_value = str(row.get("text", "") or "")
-                    if not title or len(text_value) < 80:
-                        continue
-                    text_value = _clean(text_value)
-                    if "Encyclopedia summary:" in text_value:
-                        text_value = text_value.split("Encyclopedia summary:", 1)[1].strip()
-                    doc = {
-                        "title": title,
-                        "text": text_value[:2600],
-                        "url": str(row.get("source", "") or "")[:500],
-                        "language": str(row.get("language", "ko"))[:8],
-                    }
-                    if len(first_docs) < min(500, _LOCAL_MAX_DOCS // 3):
-                        first_docs.append(doc)
-                    tail_docs.append(doc)
-        except OSError:
-            return []
+        for corpus_path, _, _ in available:
+            try:
+                with corpus_path.open("r", encoding="utf-8") as handle:
+                    for line in handle:
+                        try:
+                            row = json.loads(line)
+                        except (ValueError, TypeError):
+                            continue
+                        if not isinstance(row, dict):
+                            continue
+                        title = _clean(row.get("title", ""))[:200]
+                        text_value = str(row.get("text", "") or "")
+                        if not title or len(text_value) < 80:
+                            continue
+                        text_value = _clean(text_value)
+                        if "Encyclopedia summary:" in text_value:
+                            text_value = text_value.split("Encyclopedia summary:", 1)[1].strip()
+                        doc = {
+                            "title": title,
+                            "text": text_value[:2600],
+                            "url": str(row.get("source", "") or "")[:500],
+                            "language": str(row.get("language", "ko"))[:8],
+                        }
+                        if len(first_docs) < min(500, _LOCAL_MAX_DOCS // 3):
+                            first_docs.append(doc)
+                        tail_docs.append(doc)
+            except OSError:
+                continue
 
         combined = []
         seen = set()

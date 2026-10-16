@@ -17,6 +17,40 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "data" / "corpus" / "world_wikipedia.jsonl"
+MAX_SHARD_BYTES = 20 * 1024 * 1024
+
+
+def _corpus_paths():
+    """Return the legacy corpus plus numbered shards, in stable order."""
+    paths = []
+    if OUT.is_file():
+        paths.append(OUT)
+    numbered = []
+    for path in OUT.parent.glob("world_wikipedia_*.jsonl"):
+        try:
+            number = int(path.stem.rsplit("_", 1)[1])
+        except (IndexError, ValueError):
+            continue
+        if path.is_file():
+            numbered.append((number, path))
+    paths.extend(path for _, path in sorted(numbered))
+    return paths
+
+
+def _current_output_path():
+    """Append to the newest shard until it reaches a conservative GitHub file limit."""
+    paths = _corpus_paths()
+    current = paths[-1] if paths else OUT
+    if current.is_file() and current.stat().st_size >= MAX_SHARD_BYTES:
+        if current == OUT:
+            number = 1
+        else:
+            try:
+                number = int(current.stem.rsplit("_", 1)[1]) + 1
+            except (IndexError, ValueError):
+                number = 1
+        return OUT.parent / f"world_wikipedia_{number:04d}.jsonl"
+    return current
 STATE = ROOT / "data" / "world_knowledge" / "collection_state.json"
 USER_AGENT = "DoriAI-WorldKnowledgeCollector/1.0 (https://github.com/Rockey-Jason/dori-ai)"
 
@@ -159,8 +193,8 @@ def main():
     expanded_titles = set(str(x) for x in state.get("expanded_titles", []) if isinstance(x, str))
     known_titles = set(str(x) for x in state.get("discovered_titles", []) if isinstance(x, str))
     existing = set()
-    if OUT.exists():
-        with OUT.open(encoding="utf-8") as handle:
+    for corpus_path in _corpus_paths():
+        with corpus_path.open(encoding="utf-8") as handle:
             for line in handle:
                 try:
                     row = json.loads(line)
@@ -225,15 +259,17 @@ def main():
                     for generated_query in _queries_for_discovered_title(title, lang):
                         _append_pending(queue, queued_keys, done, lang, generated_query, max_frontier)
 
-            with OUT.open("a", encoding="utf-8") as handle:
-                for row in rows:
-                    identity = (row["language"], row["title"])
-                    if identity in existing:
-                        continue
+            for row in rows:
+                identity = (row["language"], row["title"])
+                if identity in existing:
+                    continue
+                output_path = _current_output_path()
+                output_path.parent.mkdir(parents=True, exist_ok=True)
+                with output_path.open("a", encoding="utf-8") as handle:
                     handle.write(json.dumps(row, ensure_ascii=False) + "\n")
-                    existing.add(identity)
-                    known_titles.add(row["language"] + ":" + row["title"].casefold())
-                    added += 1
+                existing.add(identity)
+                known_titles.add(row["language"] + ":" + row["title"].casefold())
+                added += 1
             done.add(key)
             processed += 1
             print(f"COLLECTED {lang}:{topic} hits={len(hits)} pages={len(rows)} new_total={added}", flush=True)
