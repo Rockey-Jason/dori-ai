@@ -200,10 +200,14 @@ def main():
             "stabilization": "data/curriculum/stabilization",
             "instructions": "data/instructions",
         }
+        if i == 0:
+            # Every separate workflow invocation starts from the last accepted
+            # checkpoint, never an unpromoted candidate left in working state.
+            cmd += ["--prefer-best-checkpoint"]
         if round_no == 1:
             # A changed corpus has a new validation distribution. Start the
             # accepted checkpoint with a fresh validation-loss baseline.
-            cmd += ["--reset-best-loss", "--prefer-best-checkpoint"]
+            cmd += ["--reset-best-loss"]
         # Include every curriculum directory when building the cache on the
         # first round. Later rounds reuse that complete cache; passing only the
         # active stage here would silently omit all other stages after round 1.
