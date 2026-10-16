@@ -240,10 +240,15 @@ class H(BaseHTTPRequestHandler):
         if path == "/health":
             # Keep public health checks minimal. Detailed model/training status
             # is available only through the authenticated /training/status route.
+            configured_model = llm_model_name()
             self.send(200, {
                 "status": "ok",
                 "service": "dori-ai",
-                "version": "3.2.0-local-only-site-guard",
+                "version": "3.3.0-conversation-memory",
+                # Safe capability diagnostics only; never expose provider URLs or tokens.
+                "generation_backend": "owner_hosted_pretrained_model" if configured_model else "small_from_scratch_transformer",
+                "pretrained_model": configured_model,
+                "knowledge_entries": _knowledge_size(),
             })
             return
         if path == "/training/status":
