@@ -306,7 +306,7 @@ class ResponseEngine:
                         "Pick one—or tell me what's on your mind.")
             if any(x in q for x in ("tellmeajoke", "makemelaugh", "ajoke")):
                 return ("Why did Dori sit by the computer? To keep an eye on the mouse. 🐶💻")
-            if any(x in q for x in ("howareyou", "what are you doing", "whatsup")):
+            if any(x in q for x in ("howareyou", "whatareyoudoing", "whatsup")):
                 return ("I'm here and ready to help. What's on your mind?")
             if any(x in q for x in ("whatareyou", "whosyou", "yourname")):
                 return ("I'm Dori AI, a small assistant built for Dori's world and general questions. 🐶")
