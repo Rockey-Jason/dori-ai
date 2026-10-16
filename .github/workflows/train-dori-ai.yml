@@ -12,6 +12,7 @@ on:
       - "data/instructions/**"
       - "data/new/**"
       - "data/generated/**"
+      - "data/learning/**"
       - "data/curriculum/**"
       - "data/curriculum_plan.json"
       - "data/dori_knowledge_v*.jsonl"
