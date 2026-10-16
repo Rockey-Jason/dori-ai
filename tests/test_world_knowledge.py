@@ -56,13 +56,14 @@ class WorldKnowledgeTests(unittest.TestCase):
                 "Mercury is the closest planet to the Sun. "
                 "The largest planet in the solar system is Jupiter. "
                 "Saturn has a system of rings. "
-                "This sentence is unrelated to the largest planet in our solar system."
+                "Some stars were recorded in ancient charts."
             ),
             "url": "https://en.wikipedia.org/wiki/Solar_System",
         }], "en")
         self.assertIn("largest planet in the solar system is Jupiter", answer)
         self.assertIn("https://en.wikipedia.org/wiki/Solar_System", answer)
         self.assertIn("Source:", answer)
+        self.assertNotIn("ancient charts", answer)
 
     def test_evidence_contains_source_url(self):
         evidence = world_knowledge.format_evidence([{
