@@ -166,10 +166,10 @@ DORI_LOCAL_LLM_MAX_TOKENS=600
 - `data/curriculum/qa_following/verified_general_qa.jsonl`: 한국어 수학·과학·컴퓨터 과학·AI·보안·돌이 세계관을 포함한 검토용 시드 Q&A 54개.
 - `data/evaluation/general_qa.jsonl`: 학습 자료와 분리된 20개 평가 질문. 평가 질문은 학습 데이터로 복사하지 않는다.
 - `scripts/collect_world_knowledge.py`: 공개 백과사전에서 다국어 지식을 수집하는 기존 파이프라인.
-- `scripts/evaluate_live.py`: 실행 중인 돌이 AI에 평가 질문을 보내 키워드 커버리지와 응답 지연을 측정한다.
+- `scripts/evaluate_live.py`: 실행 중인 돌이 AI의 실제 답변을 질문별 루브릭으로 채점하고 응답 지연과 오류율을 기록한다. 기본값은 메모리 부담을 줄이는 8문항 카테고리 균형 표본이다.
 
 ~~~powershell
-python scripts/evaluate_live.py --base-url https://dori-ai-u3kf.onrender.com
+python scripts/evaluate_live.py --base-url https://dori-ai-u3kf.onrender.com --limit 8
 ~~~
 
 키워드 커버리지는 빠른 회귀 신호일 뿐 이해력이나 사실 정확도를 완전히 측정하지 않는다. 실패 답변을 검토하고, 별도 평가 질문으로 다시 시험해야 한다.
@@ -208,6 +208,6 @@ python scripts/evaluate_live.py --base-url https://dori-ai-u3kf.onrender.com
 python scripts/evaluate_live.py --base-url https://dori-ai-u3kf.onrender.com
 ~~~
 
-원하는 최소 점수까지 강제 확인하려면 `--min-quality-score 0.35`처럼 0~1 사이의 기준을 추가할 수 있다. 보고서는 기본적으로 `runtime/live_response_quality_report.json`에 저장된다. 학습 중 checkpoint 비교 보고서는 `runtime/heldout_gate_report.json`에 저장된다.
+원하는 최소 점수까지 확인하려면 `--min-quality-score 0.35`처럼 0~1 사이의 기준을 추가할 수 있다. 보고서는 기본적으로 `runtime/live_response_quality_report.json`에 저장된다. 학습 중 checkpoint 비교 보고서는 `runtime/heldout_gate_report.json`에 저장된다. 실패 요청이 한 번이라도 발생하면 기본적으로 추가 요청을 중단하고, 실패 응답을 오답으로 섞지 않은 채 성공 응답만 따로 채점한다. `--limit 0`은 전체 60문항을 뜻하지만, 512 MiB 무료 서버에 연속 요청을 보내면 메모리 한도를 넘길 수 있으므로 실서비스 진단에서는 권장하지 않는다. 전체 60문항의 모델 간 비교는 서버 요청 없이 수행하는 checkpoint 평가 게이트가 담당한다.
 
 이 평가는 외부 AI 심사자나 유료 API를 사용하지 않는 재현 가능한 회귀 시험이다. 루브릭이 명시한 사실과 형식은 자동으로 검사할 수 있지만, 개방형 의미 이해와 문법의 모든 미묘함을 완벽하게 판정하지는 못한다. 따라서 승격은 이 고정 시험에서의 검증된 개선을 의미하며, 모든 영역에서 지능이 향상되었다는 증명은 아니다. 평가 데이터는 학습 데이터에 섞지 않고 계속 held-out 상태로 유지한다.
