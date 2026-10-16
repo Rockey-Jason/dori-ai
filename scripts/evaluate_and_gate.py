@@ -19,7 +19,36 @@ if str(ROOT) not in sys.path:
 from dori_ai.bpe_tokenizer import BPETokenizer
 from dori_ai.core.transformer import load_model
 from generate_final import generate
-from scripts.response_quality import grade_response, read_rows, summarize_grades
+from scripts.response_quality import (
+    grade_response,
+    normalize_answer,
+    read_rows,
+    summarize_grades,
+)
+
+
+def read_dataset(path):
+    """Backward-compatible single-file loader retained for existing tests/tools."""
+    path = Path(path)
+    rows = []
+    for line_no, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"Invalid evaluation JSON on line {line_no}") from exc
+        if not isinstance(row, dict) or not str(row.get("question", "")).strip():
+            raise ValueError(f"Invalid evaluation case on line {line_no}")
+        if not (
+            (isinstance(row.get("keywords"), list) and row["keywords"])
+            or (isinstance(row.get("criteria"), list) and row["criteria"])
+        ):
+            raise ValueError(f"Evaluation case on line {line_no} needs keywords or criteria")
+        rows.append(row)
+    if not rows:
+        raise ValueError("Held-out evaluation dataset is empty")
+    return rows
 
 DATASETS = [
     ROOT / "data" / "evaluation" / "general_qa.jsonl",
@@ -56,7 +85,7 @@ def score(checkpoint, metadata, rows, tokenizer):
             "<system>너는 Dori AI다. 친절하고 정확하게 답한다. 모르면 추측하지 않는다.\n"
             "<user>" + row["question"] + "\n<dori>"
         )
-        suffix = int(re.sub(r"\\D", "", str(row["id"])) or "0")
+        suffix = int(re.sub(r"\D", "", str(row["id"])) or "0")
         answer = str(generate(
             prompt,
             tokenizer,
