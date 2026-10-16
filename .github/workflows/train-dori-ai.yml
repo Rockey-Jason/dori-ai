@@ -1,10 +1,12 @@
 name: Train Dori AI
 
 on:
-  # No timer-based runs: training is activated by reviewed training-data changes
-  # or manually. Each data fingerprint gets a bounded cycle; adding new data
-  # unlocks another cycle, while a held-out gate prevents harmful promotions.
+  # Weekly incremental discovery keeps growing the source-backed corpus.
+  # Each run processes a bounded number of generated searches; held-out quality
+  # checks still decide whether a candidate checkpoint may replace the baseline.
   workflow_dispatch:
+  schedule:
+    - cron: "0 18 * * 0"
   push:
     paths:
       - "data/corpus/**"
@@ -53,7 +55,7 @@ jobs:
 
       - name: Collect broad multilingual world knowledge
         run: |
-          python scripts/collect_world_knowledge.py --pages-per-topic 2 --delay 0.08
+          python scripts/collect_world_knowledge.py --pages-per-topic 2 --max-queries-per-run 300 --max-frontier 8000 --delay 0.08
 
       - name: Invalidate stale streaming chunks
         run: |
