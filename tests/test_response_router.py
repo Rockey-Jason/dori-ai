@@ -28,6 +28,7 @@ class FreeRoutingTests(unittest.TestCase):
     def test_creative_and_transform_requests_do_not_trigger_search(self):
         self.assertFalse(ResponseEngine._needs_web("짧은 시를 써줘?"))
         self.assertFalse(ResponseEngine._needs_web("Translate this sentence for me"))
+        self.assertFalse(ResponseEngine._needs_web("기분이 우울해. 오늘은 무슨 얘기할까?"))
         self.assertTrue(ResponseEngine._needs_web("오늘 날씨 어때?"))
 
     def test_free_offline_mode_has_useful_conversation_fallbacks(self):
