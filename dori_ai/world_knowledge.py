@@ -222,22 +222,92 @@ def format_evidence(results, max_chars=9000):
     return "\n\n".join(lines)[:max_chars]
 
 
+def _relevant_sentences(query, text, limit=3):
+    """Choose source sentences that overlap the question; do not invent a paraphrase."""
+    value = _clean(text)
+    sentences = [
+        part.strip(" \t-•")
+        for part in re.split(r"(?<=[.!?])\s+|(?<=[。！？])", value)
+        if len(part.strip()) >= 25
+    ]
+    if not sentences:
+        return value[:900]
+
+    stop = {
+        "what", "is", "are", "the", "a", "an", "of", "to", "for", "and",
+        "or", "who", "when", "where", "why", "how", "which", "explain",
+        "tell", "me", "about", "meaning", "define", "please",
+        "알려줘", "알려주세요", "설명해줘", "설명해주세요", "뭐야", "무엇", "무엇인가",
+        "누구", "어떻게", "왜", "언제", "어디", "뜻", "에대해", "대한", "좀", "정리해줘",
+    }
+    raw_terms = re.findall(r"[가-힣A-Za-z0-9]+", str(query).lower())
+    terms = []
+    for term in raw_terms:
+        term = re.sub(r"(으로|에서|에게|은|는|이|가|의|을|를|에|로|와|과|도|만|까지|부터|보다)$", "", term)
+        if len(term) > 1 and term not in stop and term not in terms:
+            terms.append(term)
+
+    if not terms or len(sentences) <= limit:
+        return " ".join(sentences[:limit])[:1500]
+
+    scored = []
+    for index, sentence in enumerate(sentences):
+        low = sentence.lower()
+        score = sum(2 if term in low else 0 for term in terms)
+        if score:
+            scored.append((score, index, sentence))
+
+    if not scored:
+        chosen = sentences[:limit]
+    else:
+        # Rank by query overlap, then restore source order to keep the facts readable.
+        chosen = [
+            sentence for _, _, sentence in sorted(
+                sorted(scored, key=lambda item: (-item[0], item[1]))[:limit],
+                key=lambda item: item[1]
+            )
+        ]
+        if len(chosen) < min(limit, len(sentences)):
+            seen = set(chosen)
+            for sentence in sentences:
+                if sentence not in seen:
+                    chosen.append(sentence)
+                    seen.add(sentence)
+                if len(chosen) >= min(limit, len(sentences)):
+                    break
+    return " ".join(chosen)[:1500]
+
+
 def as_answer(query, results, language="ko"):
-    """Fallback answer when no generative provider is configured."""
+    """Return a concise extractive answer with verifiable public-source links."""
     if not results:
         return None
-    lines = []
     if language == "en":
-        lines.append("Here is what I found in Wikipedia:")
+        intro = "Here are the most relevant points I found in the encyclopedia:"
+        source_label = "Source"
+        caveat = "This is an extractive summary of the linked material."
     elif language == "ja":
-        lines.append("Wikipediaで確認できた情報だよ：")
+        intro = "百科事典で見つかった関連情報をまとめるね："
+        source_label = "出典"
+        caveat = "リンク先の資料から要点を抜き出した要約だよ。"
     elif language == "zh":
-        lines.append("以下是从维基百科检索到的信息：")
+        intro = "这是我从百科资料中找到的相关要点："
+        source_label = "来源"
+        caveat = "以上是从链接资料中提取的摘要。"
     else:
-        lines.append("관련 백과사전 자료를 찾아봤어. 아래 내용은 검색된 문서의 요약이야.")
+        intro = "질문과 관련된 백과사전 핵심 문장을 골라 정리했어."
+        source_label = "출처"
+        caveat = "아래는 출처의 문장을 추린 요약이야. 중요한 내용은 원문에서도 확인해 줘."
+    lines = [intro]
     for item in results[:3]:
-        lines.append(f"\n**{item['title']}**\n{item['text']}\n출처: {item['url']}" if language == "ko" else
-                     f"\n{item['title']}\n{item['text']}\nSource: {item['url']}")
-    lines.append("\n" + ("검색된 자료를 바탕으로 한 요약이며, 중요한 사실은 원문 출처를 확인해 줘." if language == "ko" else
-                         "This is a summary of retrieved material; check the source for important details."))
+        title = _clean(item.get("title", ""))
+        excerpt = _relevant_sentences(query, item.get("text", ""), limit=3)
+        url = str(item.get("url", "")).strip()
+        if title:
+            lines.append(f"\n**{title}**\n{excerpt}")
+        elif excerpt:
+            lines.append(f"\n{excerpt}")
+        if url:
+            lines.append(f"{source_label}: {url}")
+    lines.append("\n" + caveat)
     return "\n".join(lines)
