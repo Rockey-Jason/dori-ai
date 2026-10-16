@@ -30,6 +30,14 @@ class FreeRoutingTests(unittest.TestCase):
         self.assertFalse(ResponseEngine._needs_web("Translate this sentence for me"))
         self.assertTrue(ResponseEngine._needs_web("오늘 날씨 어때?"))
 
+    def test_free_offline_mode_has_useful_conversation_fallbacks(self):
+        supportive = ResponseEngine._offline_conversation("기분이 조금 우울해")
+        self.assertIn("이야기해 줘", supportive)
+        capabilities = ResponseEngine._offline_conversation("너는 뭐 할 수 있어?")
+        self.assertIn("번역", capabilities)
+        joke = ResponseEngine._offline_conversation("농담해 줘")
+        self.assertIn("돌이", joke)
+
     def test_live_query_is_classified_separately(self):
         self.assertTrue(ResponseEngine._is_time_sensitive("오늘 원달러 환율"))
         self.assertFalse(ResponseEngine._is_time_sensitive("피타고라스 정리 설명해줘"))
