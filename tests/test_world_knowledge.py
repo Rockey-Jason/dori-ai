@@ -49,6 +49,21 @@ class WorldKnowledgeTests(unittest.TestCase):
             self.assertEqual(world_knowledge.search("unavailable topic", language="en"), [])
         search.assert_called_once()
 
+    def test_fallback_answer_selects_relevant_sentences_and_keeps_source(self):
+        answer = world_knowledge.as_answer("largest planet in the solar system", [{
+            "title": "Solar System",
+            "text": (
+                "Mercury is the closest planet to the Sun. "
+                "The largest planet in the solar system is Jupiter. "
+                "Saturn has a system of rings. "
+                "This sentence is unrelated to the largest planet in our solar system."
+            ),
+            "url": "https://en.wikipedia.org/wiki/Solar_System",
+        }], "en")
+        self.assertIn("largest planet in the solar system is Jupiter", answer)
+        self.assertIn("https://en.wikipedia.org/wiki/Solar_System", answer)
+        self.assertIn("Source:", answer)
+
     def test_evidence_contains_source_url(self):
         evidence = world_knowledge.format_evidence([{
             "title": "Earth", "text": "Earth is a planet.", "url": "https://en.wikipedia.org/wiki/Earth"
