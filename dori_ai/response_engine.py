@@ -422,11 +422,23 @@ class ResponseEngine:
             web_evidence = format_results(search_query, web_results) if web_results else None
             if web_evidence:
                 evidence_parts.append(web_evidence)
+            # Long-term memory belongs to this user's own dialogue object. Pass only
+            # relevant matches separately from live/public evidence, so the configured
+            # pretrained model can use context without conflating it with verified facts.
+            memory_context = None
+            try:
+                memory = getattr(dialogue, "memory", None)
+                context_fn = getattr(memory, "context", None)
+                if callable(context_fn):
+                    memory_context = context_fn(u, 5) or None
+            except (AttributeError, OSError, ValueError, TypeError):
+                memory_context = None
             ans = llm_answer(
                 u,
                 history=dialogue.history,
-                evidence="\n\n".join(evidence_parts) if evidence_parts else None,
+                evidence="\\n\\n".join(evidence_parts) if evidence_parts else None,
                 language=lang,
+                memory_context=memory_context,
             )
 
         # Local exact knowledge remains useful when the external provider is absent.
