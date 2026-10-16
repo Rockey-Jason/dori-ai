@@ -317,19 +317,52 @@ class ResponseEngine:
         return None
 
     @staticmethod
+    def _is_time_sensitive(u):
+        text = str(u).lower()
+        return any(x in text for x in (
+            "최신", "현재", "오늘", "어제", "내일", "최근", "실시간", "지금",
+            "뉴스", "날씨", "환율", "주가", "가격", "업데이트",
+            "latest", "current", "today", "yesterday", "tomorrow", "recent",
+            "live", "news", "weather", "exchange rate", "stock price", "price",
+            "最新", "現在", "今日"
+        ))
+
+    @staticmethod
+    def _is_transform_request(u):
+        text = re.sub(r"\\s+", "", str(u).lower())
+        # These are requests to create or transform user-supplied content, not
+        # research questions. Searching the web for them adds noise and traffic.
+        markers = (
+            "시를써", "시써줘", "시를지어", "이야기를써", "이야기만들어", "소설써",
+            "대본써", "가사를써", "노래가사", "편지써", "이메일써", "작성해줘",
+            "다시써줘", "고쳐줘", "다듬어줘", "교정해줘", "번역해줘", "번역해",
+            "요약해줘", "줄여줘", "바꿔줘", "예시를만들어", "계획을짜줘",
+            "writeapoem", "writeastory", "writeacode", "draft", "compose",
+            "translate", "rewrite", "proofread", "editthis", "summarize",
+            "summarise", "paraphrase", "makeapoem", "writealetter", "writeanemail"
+        )
+        return any(x in text for x in markers)
+
+    @staticmethod
     def _needs_web(u):
         text = str(u).lower()
-        time_sensitive = ("최신", "현재", "오늘", "어제", "내일", "최근", "실시간",
-                          "지금", "뉴스", "날씨", "환율", "주가", "가격", "업데이트",
-                          "latest", "current", "today", "news", "weather", "price",
-                          "最新", "現在", "今日")
+        # Creating, translating, editing, or summarizing content should not
+        # trigger unrelated source searches, unless the user explicitly asks
+        # for current information as part of the task.
+        if ResponseEngine._is_transform_request(text) and not ResponseEngine._is_time_sensitive(text):
+            return False
         factual_question = ("누구야", "누구인가", "누구인가요", "누가", "무엇이야", "무엇인가",
                             "뭐야", "뭔가", "무슨", "뜻", "설명", "알려줘", "언제", "어디",
                             "어떤", "어떻게", "왜", "얼마나", "누구", "원리", "정의",
                             "who", "what", "when", "where", "why", "how", "which", "define",
                             "tell me about", "explain", "meaning of")
-        # Site-specific and deterministic questions are handled before this route.
-        return ("?" in text or "？" in text or any(x in text for x in time_sensitive) or any(x in text for x in factual_question))
+        # Current facts use public search; creative/transform requests are routed
+        # to language generation without polluting their prompt with search snippets.
+        return (
+            "?" in text or "？" in text
+            or ResponseEngine._is_time_sensitive(text)
+            or any(x in text for x in factual_question)
+        )
 
     def _neural(self,u,dialogue,lang,deep=False):
         prompt=dialogue.build_prompt(u)
@@ -338,7 +371,9 @@ class ResponseEngine:
         temp=.34 if deep else .42
         # Keep public fast-mode inference short enough for small CPU instances.
         # Deterministic/site/KB answers are handled before this point.
-        return generate(prompt,self.tok,self.model,80 if deep else 48,temp,12,.82)
+        # The model's context is small, but the 48-token fast cap often truncates
+        # useful explanations. Keep output bounded to protect Render's free CPU.
+        return generate(prompt,self.tok,self.model,112 if deep else 64,temp,12,.82)
 
     @staticmethod
     def _format_output(value):
@@ -407,13 +442,25 @@ class ResponseEngine:
                 context = " ".join(part for part in (previous_user, previous_answer) if part)
                 search_query = f"{u} (conversation context: {context})"[:600]
         if ans is None and factual:
-            world_results = world_knowledge.search(search_query, language=lang, limit=3)
-            if self.web_enabled:
-                web_results = web_search(search_query, limit=5, timeout=5)
+            live_query = self._is_time_sensitive(u)
+            if live_query:
+                # Prefer public search for time-sensitive facts; encyclopedia
+                # pages are not a reliable source for today's weather, prices, or news.
+                if self.web_enabled:
+                    web_results = web_search(search_query, limit=5, timeout=4)
+                if not web_results:
+                    world_results = world_knowledge.search(search_query, language=lang, limit=3)
+            else:
+                # Use the free encyclopedia first. Only spend another network
+                # request on public search when encyclopedia retrieval misses.
+                world_results = world_knowledge.search(search_query, language=lang, limit=3)
+                if not world_results and self.web_enabled:
+                    web_results = web_search(search_query, limit=5, timeout=4)
 
-        # A configured pretrained model uses the retrieved evidence and recent
-        # conversation. Without it, Dori still returns source-linked encyclopedia
-        # summaries instead of random text for broad factual questions.
+        # Use the owner's already-configured self-hosted model for all open-ended
+        # tasks—not only factual questions. Evidence is attached only when retrieval
+        # produced it; casual conversation, writing, translation, and follow-ups
+        # still receive history and relevant user memory without irrelevant search text.
         if ans is None and self.llm_enabled:
             evidence_parts = []
             world_evidence = world_knowledge.format_evidence(world_results)
@@ -444,6 +491,10 @@ class ResponseEngine:
         # Local exact knowledge remains useful when the external provider is absent.
         if ans is None:
             ans = self.kb.answer(u, threshold=.70)
+        # Without a text-generation provider, prefer current web results for live
+        # questions; for ordinary stable questions, prefer encyclopedia summaries.
+        if ans is None and self._is_time_sensitive(u) and web_results:
+            ans = format_results(search_query, web_results)
         if ans is None and world_results:
             ans = world_knowledge.as_answer(search_query, world_results, language=lang)
         if ans is None and web_results:
