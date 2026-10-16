@@ -43,24 +43,36 @@ class LocalKnowledge:
                 if key in seen: continue
                 seen.add(key); self.rows.append((q, a))
         self.index = [(q,a,_norm(q),_tokens(q),_grams(q)) for q,a in self.rows]
+        # Exact lookup avoids a full similarity scan for common repeated prompts.
+        self.exact_index = {}
+        for q, a, qn, _, _ in self.index:
+            self.exact_index.setdefault(qn, a)
 
     def size(self): return len(self.rows)
 
     def answer(self, query, threshold=.70):
         qn, qt, qg = _norm(query), _tokens(query), _grams(query)
         if not qn: return None
+        exact = self.exact_index.get(qn)
+        if exact is not None:
+            return exact
         best = None
         for q,a,qn2,qt2,qg2 in self.index:
-            if qn == qn2: return a
+            if not (qt & qt2 or qg & qg2):
+                continue
             token_score = len(qt & qt2) / max(1, len(qt | qt2))
             gram_score = len(qg & qg2) / max(1, len(qg | qg2))
             contains = .94 if len(qn) >= 5 and (qn in qn2 or qn2 in qn) else 0.0
+            # Sequence matching is more expensive than set overlap, so avoid it
+            # for unrelated candidates. The two-gram overlap still catches many
+            # Korean particle/spacing variants.
             ratio = SequenceMatcher(None, qn, qn2).ratio()
             score = max(contains, .45*token_score + .35*gram_score + .20*ratio)
-            # Natural Korean paraphrases such as "누구야" vs "뭐야" often have
-            # low token overlap but high character similarity.
             if len(qn) < 6 and score < .94: continue
             if best is None or score > best[0]: best=(score,a)
         if not best: return None
-        dynamic = .52 if len(qn) >= 7 else threshold
+        # The previous 0.52 floor returned weak, unrelated matches for almost
+        # every long prompt. A modestly stricter floor protects factual accuracy
+        # while still permitting paraphrases and partial phrase matches.
+        dynamic = max(float(threshold), .60) if len(qn) >= 7 else float(threshold)
         return best[1] if best[0] >= dynamic else None
