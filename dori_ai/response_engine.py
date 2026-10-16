@@ -387,12 +387,25 @@ class ResponseEngine:
         return any(x in text for x in markers)
 
     @staticmethod
+    def _is_casual_conversation(u):
+        text = re.sub(r"\s+", "", str(u).lower())
+        markers = (
+            "기분", "심심", "고민", "들어줄래", "들어줘", "수다", "네생각",
+            "너는어때", "잘지내", "뭐해", "농담", "위로", "반가워",
+            "howareyou", "whatdoyouthink", "ifeel", "imbored", "tellmeajoke",
+            "canwetalk", "im sad", "imsad", "imlonely", "imupset", "thankyou",
+            "nice tomeetyou", "whatsup"
+        )
+        return any(x in text for x in markers)
+
+    @staticmethod
     def _needs_web(u):
         text = str(u).lower()
-        # Creating, translating, editing, or summarizing content should not
-        # trigger unrelated source searches, unless the user explicitly asks
+        #        # trigger unrelated source searches, unless the user explicitly asks
         # for current information as part of the task.
-        if ResponseEngine._is_transform_request(text) and not ResponseEngine._is_time_sensitive(text):
+        if ResponseEngine._is_time_sensitive(text):
+            return True
+        if ResponseEngine._is_transform_request(text) or ResponseEngine._is_casual_conversation(text):
             return False
         factual_question = ("누구야", "누구인가", "누구인가요", "누가", "무엇이야", "무엇인가",
                             "뭐야", "뭔가", "무슨", "뜻", "설명", "알려줘", "언제", "어디",
