@@ -244,17 +244,18 @@ def main():
         if args.delay > 0:
             time.sleep(args.delay)
 
-    STATE.write_text(json.dumps({
-        "done": sorted(done),
-        "pending": queue[:max_frontier],
-        "expanded_titles": sorted(expanded_titles),
-        "discovered_titles": sorted(known_titles),
-        "updated_at": datetime.now(timezone.utc).isoformat(),
-        "new_pages": added,
-        "processed_queries": processed,
-        "pending_queries": len(queue),
-        "errors": errors,
-    }, ensure_ascii=False, indent=2), encoding="utf-8")
+    if processed or errors or added:
+        STATE.write_text(json.dumps({
+            "done": sorted(done),
+            "pending": queue[:max_frontier],
+            "expanded_titles": sorted(expanded_titles),
+            "discovered_titles": sorted(known_titles),
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "new_pages": added,
+            "processed_queries": processed,
+            "pending_queries": len(queue),
+            "errors": errors,
+        }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     print(f"WORLD_CORPUS total_pages={len(existing)} new_pages={added} processed_queries={processed} pending_queries={len(queue)} failed_queries={errors}", flush=True)
     if len(existing) == 0:
