@@ -79,17 +79,21 @@ python train_final.py --no-build-cache --epochs 10
 
 새 파일을 추가했거나 원본을 수정했다면 기본 실행으로 cache를 다시 만든다.
 
-## 🌍 다양한 세계 지식 수집과 실제 활용
+## 🌍 스스로 확장하는 세계 지식 수집과 실제 활용
 
-GitHub Actions의 학습 workflow는 이제 학습을 시작하기 전에 `scripts/collect_world_knowledge.py`를 실행한다. 이 수집기는 한국어와 영어 Wikipedia의 공개 API에서 수학, 자연과학, 컴퓨터 과학, 역사, 지리, 경제, 법, 철학, 예술, 언어, 환경, 공학, 건강 일반지식 등 여러 주제의 요약을 가져온다.
+GitHub Actions의 학습 workflow는 공개 한국어·영어 Wikipedia API를 이용해 세계 지식을 모으고, 검색 결과로 발견한 문서 제목을 바탕으로 후속 검색 주제를 새로 만든다. 기초 주제마다 핵심 개념·원리·역사·응용 검색어를 생성하고, 새로 발견한 문서마다 다시 관련 검색어 두 개를 결정적으로 생성한다. 작업 큐와 완료 기록을 저장해 다음 실행에서 이어가며, 중복 검색·중복 문서·일시적인 실패를 관리한다.
 
-- 가져온 문서는 `data/corpus/world_wikipedia.jsonl`에 제목·언어·원문 링크·라이선스 정보를 붙여 저장한다.
-- 수집된 텍스트는 기존 `CorpusBuilder`에 의해 정리·중복 제거·chunking된 뒤 `train_final.py`의 학습 데이터에 포함되어 Transformer 가중치 업데이트에 실제로 사용된다.
-- `dori_ai/world_knowledge.py`는 사용자 질문에 따라 Wikipedia에서 관련 문서를 검색하고, 결과를 캐시에 저장한다.
-- 검색 근거는 로컬/자체 호스팅 모델이 설정된 경우에만 모델 입력으로 전달된다. 모델이 없으면 출처 링크가 포함된 백과사전 요약을 직접 반환해 무작위 Transformer 출력을 피한다.
-- 후속 질문은 직전 사용자 질문과 연결해 검색하도록 기본 처리를 추가했다.
+- **주간 자동 확장:** 매주 월요일 한국 시간 오전 3시 무렵 GitHub Actions가 최대 300개의 검색 주제를 처리한다. workflow_dispatch로 수동 실행도 가능하다. 큐에는 최대 8,000개의 후속 검색을 보관해 과도하게 커지는 것을 막는다.
+- **학습에 포함:** 문서는 data/corpus/world_wikipedia.jsonl에 제목·언어·원문 링크·라이선스 정보와 함께 저장된다. 기존 streaming trainer가 이 자료를 정리·중복 제거·chunking하여 학습 데이터에 포함한다.
+- **실제 답변에서 활용:** dori_ai/world_knowledge.py는 먼저 공개 백과사전에서 관련 자료를 검색한다. 네트워크 검색이 실패하거나 결과가 없으면 수집된 corpus 일부를 제한된 메모리로 검색해 출처 링크가 포함된 답변 근거로 사용할 수 있다.
+- **품질 보호:** 새 문서가 수집되지 않은 주간 실행에서는 불필요한 모델 학습 및 Render 배포를 건너뛴다. 새 자료가 있을 때는 기존 unit/preflight 테스트와 held-out 품질 게이트를 거친다. 후보 모델은 평가에서 개선되지 않으면 승인 checkpoint를 대체하지 않는다.
+- **출처 보존:** 자료마다 원문 주소와 라이선스 정보를 남기며, corpus 전체를 메모리에 한꺼번에 올리지 않는다. 서버의 오프라인 검색은 문서 수를 제한해 Render의 작은 메모리 한도에 맞춘다.
 
-Wikipedia 텍스트의 재사용에는 CC BY-SA 등 라이선스 조건이 적용될 수 있다. 출처 메타데이터를 보존하고, 재배포 전에 관련 조건을 확인한다. 이 수집기는 제한된 주제 목록을 대상으로 하므로 Wikipedia 전체를 학습하는 것은 아니다.
+### 왜 자동으로 Google 검색결과를 복사해 저장하지 않는가?
+
+돌이 AI가 검색으로 지식을 넓히는 것은 목표지만, Google 검색결과 페이지를 무단으로 긁거나 결과 전체를 학습용 데이터베이스로 저장하는 방식은 사용하지 않는다. [Google Custom Search JSON API 안내](https://developers.google.com/custom-search/v1/overview)는 신규 고객에게 API를 제공하지 않는다고 명시하며, [Programmable Search Engine 약관](https://support.google.com/programmable-search/answer/1714300?hl=en)은 검색 결과를 크롤링·색인·지속 저장하는 행위를 제한한다. 따라서 이 저장소는 공개 API와 출처·라이선스 메타데이터가 있는 문서를 사용한다. 수집 자료를 재배포할 때는 각 원문의 라이선스와 저작자 표시 요건을 확인해야 한다.
+
+Wikipedia 자료에는 CC BY-SA 등 라이선스 조건이 적용될 수 있다. 이 파이프라인은 주제를 넓게 확장하지만 Wikipedia 전체나 인터넷 전체를 학습한다는 뜻은 아니다. 수집량·API 가용성·GitHub 실행 자원에도 현실적인 한계가 있다.
 
 ## 📈 학습 기록
 
