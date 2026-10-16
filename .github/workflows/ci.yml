@@ -8,6 +8,7 @@ on:
       - "dori_ai/**"
       - "scripts/**"
       - "tests/**"
+      - "data/evaluation/**"
       - "requirements.txt"
       - ".github/workflows/ci.yml"
   pull_request:
