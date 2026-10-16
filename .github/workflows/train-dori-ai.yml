@@ -59,7 +59,7 @@ jobs:
           set -o pipefail
           python scripts/collect_world_knowledge.py --pages-per-topic 2 --max-queries-per-run 300 --max-frontier 8000 --delay 0.08 | tee "$RUNNER_TEMP/world-knowledge.log"
           new_pages="$(sed -n 's/.*WORLD_CORPUS .* new_pages=\([0-9][0-9]*\) .*/\1/p' "$RUNNER_TEMP/world-knowledge.log" | tail -n 1)"
-          echo "new_pages=\${new_pages:-0}" >> "$GITHUB_OUTPUT"
+          echo "new_pages=${new_pages:-0}" >> "$GITHUB_OUTPUT"
 
       - name: Invalidate stale streaming chunks
         if: ${{ steps.collect.outputs.new_pages != '0' || github.event_name != 'schedule' }}
@@ -164,7 +164,7 @@ jobs:
             exit 0
           fi
 
-          if [[ "\${{ github.event_name }}" == "schedule" && "\${{ steps.collect.outputs.new_pages }}" == "0" ]]; then
+          if [[ "${{ github.event_name }}" == "schedule" && "${{ steps.collect.outputs.new_pages }}" == "0" ]]; then
             git commit -m "Advance world-knowledge discovery frontier"
           else
             git commit -m "Continue Dori AI training rounds"
