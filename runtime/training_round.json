@@ -1,7 +1,11 @@
 {
-  "round": 1200,
-  "updated_at": 1791801313.711253,
-  "last_train_loss": 1.684997164937826,
-  "last_val_loss": 5.143034309294011,
-  "target_rounds": 1200
+  "round": 250,
+  "target_rounds": 1200,
+  "target_rounds_per_dataset": 1200,
+  "cumulative_round": 1450,
+  "source_fingerprint": "e1a2428357ea075abb99e694786e9b91cb1fc814cd76aebc8f7e97f5cd0fba69",
+  "cycle_started_at": 1792167901.0764604,
+  "updated_at": 1792179842.0490696,
+  "last_train_loss": 1.5210329835522205,
+  "last_val_loss": 4.566853209732578
 }

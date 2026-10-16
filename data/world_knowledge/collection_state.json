@@ -170,49 +170,106 @@
     "ko:경제학",
     "ko:고고학",
     "ko:고대",
+    "ko:고대 실제 응용",
+    "ko:고대 작동 원리",
+    "ko:고대 핵심 개념",
     "ko:고대사",
+    "ko:고대사 실제 응용",
+    "ko:고대사 작동 원리",
+    "ko:고대사 핵심 개념",
     "ko:고생물학",
     "ko:고전역학",
+    "ko:고전역학 실제 응용",
+    "ko:고전역학 작동 원리",
+    "ko:고전역학 핵심 개념",
     "ko:공룡",
     "ko:공중보건",
     "ko:과학",
+    "ko:과학 실제 응용",
+    "ko:과학 작동 원리",
+    "ko:과학 핵심 개념",
     "ko:광학",
+    "ko:광학 실제 응용",
+    "ko:광학 작동 원리",
+    "ko:광학 핵심 개념",
     "ko:교육학",
     "ko:교통",
     "ko:국가",
     "ko:국제관계",
     "ko:국제법",
     "ko:그리스",
+    "ko:그리스 실제 응용",
+    "ko:그리스 작동 원리",
+    "ko:그리스 핵심 개념",
     "ko:금융",
     "ko:기계공학",
     "ko:기계학습",
+    "ko:기계학습 실제 응용",
+    "ko:기계학습 작동 원리",
+    "ko:기계학습 핵심 개념",
     "ko:기상학",
     "ko:기하학",
+    "ko:기하학 실제 응용",
+    "ko:기하학 작동 원리",
+    "ko:기하학 핵심 개념",
     "ko:기후학",
     "ko:나노기술",
     "ko:논리학",
+    "ko:논리학 실제 응용",
+    "ko:논리학 작동 원리",
+    "ko:논리학 핵심 개념",
     "ko:농구",
     "ko:농업",
     "ko:대륙",
     "ko:대수학",
+    "ko:대수학 실제 응용",
+    "ko:대수학 작동 원리",
+    "ko:대수학 핵심 개념",
     "ko:데이터베이스",
+    "ko:데이터베이스 실제 응용",
+    "ko:데이터베이스 작동 원리",
+    "ko:데이터베이스 핵심 개념",
     "ko:도시",
     "ko:동물학",
+    "ko:동물학 실제 응용",
+    "ko:동물학 작동 원리",
+    "ko:동물학 핵심 개념",
     "ko:디자인",
     "ko:로마",
+    "ko:로마 실제 응용",
+    "ko:로마 작동 원리",
+    "ko:로마 핵심 개념",
     "ko:로봇공학",
+    "ko:로봇공학 실제 응용",
+    "ko:로봇공학 작동 원리",
+    "ko:로봇공학 핵심 개념",
     "ko:면역학",
+    "ko:면역학 실제 응용",
+    "ko:면역학 작동 원리",
+    "ko:면역학 핵심 개념",
     "ko:무기화학",
+    "ko:무기화학 실제 응용",
+    "ko:무기화학 작동 원리",
+    "ko:무기화학 핵심 개념",
     "ko:무역",
     "ko:문법",
     "ko:문학",
     "ko:물리학",
+    "ko:물리학 실제 응용",
+    "ko:물리학 작동 원리",
+    "ko:물리학 핵심 개념",
     "ko:물리화학",
     "ko:미디어",
     "ko:미생물학",
+    "ko:미생물학 실제 응용",
+    "ko:미생물학 작동 원리",
+    "ko:미생물학 핵심 개념",
     "ko:미술사",
     "ko:미시경제학",
     "ko:미적분",
+    "ko:미적분 실제 응용",
+    "ko:미적분 작동 원리",
+    "ko:미적분 핵심 개념",
     "ko:민주주의",
     "ko:반도체",
     "ko:번역",
@@ -220,63 +277,213 @@
     "ko:별",
     "ko:블랙홀",
     "ko:사이버보안",
+    "ko:사이버보안 실제 응용",
+    "ko:사이버보안 작동 원리",
+    "ko:사이버보안 핵심 개념",
     "ko:사진",
     "ko:사회학",
     "ko:산업혁명",
+    "ko:산업혁명 실제 응용",
+    "ko:산업혁명 작동 원리",
+    "ko:산업혁명 핵심 개념",
     "ko:상대성이론",
+    "ko:상대성이론 실제 응용",
+    "ko:상대성이론 작동 원리",
+    "ko:상대성이론 핵심 개념",
     "ko:생물다양성",
     "ko:생물학",
+    "ko:생물학 실제 응용",
+    "ko:생물학 작동 원리",
+    "ko:생물학 핵심 개념",
     "ko:생태학",
+    "ko:생태학 실제 응용",
+    "ko:생태학 작동 원리",
+    "ko:생태학 핵심 개념",
     "ko:세계사",
+    "ko:세계사 실제 응용",
+    "ko:세계사 작동 원리",
+    "ko:세계사 핵심 개념",
     "ko:세포",
+    "ko:세포 실제 응용",
+    "ko:세포 작동 원리",
+    "ko:세포 핵심 개념",
     "ko:소설",
     "ko:수도",
     "ko:수학",
+    "ko:수학 실제 응용",
+    "ko:수학 작동 원리",
+    "ko:수학 핵심 개념",
     "ko:스포츠",
     "ko:시",
     "ko:식물학",
+    "ko:식물학 실제 응용",
+    "ko:식물학 작동 원리",
+    "ko:식물학 핵심 개념",
     "ko:식품과학",
     "ko:신경과학",
+    "ko:신경과학 실제 응용",
+    "ko:신경과학 작동 원리",
+    "ko:신경과학 핵심 개념",
     "ko:신경망",
+    "ko:신경망 실제 응용",
+    "ko:신경망 작동 원리",
+    "ko:신경망 핵심 개념",
     "ko:신화",
     "ko:심리학",
     "ko:알고리즘",
+    "ko:알고리즘 실제 응용",
+    "ko:알고리즘 작동 원리",
+    "ko:알고리즘 핵심 개념",
     "ko:야구",
     "ko:양자역학",
+    "ko:양자역학 실제 응용",
+    "ko:양자역학 작동 원리",
+    "ko:양자역학 핵심 개념",
     "ko:언어",
+    "ko:언어 실제 응용",
+    "ko:언어 작동 원리",
+    "ko:언어 핵심 개념",
     "ko:언어학",
     "ko:에너지",
     "ko:역사",
+    "ko:역사 실제 응용",
+    "ko:역사 작동 원리",
+    "ko:역사 핵심 개념",
+    "ko:역사와 발전 고대",
+    "ko:역사와 발전 고대사",
+    "ko:역사와 발전 고전역학",
+    "ko:역사와 발전 과학",
+    "ko:역사와 발전 광학",
+    "ko:역사와 발전 그리스",
+    "ko:역사와 발전 기계학습",
+    "ko:역사와 발전 기하학",
+    "ko:역사와 발전 논리학",
+    "ko:역사와 발전 대수학",
+    "ko:역사와 발전 데이터베이스",
+    "ko:역사와 발전 동물학",
+    "ko:역사와 발전 로마",
+    "ko:역사와 발전 로봇공학",
+    "ko:역사와 발전 면역학",
+    "ko:역사와 발전 무기화학",
+    "ko:역사와 발전 물리학",
+    "ko:역사와 발전 미생물학",
+    "ko:역사와 발전 미적분",
+    "ko:역사와 발전 사이버보안",
+    "ko:역사와 발전 산업혁명",
+    "ko:역사와 발전 상대성이론",
+    "ko:역사와 발전 생물학",
+    "ko:역사와 발전 생태학",
+    "ko:역사와 발전 세계사",
+    "ko:역사와 발전 세포",
+    "ko:역사와 발전 수학",
+    "ko:역사와 발전 식물학",
+    "ko:역사와 발전 신경과학",
+    "ko:역사와 발전 신경망",
+    "ko:역사와 발전 알고리즘",
+    "ko:역사와 발전 양자역학",
+    "ko:역사와 발전 언어",
+    "ko:역사와 발전 역사",
+    "ko:역사와 발전 열역학",
+    "ko:역사와 발전 왕조",
+    "ko:역사와 발전 운영체제",
+    "ko:역사와 발전 유기화학",
+    "ko:역사와 발전 유럽사",
+    "ko:역사와 발전 유전학",
+    "ko:역사와 발전 윤리학",
+    "ko:역사와 발전 음향학",
+    "ko:역사와 발전 의학",
+    "ko:역사와 발전 인공지능",
+    "ko:역사와 발전 인식론",
+    "ko:역사와 발전 인터넷",
+    "ko:역사와 발전 자료구조",
+    "ko:역사와 발전 전자기학",
+    "ko:역사와 발전 정보이론",
+    "ko:역사와 발전 정수론",
+    "ko:역사와 발전 제국",
+    "ko:역사와 발전 조선",
+    "ko:역사와 발전 주기율표",
+    "ko:역사와 발전 중세",
+    "ko:역사와 발전 진화",
+    "ko:역사와 발전 철학",
+    "ko:역사와 발전 컴퓨터",
+    "ko:역사와 발전 통계",
+    "ko:역사와 발전 프랑스",
+    "ko:역사와 발전 프로그래밍",
+    "ko:역사와 발전 한국사",
+    "ko:역사와 발전 해부학",
+    "ko:역사와 발전 혁명",
+    "ko:역사와 발전 화학",
+    "ko:역사와 발전 화학결합",
+    "ko:역사와 발전 확률",
     "ko:열역학",
+    "ko:열역학 실제 응용",
+    "ko:열역학 작동 원리",
+    "ko:열역학 핵심 개념",
     "ko:영양학",
     "ko:영어",
     "ko:영화",
     "ko:올림픽",
     "ko:왕조",
+    "ko:왕조 실제 응용",
+    "ko:왕조 작동 원리",
+    "ko:왕조 핵심 개념",
     "ko:요리",
     "ko:우주공학",
     "ko:우주론",
     "ko:우주탐사",
     "ko:운영체제",
+    "ko:운영체제 실제 응용",
+    "ko:운영체제 작동 원리",
+    "ko:운영체제 핵심 개념",
     "ko:원자력",
     "ko:유기화학",
+    "ko:유기화학 실제 응용",
+    "ko:유기화학 작동 원리",
+    "ko:유기화학 핵심 개념",
     "ko:유럽사",
+    "ko:유럽사 실제 응용",
+    "ko:유럽사 작동 원리",
+    "ko:유럽사 핵심 개념",
     "ko:유전학",
+    "ko:유전학 실제 응용",
+    "ko:유전학 작동 원리",
+    "ko:유전학 핵심 개념",
     "ko:윤리학",
+    "ko:윤리학 실제 응용",
+    "ko:윤리학 작동 원리",
+    "ko:윤리학 핵심 개념",
     "ko:은하",
     "ko:음악",
     "ko:음악이론",
     "ko:음향학",
+    "ko:음향학 실제 응용",
+    "ko:음향학 작동 원리",
+    "ko:음향학 핵심 개념",
     "ko:응급의학",
     "ko:의료윤리",
     "ko:의학",
+    "ko:의학 실제 응용",
+    "ko:의학 작동 원리",
+    "ko:의학 핵심 개념",
     "ko:인공지능",
+    "ko:인공지능 실제 응용",
+    "ko:인공지능 작동 원리",
+    "ko:인공지능 핵심 개념",
     "ko:인구",
     "ko:인류학",
     "ko:인식론",
+    "ko:인식론 실제 응용",
+    "ko:인식론 작동 원리",
+    "ko:인식론 핵심 개념",
     "ko:인터넷",
+    "ko:인터넷 실제 응용",
+    "ko:인터넷 작동 원리",
+    "ko:인터넷 핵심 개념",
     "ko:인플레이션",
     "ko:자료구조",
+    "ko:자료구조 실제 응용",
+    "ko:자료구조 작동 원리",
+    "ko:자료구조 핵심 개념",
     "ko:재료과학",
     "ko:재생에너지",
     "ko:재즈",
@@ -285,51 +492,7026 @@
     "ko:전염병",
     "ko:전자공학",
     "ko:전자기학",
+    "ko:전자기학 실제 응용",
+    "ko:전자기학 작동 원리",
+    "ko:전자기학 핵심 개념",
     "ko:정보이론",
+    "ko:정보이론 실제 응용",
+    "ko:정보이론 작동 원리",
+    "ko:정보이론 핵심 개념",
     "ko:정수론",
+    "ko:정수론 실제 응용",
+    "ko:정수론 작동 원리",
+    "ko:정수론 핵심 개념",
     "ko:정치철학",
+    "ko:정치철학 핵심 개념",
     "ko:제국",
+    "ko:제국 실제 응용",
+    "ko:제국 작동 원리",
+    "ko:제국 핵심 개념",
     "ko:조각",
     "ko:조선",
+    "ko:조선 실제 응용",
+    "ko:조선 작동 원리",
+    "ko:조선 핵심 개념",
     "ko:종교학",
     "ko:주기율표",
+    "ko:주기율표 실제 응용",
+    "ko:주기율표 작동 원리",
+    "ko:주기율표 핵심 개념",
     "ko:중세",
+    "ko:중세 실제 응용",
+    "ko:중세 작동 원리",
+    "ko:중세 핵심 개념",
     "ko:지구",
     "ko:지리학",
     "ko:지질학",
     "ko:진화",
+    "ko:진화 실제 응용",
+    "ko:진화 작동 원리",
+    "ko:진화 핵심 개념",
     "ko:천문학",
     "ko:철도",
     "ko:철학",
+    "ko:철학 실제 응용",
+    "ko:철학 작동 원리",
+    "ko:철학 핵심 개념",
     "ko:체스",
     "ko:축구",
     "ko:컴퓨터",
+    "ko:컴퓨터 실제 응용",
+    "ko:컴퓨터 작동 원리",
+    "ko:컴퓨터 핵심 개념",
     "ko:클래식",
     "ko:타이포그래피",
     "ko:태양계",
     "ko:토목공학",
     "ko:통계",
+    "ko:통계 실제 응용",
+    "ko:통계 작동 원리",
+    "ko:통계 핵심 개념",
     "ko:통신",
     "ko:통화",
     "ko:프랑스",
+    "ko:프랑스 실제 응용",
+    "ko:프랑스 작동 원리",
+    "ko:프랑스 핵심 개념",
     "ko:프로그래밍",
+    "ko:프로그래밍 실제 응용",
+    "ko:프로그래밍 작동 원리",
+    "ko:프로그래밍 핵심 개념",
     "ko:한국사",
+    "ko:한국사 실제 응용",
+    "ko:한국사 작동 원리",
+    "ko:한국사 핵심 개념",
     "ko:한국어",
     "ko:항공",
     "ko:해부학",
+    "ko:해부학 실제 응용",
+    "ko:해부학 작동 원리",
+    "ko:해부학 핵심 개념",
     "ko:해양학",
     "ko:헌법",
     "ko:혁명",
+    "ko:혁명 실제 응용",
+    "ko:혁명 작동 원리",
+    "ko:혁명 핵심 개념",
     "ko:화석",
     "ko:화학",
+    "ko:화학 실제 응용",
+    "ko:화학 작동 원리",
+    "ko:화학 핵심 개념",
     "ko:화학결합",
+    "ko:화학결합 실제 응용",
+    "ko:화학결합 작동 원리",
+    "ko:화학결합 핵심 개념",
     "ko:확률",
+    "ko:확률 실제 응용",
+    "ko:확률 작동 원리",
+    "ko:확률 핵심 개념",
     "ko:환경과학",
     "ko:회계학",
     "ko:회화",
     "ko:희곡"
   ],
-  "updated_at": "2026-10-16T14:55:11.631621+00:00",
-  "new_pages": 0,
-  "errors": 0
+  "pending": [
+    {
+      "language": "ko",
+      "query": "회계학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "회계학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "회계학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 회계학"
+    },
+    {
+      "language": "ko",
+      "query": "법학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "법학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "법학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 법학"
+    },
+    {
+      "language": "ko",
+      "query": "헌법 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "헌법 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "헌법 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 헌법"
+    },
+    {
+      "language": "ko",
+      "query": "국제법 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "국제법 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "국제법 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 국제법"
+    },
+    {
+      "language": "ko",
+      "query": "민주주의 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "민주주의 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "민주주의 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 민주주의"
+    },
+    {
+      "language": "ko",
+      "query": "국제관계 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "국제관계 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "국제관계 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 국제관계"
+    },
+    {
+      "language": "ko",
+      "query": "지리학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "지리학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "지리학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 지리학"
+    },
+    {
+      "language": "ko",
+      "query": "지질학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "지질학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "지질학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 지질학"
+    },
+    {
+      "language": "ko",
+      "query": "기후학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "기후학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "기후학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 기후학"
+    },
+    {
+      "language": "ko",
+      "query": "해양학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "해양학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "해양학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 해양학"
+    },
+    {
+      "language": "ko",
+      "query": "기상학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "기상학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "기상학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 기상학"
+    },
+    {
+      "language": "ko",
+      "query": "환경과학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "환경과학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "환경과학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 환경과학"
+    },
+    {
+      "language": "ko",
+      "query": "생물다양성 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "생물다양성 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "생물다양성 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 생물다양성"
+    },
+    {
+      "language": "ko",
+      "query": "재생에너지 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "재생에너지 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "재생에너지 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 재생에너지"
+    },
+    {
+      "language": "ko",
+      "query": "원자력 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "원자력 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "원자력 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 원자력"
+    },
+    {
+      "language": "ko",
+      "query": "태양계 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "태양계 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "태양계 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 태양계"
+    },
+    {
+      "language": "ko",
+      "query": "천문학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "천문학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "천문학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 천문학"
+    },
+    {
+      "language": "ko",
+      "query": "별 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "별 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "별 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 별"
+    },
+    {
+      "language": "ko",
+      "query": "은하 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "은하 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "은하 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 은하"
+    },
+    {
+      "language": "ko",
+      "query": "블랙홀 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "블랙홀 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "블랙홀 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 블랙홀"
+    },
+    {
+      "language": "ko",
+      "query": "우주론 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "우주론 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "우주론 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 우주론"
+    },
+    {
+      "language": "ko",
+      "query": "우주탐사 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "우주탐사 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "우주탐사 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 우주탐사"
+    },
+    {
+      "language": "ko",
+      "query": "지구 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "지구 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "지구 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 지구"
+    },
+    {
+      "language": "ko",
+      "query": "대륙 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "대륙 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "대륙 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 대륙"
+    },
+    {
+      "language": "ko",
+      "query": "국가 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "국가 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "국가 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 국가"
+    },
+    {
+      "language": "ko",
+      "query": "수도 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "수도 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "수도 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 수도"
+    },
+    {
+      "language": "ko",
+      "query": "인구 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "인구 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "인구 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 인구"
+    },
+    {
+      "language": "ko",
+      "query": "도시 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "도시 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "도시 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 도시"
+    },
+    {
+      "language": "ko",
+      "query": "건축 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "건축 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "건축 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 건축"
+    },
+    {
+      "language": "ko",
+      "query": "미술사 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "미술사 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "미술사 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 미술사"
+    },
+    {
+      "language": "ko",
+      "query": "회화 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "회화 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "회화 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 회화"
+    },
+    {
+      "language": "ko",
+      "query": "조각 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "조각 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "조각 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 조각"
+    },
+    {
+      "language": "ko",
+      "query": "음악 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "음악 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "음악 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 음악"
+    },
+    {
+      "language": "ko",
+      "query": "음악이론 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "음악이론 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "음악이론 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 음악이론"
+    },
+    {
+      "language": "ko",
+      "query": "클래식 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "클래식 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "클래식 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 클래식"
+    },
+    {
+      "language": "ko",
+      "query": "재즈 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "재즈 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "재즈 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 재즈"
+    },
+    {
+      "language": "ko",
+      "query": "영화 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "영화 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "영화 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 영화"
+    },
+    {
+      "language": "ko",
+      "query": "문학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "문학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "문학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 문학"
+    },
+    {
+      "language": "ko",
+      "query": "소설 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "소설 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "소설 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 소설"
+    },
+    {
+      "language": "ko",
+      "query": "시 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "시 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "시 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 시"
+    },
+    {
+      "language": "ko",
+      "query": "희곡 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "희곡 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "희곡 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 희곡"
+    },
+    {
+      "language": "ko",
+      "query": "신화 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "신화 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "신화 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 신화"
+    },
+    {
+      "language": "ko",
+      "query": "종교학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "종교학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "종교학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 종교학"
+    },
+    {
+      "language": "ko",
+      "query": "언어학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "언어학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "언어학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 언어학"
+    },
+    {
+      "language": "ko",
+      "query": "한국어 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "한국어 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "한국어 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 한국어"
+    },
+    {
+      "language": "ko",
+      "query": "영어 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "영어 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "영어 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 영어"
+    },
+    {
+      "language": "ko",
+      "query": "문법 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "문법 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "문법 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 문법"
+    },
+    {
+      "language": "ko",
+      "query": "번역 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "번역 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "번역 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 번역"
+    },
+    {
+      "language": "ko",
+      "query": "교육학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "교육학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "교육학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 교육학"
+    },
+    {
+      "language": "ko",
+      "query": "심리학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "심리학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "심리학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 심리학"
+    },
+    {
+      "language": "ko",
+      "query": "사회학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "사회학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "사회학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 사회학"
+    },
+    {
+      "language": "ko",
+      "query": "인류학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "인류학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "인류학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 인류학"
+    },
+    {
+      "language": "ko",
+      "query": "고고학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "고고학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "고고학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 고고학"
+    },
+    {
+      "language": "ko",
+      "query": "미디어 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "미디어 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "미디어 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 미디어"
+    },
+    {
+      "language": "ko",
+      "query": "스포츠 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "스포츠 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "스포츠 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 스포츠"
+    },
+    {
+      "language": "ko",
+      "query": "축구 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "축구 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "축구 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 축구"
+    },
+    {
+      "language": "ko",
+      "query": "농구 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "농구 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "농구 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 농구"
+    },
+    {
+      "language": "ko",
+      "query": "야구 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "야구 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "야구 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 야구"
+    },
+    {
+      "language": "ko",
+      "query": "체스 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "체스 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "체스 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 체스"
+    },
+    {
+      "language": "ko",
+      "query": "올림픽 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "올림픽 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "올림픽 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 올림픽"
+    },
+    {
+      "language": "ko",
+      "query": "게임이론 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "게임이론 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "게임이론 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 게임이론"
+    },
+    {
+      "language": "ko",
+      "query": "디자인 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "디자인 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "디자인 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 디자인"
+    },
+    {
+      "language": "ko",
+      "query": "타이포그래피 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "타이포그래피 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "타이포그래피 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 타이포그래피"
+    },
+    {
+      "language": "ko",
+      "query": "사진 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "사진 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "사진 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 사진"
+    },
+    {
+      "language": "ko",
+      "query": "요리 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "요리 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "요리 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 요리"
+    },
+    {
+      "language": "ko",
+      "query": "농업 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "농업 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "농업 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 농업"
+    },
+    {
+      "language": "ko",
+      "query": "식품과학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "식품과학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "식품과학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 식품과학"
+    },
+    {
+      "language": "ko",
+      "query": "영양학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "영양학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "영양학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 영양학"
+    },
+    {
+      "language": "ko",
+      "query": "교통 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "교통 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "교통 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 교통"
+    },
+    {
+      "language": "ko",
+      "query": "철도 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "철도 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "철도 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 철도"
+    },
+    {
+      "language": "ko",
+      "query": "항공 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "항공 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "항공 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 항공"
+    },
+    {
+      "language": "ko",
+      "query": "우주공학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "우주공학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "우주공학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 우주공학"
+    },
+    {
+      "language": "ko",
+      "query": "토목공학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "토목공학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "토목공학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 토목공학"
+    },
+    {
+      "language": "ko",
+      "query": "재료과학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "재료과학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "재료과학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 재료과학"
+    },
+    {
+      "language": "ko",
+      "query": "나노기술 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "나노기술 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "나노기술 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 나노기술"
+    },
+    {
+      "language": "ko",
+      "query": "전기공학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "전기공학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "전기공학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 전기공학"
+    },
+    {
+      "language": "ko",
+      "query": "기계공학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "기계공학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "기계공학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 기계공학"
+    },
+    {
+      "language": "ko",
+      "query": "통신 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "통신 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "통신 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 통신"
+    },
+    {
+      "language": "ko",
+      "query": "반도체 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "반도체 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "반도체 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 반도체"
+    },
+    {
+      "language": "ko",
+      "query": "전자공학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "전자공학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "전자공학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 전자공학"
+    },
+    {
+      "language": "ko",
+      "query": "에너지 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "에너지 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "에너지 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 에너지"
+    },
+    {
+      "language": "ko",
+      "query": "저장 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "저장 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "저장 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 저장"
+    },
+    {
+      "language": "ko",
+      "query": "물리화학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "물리화학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "물리화학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 물리화학"
+    },
+    {
+      "language": "ko",
+      "query": "고생물학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "고생물학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "고생물학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 고생물학"
+    },
+    {
+      "language": "ko",
+      "query": "공룡 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "공룡 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "공룡 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 공룡"
+    },
+    {
+      "language": "ko",
+      "query": "화석 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "화석 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "화석 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 화석"
+    },
+    {
+      "language": "ko",
+      "query": "전염병 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "전염병 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "전염병 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 전염병"
+    },
+    {
+      "language": "ko",
+      "query": "공중보건 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "공중보건 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "공중보건 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 공중보건"
+    },
+    {
+      "language": "ko",
+      "query": "응급의학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "응급의학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "응급의학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 응급의학"
+    },
+    {
+      "language": "ko",
+      "query": "의료윤리 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "의료윤리 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "의료윤리 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 의료윤리"
+    },
+    {
+      "language": "en",
+      "query": "mathematics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "mathematics how it works"
+    },
+    {
+      "language": "en",
+      "query": "mathematics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of mathematics"
+    },
+    {
+      "language": "en",
+      "query": "algebra key concepts"
+    },
+    {
+      "language": "en",
+      "query": "algebra how it works"
+    },
+    {
+      "language": "en",
+      "query": "algebra real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of algebra"
+    },
+    {
+      "language": "en",
+      "query": "geometry key concepts"
+    },
+    {
+      "language": "en",
+      "query": "geometry how it works"
+    },
+    {
+      "language": "en",
+      "query": "geometry real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of geometry"
+    },
+    {
+      "language": "en",
+      "query": "calculus key concepts"
+    },
+    {
+      "language": "en",
+      "query": "calculus how it works"
+    },
+    {
+      "language": "en",
+      "query": "calculus real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of calculus"
+    },
+    {
+      "language": "en",
+      "query": "probability key concepts"
+    },
+    {
+      "language": "en",
+      "query": "probability how it works"
+    },
+    {
+      "language": "en",
+      "query": "probability real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of probability"
+    },
+    {
+      "language": "en",
+      "query": "statistics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "statistics how it works"
+    },
+    {
+      "language": "en",
+      "query": "statistics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of statistics"
+    },
+    {
+      "language": "en",
+      "query": "number key concepts"
+    },
+    {
+      "language": "en",
+      "query": "number how it works"
+    },
+    {
+      "language": "en",
+      "query": "number real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of number"
+    },
+    {
+      "language": "en",
+      "query": "theory key concepts"
+    },
+    {
+      "language": "en",
+      "query": "theory how it works"
+    },
+    {
+      "language": "en",
+      "query": "theory real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of theory"
+    },
+    {
+      "language": "en",
+      "query": "logic key concepts"
+    },
+    {
+      "language": "en",
+      "query": "logic how it works"
+    },
+    {
+      "language": "en",
+      "query": "logic real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of logic"
+    },
+    {
+      "language": "en",
+      "query": "computer key concepts"
+    },
+    {
+      "language": "en",
+      "query": "computer how it works"
+    },
+    {
+      "language": "en",
+      "query": "computer real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of computer"
+    },
+    {
+      "language": "en",
+      "query": "science key concepts"
+    },
+    {
+      "language": "en",
+      "query": "science how it works"
+    },
+    {
+      "language": "en",
+      "query": "science real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of science"
+    },
+    {
+      "language": "en",
+      "query": "algorithms key concepts"
+    },
+    {
+      "language": "en",
+      "query": "algorithms how it works"
+    },
+    {
+      "language": "en",
+      "query": "algorithms real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of algorithms"
+    },
+    {
+      "language": "en",
+      "query": "data key concepts"
+    },
+    {
+      "language": "en",
+      "query": "data how it works"
+    },
+    {
+      "language": "en",
+      "query": "data real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of data"
+    },
+    {
+      "language": "en",
+      "query": "structures key concepts"
+    },
+    {
+      "language": "en",
+      "query": "structures how it works"
+    },
+    {
+      "language": "en",
+      "query": "structures real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of structures"
+    },
+    {
+      "language": "en",
+      "query": "programming key concepts"
+    },
+    {
+      "language": "en",
+      "query": "programming how it works"
+    },
+    {
+      "language": "en",
+      "query": "programming real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of programming"
+    },
+    {
+      "language": "en",
+      "query": "languages key concepts"
+    },
+    {
+      "language": "en",
+      "query": "languages how it works"
+    },
+    {
+      "language": "en",
+      "query": "languages real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of languages"
+    },
+    {
+      "language": "en",
+      "query": "artificial key concepts"
+    },
+    {
+      "language": "en",
+      "query": "artificial how it works"
+    },
+    {
+      "language": "en",
+      "query": "artificial real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of artificial"
+    },
+    {
+      "language": "en",
+      "query": "intelligence key concepts"
+    },
+    {
+      "language": "en",
+      "query": "intelligence how it works"
+    },
+    {
+      "language": "en",
+      "query": "intelligence real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of intelligence"
+    },
+    {
+      "language": "en",
+      "query": "machine key concepts"
+    },
+    {
+      "language": "en",
+      "query": "machine how it works"
+    },
+    {
+      "language": "en",
+      "query": "machine real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of machine"
+    },
+    {
+      "language": "en",
+      "query": "learning key concepts"
+    },
+    {
+      "language": "en",
+      "query": "learning how it works"
+    },
+    {
+      "language": "en",
+      "query": "learning real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of learning"
+    },
+    {
+      "language": "en",
+      "query": "neural key concepts"
+    },
+    {
+      "language": "en",
+      "query": "neural how it works"
+    },
+    {
+      "language": "en",
+      "query": "neural real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of neural"
+    },
+    {
+      "language": "en",
+      "query": "networks key concepts"
+    },
+    {
+      "language": "en",
+      "query": "networks how it works"
+    },
+    {
+      "language": "en",
+      "query": "networks real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of networks"
+    },
+    {
+      "language": "en",
+      "query": "databases key concepts"
+    },
+    {
+      "language": "en",
+      "query": "databases how it works"
+    },
+    {
+      "language": "en",
+      "query": "databases real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of databases"
+    },
+    {
+      "language": "en",
+      "query": "internet key concepts"
+    },
+    {
+      "language": "en",
+      "query": "internet how it works"
+    },
+    {
+      "language": "en",
+      "query": "internet real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of internet"
+    },
+    {
+      "language": "en",
+      "query": "cybersecurity key concepts"
+    },
+    {
+      "language": "en",
+      "query": "cybersecurity how it works"
+    },
+    {
+      "language": "en",
+      "query": "cybersecurity real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of cybersecurity"
+    },
+    {
+      "language": "en",
+      "query": "operating key concepts"
+    },
+    {
+      "language": "en",
+      "query": "operating how it works"
+    },
+    {
+      "language": "en",
+      "query": "operating real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of operating"
+    },
+    {
+      "language": "en",
+      "query": "systems key concepts"
+    },
+    {
+      "language": "en",
+      "query": "systems how it works"
+    },
+    {
+      "language": "en",
+      "query": "systems real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of systems"
+    },
+    {
+      "language": "en",
+      "query": "robotics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "robotics how it works"
+    },
+    {
+      "language": "en",
+      "query": "robotics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of robotics"
+    },
+    {
+      "language": "en",
+      "query": "information key concepts"
+    },
+    {
+      "language": "en",
+      "query": "information how it works"
+    },
+    {
+      "language": "en",
+      "query": "information real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of information"
+    },
+    {
+      "language": "en",
+      "query": "physics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "physics how it works"
+    },
+    {
+      "language": "en",
+      "query": "physics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of physics"
+    },
+    {
+      "language": "en",
+      "query": "classical key concepts"
+    },
+    {
+      "language": "en",
+      "query": "classical how it works"
+    },
+    {
+      "language": "en",
+      "query": "classical real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of classical"
+    },
+    {
+      "language": "en",
+      "query": "mechanics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "mechanics how it works"
+    },
+    {
+      "language": "en",
+      "query": "mechanics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of mechanics"
+    },
+    {
+      "language": "en",
+      "query": "quantum key concepts"
+    },
+    {
+      "language": "en",
+      "query": "quantum how it works"
+    },
+    {
+      "language": "en",
+      "query": "quantum real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of quantum"
+    },
+    {
+      "language": "en",
+      "query": "relativity key concepts"
+    },
+    {
+      "language": "en",
+      "query": "relativity how it works"
+    },
+    {
+      "language": "en",
+      "query": "relativity real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of relativity"
+    },
+    {
+      "language": "en",
+      "query": "thermodynamics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "thermodynamics how it works"
+    },
+    {
+      "language": "en",
+      "query": "thermodynamics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of thermodynamics"
+    },
+    {
+      "language": "en",
+      "query": "electromagnetism key concepts"
+    },
+    {
+      "language": "en",
+      "query": "electromagnetism how it works"
+    },
+    {
+      "language": "en",
+      "query": "electromagnetism real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of electromagnetism"
+    },
+    {
+      "language": "en",
+      "query": "optics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "optics how it works"
+    },
+    {
+      "language": "en",
+      "query": "optics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of optics"
+    },
+    {
+      "language": "en",
+      "query": "acoustics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "acoustics how it works"
+    },
+    {
+      "language": "en",
+      "query": "acoustics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of acoustics"
+    },
+    {
+      "language": "en",
+      "query": "chemistry key concepts"
+    },
+    {
+      "language": "en",
+      "query": "chemistry how it works"
+    },
+    {
+      "language": "en",
+      "query": "chemistry real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of chemistry"
+    },
+    {
+      "language": "en",
+      "query": "organic key concepts"
+    },
+    {
+      "language": "en",
+      "query": "organic how it works"
+    },
+    {
+      "language": "en",
+      "query": "organic real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of organic"
+    },
+    {
+      "language": "en",
+      "query": "periodic key concepts"
+    },
+    {
+      "language": "en",
+      "query": "periodic how it works"
+    },
+    {
+      "language": "en",
+      "query": "periodic real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of periodic"
+    },
+    {
+      "language": "en",
+      "query": "table key concepts"
+    },
+    {
+      "language": "en",
+      "query": "table how it works"
+    },
+    {
+      "language": "en",
+      "query": "table real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of table"
+    },
+    {
+      "language": "en",
+      "query": "chemical key concepts"
+    },
+    {
+      "language": "en",
+      "query": "chemical how it works"
+    },
+    {
+      "language": "en",
+      "query": "chemical real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of chemical"
+    },
+    {
+      "language": "en",
+      "query": "bonds key concepts"
+    },
+    {
+      "language": "en",
+      "query": "bonds how it works"
+    },
+    {
+      "language": "en",
+      "query": "bonds real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of bonds"
+    },
+    {
+      "language": "en",
+      "query": "biology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "biology how it works"
+    },
+    {
+      "language": "en",
+      "query": "biology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of biology"
+    },
+    {
+      "language": "en",
+      "query": "cells key concepts"
+    },
+    {
+      "language": "en",
+      "query": "cells how it works"
+    },
+    {
+      "language": "en",
+      "query": "cells real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of cells"
+    },
+    {
+      "language": "en",
+      "query": "genetics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "genetics how it works"
+    },
+    {
+      "language": "en",
+      "query": "genetics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of genetics"
+    },
+    {
+      "language": "en",
+      "query": "evolution key concepts"
+    },
+    {
+      "language": "en",
+      "query": "evolution how it works"
+    },
+    {
+      "language": "en",
+      "query": "evolution real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of evolution"
+    },
+    {
+      "language": "en",
+      "query": "ecology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "ecology how it works"
+    },
+    {
+      "language": "en",
+      "query": "ecology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of ecology"
+    },
+    {
+      "language": "en",
+      "query": "anatomy key concepts"
+    },
+    {
+      "language": "en",
+      "query": "anatomy how it works"
+    },
+    {
+      "language": "en",
+      "query": "anatomy real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of anatomy"
+    },
+    {
+      "language": "en",
+      "query": "neuroscience key concepts"
+    },
+    {
+      "language": "en",
+      "query": "neuroscience how it works"
+    },
+    {
+      "language": "en",
+      "query": "neuroscience real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of neuroscience"
+    },
+    {
+      "language": "en",
+      "query": "microbiology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "microbiology how it works"
+    },
+    {
+      "language": "en",
+      "query": "microbiology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of microbiology"
+    },
+    {
+      "language": "en",
+      "query": "botany key concepts"
+    },
+    {
+      "language": "en",
+      "query": "botany how it works"
+    },
+    {
+      "language": "en",
+      "query": "botany real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of botany"
+    },
+    {
+      "language": "en",
+      "query": "zoology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "zoology how it works"
+    },
+    {
+      "language": "en",
+      "query": "zoology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of zoology"
+    },
+    {
+      "language": "en",
+      "query": "immunology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "immunology how it works"
+    },
+    {
+      "language": "en",
+      "query": "immunology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of immunology"
+    },
+    {
+      "language": "en",
+      "query": "history key concepts"
+    },
+    {
+      "language": "en",
+      "query": "history how it works"
+    },
+    {
+      "language": "en",
+      "query": "history real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of history"
+    },
+    {
+      "language": "en",
+      "query": "ancient key concepts"
+    },
+    {
+      "language": "en",
+      "query": "ancient how it works"
+    },
+    {
+      "language": "en",
+      "query": "ancient real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of ancient"
+    },
+    {
+      "language": "en",
+      "query": "medieval key concepts"
+    },
+    {
+      "language": "en",
+      "query": "medieval how it works"
+    },
+    {
+      "language": "en",
+      "query": "medieval real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of medieval"
+    },
+    {
+      "language": "en",
+      "query": "Korean key concepts"
+    },
+    {
+      "language": "en",
+      "query": "Korean how it works"
+    },
+    {
+      "language": "en",
+      "query": "Korean real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of Korean"
+    },
+    {
+      "language": "en",
+      "query": "world key concepts"
+    },
+    {
+      "language": "en",
+      "query": "world how it works"
+    },
+    {
+      "language": "en",
+      "query": "world real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of world"
+    },
+    {
+      "language": "en",
+      "query": "industrial key concepts"
+    },
+    {
+      "language": "en",
+      "query": "industrial how it works"
+    },
+    {
+      "language": "en",
+      "query": "industrial real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of industrial"
+    },
+    {
+      "language": "en",
+      "query": "revolution key concepts"
+    },
+    {
+      "language": "en",
+      "query": "revolution how it works"
+    },
+    {
+      "language": "en",
+      "query": "revolution real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of revolution"
+    },
+    {
+      "language": "en",
+      "query": "French key concepts"
+    },
+    {
+      "language": "en",
+      "query": "French how it works"
+    },
+    {
+      "language": "en",
+      "query": "French real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of French"
+    },
+    {
+      "language": "en",
+      "query": "Roman key concepts"
+    },
+    {
+      "language": "en",
+      "query": "Roman how it works"
+    },
+    {
+      "language": "en",
+      "query": "Roman real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of Roman"
+    },
+    {
+      "language": "en",
+      "query": "Empire key concepts"
+    },
+    {
+      "language": "en",
+      "query": "Empire how it works"
+    },
+    {
+      "language": "en",
+      "query": "Empire real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of Empire"
+    },
+    {
+      "language": "en",
+      "query": "Greece key concepts"
+    },
+    {
+      "language": "en",
+      "query": "Greece how it works"
+    },
+    {
+      "language": "en",
+      "query": "Greece real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of Greece"
+    },
+    {
+      "language": "en",
+      "query": "philosophy key concepts"
+    },
+    {
+      "language": "en",
+      "query": "philosophy how it works"
+    },
+    {
+      "language": "en",
+      "query": "philosophy real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of philosophy"
+    },
+    {
+      "language": "en",
+      "query": "ethics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "ethics how it works"
+    },
+    {
+      "language": "en",
+      "query": "ethics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of ethics"
+    },
+    {
+      "language": "en",
+      "query": "epistemology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "epistemology how it works"
+    },
+    {
+      "language": "en",
+      "query": "epistemology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of epistemology"
+    },
+    {
+      "language": "en",
+      "query": "political key concepts"
+    },
+    {
+      "language": "en",
+      "query": "political how it works"
+    },
+    {
+      "language": "en",
+      "query": "political real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of political"
+    },
+    {
+      "language": "en",
+      "query": "economics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "economics how it works"
+    },
+    {
+      "language": "en",
+      "query": "economics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of economics"
+    },
+    {
+      "language": "en",
+      "query": "microeconomics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "microeconomics how it works"
+    },
+    {
+      "language": "en",
+      "query": "microeconomics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of microeconomics"
+    },
+    {
+      "language": "en",
+      "query": "macroeconomics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "macroeconomics how it works"
+    },
+    {
+      "language": "en",
+      "query": "macroeconomics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of macroeconomics"
+    },
+    {
+      "language": "en",
+      "query": "finance key concepts"
+    },
+    {
+      "language": "en",
+      "query": "finance how it works"
+    },
+    {
+      "language": "en",
+      "query": "finance real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of finance"
+    },
+    {
+      "language": "en",
+      "query": "monetary key concepts"
+    },
+    {
+      "language": "en",
+      "query": "monetary how it works"
+    },
+    {
+      "language": "en",
+      "query": "monetary real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of monetary"
+    },
+    {
+      "language": "en",
+      "query": "policy key concepts"
+    },
+    {
+      "language": "en",
+      "query": "policy how it works"
+    },
+    {
+      "language": "en",
+      "query": "policy real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of policy"
+    },
+    {
+      "language": "en",
+      "query": "inflation key concepts"
+    },
+    {
+      "language": "en",
+      "query": "inflation how it works"
+    },
+    {
+      "language": "en",
+      "query": "inflation real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of inflation"
+    },
+    {
+      "language": "en",
+      "query": "international key concepts"
+    },
+    {
+      "language": "en",
+      "query": "international how it works"
+    },
+    {
+      "language": "en",
+      "query": "international real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of international"
+    },
+    {
+      "language": "en",
+      "query": "trade key concepts"
+    },
+    {
+      "language": "en",
+      "query": "trade how it works"
+    },
+    {
+      "language": "en",
+      "query": "trade real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of trade"
+    },
+    {
+      "language": "en",
+      "query": "business key concepts"
+    },
+    {
+      "language": "en",
+      "query": "business how it works"
+    },
+    {
+      "language": "en",
+      "query": "business real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of business"
+    },
+    {
+      "language": "en",
+      "query": "accounting key concepts"
+    },
+    {
+      "language": "en",
+      "query": "accounting how it works"
+    },
+    {
+      "language": "en",
+      "query": "accounting real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of accounting"
+    },
+    {
+      "language": "en",
+      "query": "law key concepts"
+    },
+    {
+      "language": "en",
+      "query": "law how it works"
+    },
+    {
+      "language": "en",
+      "query": "law real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of law"
+    },
+    {
+      "language": "en",
+      "query": "constitutional key concepts"
+    },
+    {
+      "language": "en",
+      "query": "constitutional how it works"
+    },
+    {
+      "language": "en",
+      "query": "constitutional real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of constitutional"
+    },
+    {
+      "language": "en",
+      "query": "democracy key concepts"
+    },
+    {
+      "language": "en",
+      "query": "democracy how it works"
+    },
+    {
+      "language": "en",
+      "query": "democracy real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of democracy"
+    },
+    {
+      "language": "en",
+      "query": "relations key concepts"
+    },
+    {
+      "language": "en",
+      "query": "relations how it works"
+    },
+    {
+      "language": "en",
+      "query": "relations real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of relations"
+    },
+    {
+      "language": "en",
+      "query": "geography key concepts"
+    },
+    {
+      "language": "en",
+      "query": "geography how it works"
+    },
+    {
+      "language": "en",
+      "query": "geography real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of geography"
+    },
+    {
+      "language": "en",
+      "query": "geology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "geology how it works"
+    },
+    {
+      "language": "en",
+      "query": "geology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of geology"
+    },
+    {
+      "language": "en",
+      "query": "climatology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "climatology how it works"
+    },
+    {
+      "language": "en",
+      "query": "climatology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of climatology"
+    },
+    {
+      "language": "en",
+      "query": "oceanography key concepts"
+    },
+    {
+      "language": "en",
+      "query": "oceanography how it works"
+    },
+    {
+      "language": "en",
+      "query": "oceanography real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of oceanography"
+    },
+    {
+      "language": "en",
+      "query": "meteorology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "meteorology how it works"
+    },
+    {
+      "language": "en",
+      "query": "meteorology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of meteorology"
+    },
+    {
+      "language": "en",
+      "query": "environmental key concepts"
+    },
+    {
+      "language": "en",
+      "query": "environmental how it works"
+    },
+    {
+      "language": "en",
+      "query": "environmental real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of environmental"
+    },
+    {
+      "language": "en",
+      "query": "biodiversity key concepts"
+    },
+    {
+      "language": "en",
+      "query": "biodiversity how it works"
+    },
+    {
+      "language": "en",
+      "query": "biodiversity real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of biodiversity"
+    },
+    {
+      "language": "en",
+      "query": "renewable key concepts"
+    },
+    {
+      "language": "en",
+      "query": "renewable how it works"
+    },
+    {
+      "language": "en",
+      "query": "renewable real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of renewable"
+    },
+    {
+      "language": "en",
+      "query": "energy key concepts"
+    },
+    {
+      "language": "en",
+      "query": "energy how it works"
+    },
+    {
+      "language": "en",
+      "query": "energy real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of energy"
+    },
+    {
+      "language": "en",
+      "query": "nuclear key concepts"
+    },
+    {
+      "language": "en",
+      "query": "nuclear how it works"
+    },
+    {
+      "language": "en",
+      "query": "nuclear real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of nuclear"
+    },
+    {
+      "language": "en",
+      "query": "power key concepts"
+    },
+    {
+      "language": "en",
+      "query": "power how it works"
+    },
+    {
+      "language": "en",
+      "query": "power real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of power"
+    },
+    {
+      "language": "en",
+      "query": "astronomy key concepts"
+    },
+    {
+      "language": "en",
+      "query": "astronomy how it works"
+    },
+    {
+      "language": "en",
+      "query": "astronomy real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of astronomy"
+    },
+    {
+      "language": "en",
+      "query": "stars key concepts"
+    },
+    {
+      "language": "en",
+      "query": "stars how it works"
+    },
+    {
+      "language": "en",
+      "query": "stars real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of stars"
+    },
+    {
+      "language": "en",
+      "query": "galaxies key concepts"
+    },
+    {
+      "language": "en",
+      "query": "galaxies how it works"
+    },
+    {
+      "language": "en",
+      "query": "galaxies real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of galaxies"
+    },
+    {
+      "language": "en",
+      "query": "black key concepts"
+    },
+    {
+      "language": "en",
+      "query": "black how it works"
+    },
+    {
+      "language": "en",
+      "query": "black real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of black"
+    },
+    {
+      "language": "en",
+      "query": "holes key concepts"
+    },
+    {
+      "language": "en",
+      "query": "holes how it works"
+    },
+    {
+      "language": "en",
+      "query": "holes real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of holes"
+    },
+    {
+      "language": "en",
+      "query": "cosmology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "cosmology how it works"
+    },
+    {
+      "language": "en",
+      "query": "cosmology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of cosmology"
+    },
+    {
+      "language": "en",
+      "query": "space key concepts"
+    },
+    {
+      "language": "en",
+      "query": "space how it works"
+    },
+    {
+      "language": "en",
+      "query": "space real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of space"
+    },
+    {
+      "language": "en",
+      "query": "exploration key concepts"
+    },
+    {
+      "language": "en",
+      "query": "exploration how it works"
+    },
+    {
+      "language": "en",
+      "query": "exploration real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of exploration"
+    },
+    {
+      "language": "en",
+      "query": "Earth key concepts"
+    },
+    {
+      "language": "en",
+      "query": "Earth how it works"
+    },
+    {
+      "language": "en",
+      "query": "Earth real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of Earth"
+    },
+    {
+      "language": "en",
+      "query": "continents key concepts"
+    },
+    {
+      "language": "en",
+      "query": "continents how it works"
+    },
+    {
+      "language": "en",
+      "query": "continents real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of continents"
+    },
+    {
+      "language": "en",
+      "query": "countries key concepts"
+    },
+    {
+      "language": "en",
+      "query": "countries how it works"
+    },
+    {
+      "language": "en",
+      "query": "countries real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of countries"
+    },
+    {
+      "language": "en",
+      "query": "capitals key concepts"
+    },
+    {
+      "language": "en",
+      "query": "capitals how it works"
+    },
+    {
+      "language": "en",
+      "query": "capitals real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of capitals"
+    },
+    {
+      "language": "en",
+      "query": "demographics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "demographics how it works"
+    },
+    {
+      "language": "en",
+      "query": "demographics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of demographics"
+    },
+    {
+      "language": "en",
+      "query": "cities key concepts"
+    },
+    {
+      "language": "en",
+      "query": "cities how it works"
+    },
+    {
+      "language": "en",
+      "query": "cities real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of cities"
+    },
+    {
+      "language": "en",
+      "query": "architecture key concepts"
+    },
+    {
+      "language": "en",
+      "query": "architecture how it works"
+    },
+    {
+      "language": "en",
+      "query": "architecture real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of architecture"
+    },
+    {
+      "language": "en",
+      "query": "art key concepts"
+    },
+    {
+      "language": "en",
+      "query": "art how it works"
+    },
+    {
+      "language": "en",
+      "query": "art real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of art"
+    },
+    {
+      "language": "en",
+      "query": "painting key concepts"
+    },
+    {
+      "language": "en",
+      "query": "painting how it works"
+    },
+    {
+      "language": "en",
+      "query": "painting real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of painting"
+    },
+    {
+      "language": "en",
+      "query": "sculpture key concepts"
+    },
+    {
+      "language": "en",
+      "query": "sculpture how it works"
+    },
+    {
+      "language": "en",
+      "query": "sculpture real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of sculpture"
+    },
+    {
+      "language": "en",
+      "query": "music key concepts"
+    },
+    {
+      "language": "en",
+      "query": "music how it works"
+    },
+    {
+      "language": "en",
+      "query": "music real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of music"
+    },
+    {
+      "language": "en",
+      "query": "jazz key concepts"
+    },
+    {
+      "language": "en",
+      "query": "jazz how it works"
+    },
+    {
+      "language": "en",
+      "query": "jazz real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of jazz"
+    },
+    {
+      "language": "en",
+      "query": "cinema key concepts"
+    },
+    {
+      "language": "en",
+      "query": "cinema how it works"
+    },
+    {
+      "language": "en",
+      "query": "cinema real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of cinema"
+    },
+    {
+      "language": "en",
+      "query": "literature key concepts"
+    },
+    {
+      "language": "en",
+      "query": "literature how it works"
+    },
+    {
+      "language": "en",
+      "query": "literature real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of literature"
+    },
+    {
+      "language": "en",
+      "query": "novels key concepts"
+    },
+    {
+      "language": "en",
+      "query": "novels how it works"
+    },
+    {
+      "language": "en",
+      "query": "novels real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of novels"
+    },
+    {
+      "language": "en",
+      "query": "poetry key concepts"
+    },
+    {
+      "language": "en",
+      "query": "poetry how it works"
+    },
+    {
+      "language": "en",
+      "query": "poetry real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of poetry"
+    },
+    {
+      "language": "en",
+      "query": "mythology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "mythology how it works"
+    },
+    {
+      "language": "en",
+      "query": "mythology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of mythology"
+    },
+    {
+      "language": "en",
+      "query": "linguistics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "linguistics how it works"
+    },
+    {
+      "language": "en",
+      "query": "linguistics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of linguistics"
+    },
+    {
+      "language": "en",
+      "query": "education key concepts"
+    },
+    {
+      "language": "en",
+      "query": "education how it works"
+    },
+    {
+      "language": "en",
+      "query": "education real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of education"
+    },
+    {
+      "language": "en",
+      "query": "psychology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "psychology how it works"
+    },
+    {
+      "language": "en",
+      "query": "psychology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of psychology"
+    },
+    {
+      "language": "en",
+      "query": "sociology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "sociology how it works"
+    },
+    {
+      "language": "en",
+      "query": "sociology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of sociology"
+    },
+    {
+      "language": "en",
+      "query": "anthropology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "anthropology how it works"
+    },
+    {
+      "language": "en",
+      "query": "anthropology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of anthropology"
+    },
+    {
+      "language": "en",
+      "query": "archaeology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "archaeology how it works"
+    },
+    {
+      "language": "en",
+      "query": "archaeology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of archaeology"
+    },
+    {
+      "language": "en",
+      "query": "media key concepts"
+    },
+    {
+      "language": "en",
+      "query": "media how it works"
+    },
+    {
+      "language": "en",
+      "query": "media real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of media"
+    },
+    {
+      "language": "en",
+      "query": "sports key concepts"
+    },
+    {
+      "language": "en",
+      "query": "sports how it works"
+    },
+    {
+      "language": "en",
+      "query": "sports real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of sports"
+    },
+    {
+      "language": "en",
+      "query": "football key concepts"
+    },
+    {
+      "language": "en",
+      "query": "football how it works"
+    },
+    {
+      "language": "en",
+      "query": "football real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of football"
+    },
+    {
+      "language": "en",
+      "query": "basketball key concepts"
+    },
+    {
+      "language": "en",
+      "query": "basketball how it works"
+    },
+    {
+      "language": "en",
+      "query": "basketball real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of basketball"
+    },
+    {
+      "language": "en",
+      "query": "baseball key concepts"
+    },
+    {
+      "language": "en",
+      "query": "baseball how it works"
+    },
+    {
+      "language": "en",
+      "query": "baseball real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of baseball"
+    },
+    {
+      "language": "en",
+      "query": "chess key concepts"
+    },
+    {
+      "language": "en",
+      "query": "chess how it works"
+    },
+    {
+      "language": "en",
+      "query": "chess real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of chess"
+    },
+    {
+      "language": "en",
+      "query": "Olympics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "Olympics how it works"
+    },
+    {
+      "language": "en",
+      "query": "Olympics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of Olympics"
+    },
+    {
+      "language": "en",
+      "query": "game key concepts"
+    },
+    {
+      "language": "en",
+      "query": "game how it works"
+    },
+    {
+      "language": "en",
+      "query": "game real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of game"
+    },
+    {
+      "language": "en",
+      "query": "design key concepts"
+    },
+    {
+      "language": "en",
+      "query": "design how it works"
+    },
+    {
+      "language": "en",
+      "query": "design real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of design"
+    },
+    {
+      "language": "en",
+      "query": "typography key concepts"
+    },
+    {
+      "language": "en",
+      "query": "typography how it works"
+    },
+    {
+      "language": "en",
+      "query": "typography real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of typography"
+    },
+    {
+      "language": "en",
+      "query": "photography key concepts"
+    },
+    {
+      "language": "en",
+      "query": "photography how it works"
+    },
+    {
+      "language": "en",
+      "query": "photography real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of photography"
+    },
+    {
+      "language": "en",
+      "query": "cooking key concepts"
+    },
+    {
+      "language": "en",
+      "query": "cooking how it works"
+    },
+    {
+      "language": "en",
+      "query": "cooking real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of cooking"
+    },
+    {
+      "language": "en",
+      "query": "agriculture key concepts"
+    },
+    {
+      "language": "en",
+      "query": "agriculture how it works"
+    },
+    {
+      "language": "en",
+      "query": "agriculture real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of agriculture"
+    },
+    {
+      "language": "en",
+      "query": "food key concepts"
+    },
+    {
+      "language": "en",
+      "query": "food how it works"
+    },
+    {
+      "language": "en",
+      "query": "food real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of food"
+    },
+    {
+      "language": "en",
+      "query": "nutrition key concepts"
+    },
+    {
+      "language": "en",
+      "query": "nutrition how it works"
+    },
+    {
+      "language": "en",
+      "query": "nutrition real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of nutrition"
+    },
+    {
+      "language": "en",
+      "query": "transport key concepts"
+    },
+    {
+      "language": "en",
+      "query": "transport how it works"
+    },
+    {
+      "language": "en",
+      "query": "transport real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of transport"
+    },
+    {
+      "language": "en",
+      "query": "railways key concepts"
+    },
+    {
+      "language": "en",
+      "query": "railways how it works"
+    },
+    {
+      "language": "en",
+      "query": "railways real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of railways"
+    },
+    {
+      "language": "en",
+      "query": "aviation key concepts"
+    },
+    {
+      "language": "en",
+      "query": "aviation how it works"
+    },
+    {
+      "language": "en",
+      "query": "aviation real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of aviation"
+    },
+    {
+      "language": "en",
+      "query": "aerospace key concepts"
+    },
+    {
+      "language": "en",
+      "query": "aerospace how it works"
+    },
+    {
+      "language": "en",
+      "query": "aerospace real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of aerospace"
+    },
+    {
+      "language": "en",
+      "query": "engineering key concepts"
+    },
+    {
+      "language": "en",
+      "query": "engineering how it works"
+    },
+    {
+      "language": "en",
+      "query": "engineering real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of engineering"
+    },
+    {
+      "language": "en",
+      "query": "civil key concepts"
+    },
+    {
+      "language": "en",
+      "query": "civil how it works"
+    },
+    {
+      "language": "en",
+      "query": "civil real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of civil"
+    },
+    {
+      "language": "en",
+      "query": "materials key concepts"
+    },
+    {
+      "language": "en",
+      "query": "materials how it works"
+    },
+    {
+      "language": "en",
+      "query": "materials real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of materials"
+    },
+    {
+      "language": "en",
+      "query": "nanotechnology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "nanotechnology how it works"
+    },
+    {
+      "language": "en",
+      "query": "nanotechnology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of nanotechnology"
+    },
+    {
+      "language": "en",
+      "query": "electrical key concepts"
+    },
+    {
+      "language": "en",
+      "query": "electrical how it works"
+    },
+    {
+      "language": "en",
+      "query": "electrical real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of electrical"
+    },
+    {
+      "language": "en",
+      "query": "mechanical key concepts"
+    },
+    {
+      "language": "en",
+      "query": "mechanical how it works"
+    },
+    {
+      "language": "en",
+      "query": "mechanical real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of mechanical"
+    },
+    {
+      "language": "en",
+      "query": "telecommunications key concepts"
+    },
+    {
+      "language": "en",
+      "query": "telecommunications how it works"
+    },
+    {
+      "language": "en",
+      "query": "telecommunications real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of telecommunications"
+    },
+    {
+      "language": "en",
+      "query": "semiconductors key concepts"
+    },
+    {
+      "language": "en",
+      "query": "semiconductors how it works"
+    },
+    {
+      "language": "en",
+      "query": "semiconductors real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of semiconductors"
+    },
+    {
+      "language": "en",
+      "query": "electronics key concepts"
+    },
+    {
+      "language": "en",
+      "query": "electronics how it works"
+    },
+    {
+      "language": "en",
+      "query": "electronics real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of electronics"
+    },
+    {
+      "language": "en",
+      "query": "storage key concepts"
+    },
+    {
+      "language": "en",
+      "query": "storage how it works"
+    },
+    {
+      "language": "en",
+      "query": "storage real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of storage"
+    },
+    {
+      "language": "en",
+      "query": "paleontology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "paleontology how it works"
+    },
+    {
+      "language": "en",
+      "query": "paleontology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of paleontology"
+    },
+    {
+      "language": "en",
+      "query": "dinosaurs key concepts"
+    },
+    {
+      "language": "en",
+      "query": "dinosaurs how it works"
+    },
+    {
+      "language": "en",
+      "query": "dinosaurs real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of dinosaurs"
+    },
+    {
+      "language": "en",
+      "query": "fossils key concepts"
+    },
+    {
+      "language": "en",
+      "query": "fossils how it works"
+    },
+    {
+      "language": "en",
+      "query": "fossils real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of fossils"
+    },
+    {
+      "language": "en",
+      "query": "epidemiology key concepts"
+    },
+    {
+      "language": "en",
+      "query": "epidemiology how it works"
+    },
+    {
+      "language": "en",
+      "query": "epidemiology real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of epidemiology"
+    },
+    {
+      "language": "en",
+      "query": "public key concepts"
+    },
+    {
+      "language": "en",
+      "query": "public how it works"
+    },
+    {
+      "language": "en",
+      "query": "public real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of public"
+    },
+    {
+      "language": "en",
+      "query": "health key concepts"
+    },
+    {
+      "language": "en",
+      "query": "health how it works"
+    },
+    {
+      "language": "en",
+      "query": "health real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of health"
+    },
+    {
+      "language": "en",
+      "query": "medical key concepts"
+    },
+    {
+      "language": "en",
+      "query": "medical how it works"
+    },
+    {
+      "language": "en",
+      "query": "medical real-world applications"
+    },
+    {
+      "language": "en",
+      "query": "history of medical"
+    },
+    {
+      "language": "ko",
+      "query": "수학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "수학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "논리학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "논리학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "불확정성 원리 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "불확정성 원리 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "르네 데카르트 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "르네 데카르트 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "응용수학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "응용수학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "수학사 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "수학사 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "대수학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "대수학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "선형대수학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "선형대수학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "과학사 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "과학사 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "프랙털 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "프랙털 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "시공간 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "시공간 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "기하학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "계산기하학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "계산기하학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "대수기하학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "대수기하학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "아이작 뉴턴 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "아이작 뉴턴 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "물리학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "물리학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "미적분학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "미적분학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "통계학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "통계학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "인공지능 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "인공지능 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "확률 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "확률론 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "확률론 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "로마 가톨릭교회 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "로마 가톨릭교회 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "인공지능의 응용 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "인공지능의 응용 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "베이징시 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "베이징시 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "당진시 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "당진시 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "앨런 튜링 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "앨런 튜링 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "갈루아 코호몰로지 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "갈루아 코호몰로지 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "레온하르트 오일러 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "레온하르트 오일러 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "수론 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "수론 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "해석적 수론 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "해석적 수론 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "전제 (논리학) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "전제 (논리학) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "스토아 학파 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "스토아 학파 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "대논리학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "대논리학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "커널 (컴퓨팅) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "커널 (컴퓨팅) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "컴퓨터 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "컴퓨터 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "컴퓨터 과학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "컴퓨터 과학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "운영체제 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "운영체제 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "컴퓨터의 역사 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "컴퓨터의 역사 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "과학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "과학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "여성 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "여성 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "알고리즘 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "알고리즘 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "블랙박스 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "블랙박스 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "객체 지향 프로그래밍 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "객체 지향 프로그래밍 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "데이터 모델 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "데이터 모델 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "API 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "API 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "제니퍼 다우드나 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "제니퍼 다우드나 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "파이썬 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "파이썬 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "소프트웨어 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "소프트웨어 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "위키 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "위키 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "인지 과학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "인지 과학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "프랑스어 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "프랑스어 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "BBC 월드 서비스 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "BBC 월드 서비스 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "인공지능 용어집 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "인공지능 용어집 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "양자 기계 학습 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "양자 기계 학습 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "기계 학습 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "기계 학습 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "인공 신경망 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "인공 신경망 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "딥 러닝 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "딥 러닝 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "회로 (신경망) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "회로 (신경망) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "생성적 적대 신경망 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "생성적 적대 신경망 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "순환 신경망 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "순환 신경망 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "데이터베이스 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "데이터베이스 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "클라우드 데이터베이스 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "클라우드 데이터베이스 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "인덱스 (데이터베이스) 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "인덱스 (데이터베이스) 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "IMDb 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "IMDb 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "대한민국의 인터넷 신조어 목록 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "대한민국의 인터넷 신조어 목록 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "클라우드 컴퓨팅 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "클라우드 컴퓨팅 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "웨이백 머신 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "웨이백 머신 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "와이파이 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "와이파이 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "인터넷 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "인터넷 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "인터넷 밈 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "인터넷 밈 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "보안 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "보안 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "사이버 보안 연구원 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "사이버 보안 연구원 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "컴퓨터 보안 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "컴퓨터 보안 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "전두환 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "전두환 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "사이버테러리즘 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "사이버테러리즘 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "운영체제의 역사 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "운영체제의 역사 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "모놀리식 커널 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "모놀리식 커널 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "ZETA (운영체제) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "ZETA (운영체제) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "기계공학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "기계공학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "로봇공학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "로봇공학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "피지컬 AI 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "피지컬 AI 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "두산그룹 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "두산그룹 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "정보 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "정보 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "메커니즘 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "메커니즘 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "게임 이론 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "게임 이론 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "한국의 역사 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "한국의 역사 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "물리학의 역사 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "물리학의 역사 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "이론물리학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "이론물리학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "수리물리학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "수리물리학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "역학 (물리학) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "역학 (물리학) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "양자역학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "양자역학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "엔트로피 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "엔트로피 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "고전역학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "양자역학의 연표 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "양자역학의 연표 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "양자역학에서의 측정 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "양자역학에서의 측정 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "양자역학 개론 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "양자역학 개론 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "특수 상대성이론 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "특수 상대성이론 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "알베르트 아인슈타인 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "알베르트 아인슈타인 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "상대성이론 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "일반 상대성이론 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "일반 상대성이론 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "블랙홀 열역학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "블랙홀 열역학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "양자 열역학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "양자 열역학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "화학열역학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "화학열역학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "열역학 제0법칙 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "열역학 제0법칙 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "일 (열역학) 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "일 (열역학) 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "도파관 (전자기학) 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "도파관 (전자기학) 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "헤르츠 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "헤르츠 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "전자기학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "전자기학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "고전 전자기학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "고전 전자기학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "안톤 차일링거 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "안톤 차일링거 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "기억 장치 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "기억 장치 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "편광 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "편광 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "영상 및 음성 단자 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "영상 및 음성 단자 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "현미경 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "현미경 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "물리학의 분과 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "물리학의 분과 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "유체동역학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "유체동역학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "음향학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "음악 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "물리화학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "노벨상 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "노벨상 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "화학공학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "화학공학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "화학 반응 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "화학 반응 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "타지키스탄 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "타지키스탄 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "독성 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "독성 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "촉매 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "촉매 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "유기 화합물 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "유기 화합물 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "OCI (기업) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "OCI (기업) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "반야심경 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "반야심경 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "핵무기 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "핵무기 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "시뮬레이션 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "시뮬레이션 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "무기화학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "주기율표 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "주기율표 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "확장 주기율표 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "확장 주기율표 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "주기율표의 역사 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "주기율표의 역사 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "증강 현실 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "증강 현실 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "화학 결합 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "화학 결합 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "생물학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "생물학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "생물학의 역사 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "생물학의 역사 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "사회생물학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "사회생물학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "합성생물학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "합성생물학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "분자생물학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "분자생물학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "DNA 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "DNA 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "면역계 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "면역계 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "개념 증명 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "개념 증명 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "암세포 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "암세포 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "유전학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "유전학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "고전유전학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "고전유전학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "유전학의 역사 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "유전학의 역사 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "진화 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "진화 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "식물학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "식물학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "분자유전학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "분자유전학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "밈 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "밈 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "자유민주주의 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "자유민주주의 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "심리학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "인류의 진화 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "인류의 진화 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "통합 생태학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "통합 생태학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "여성주의 정치 생태학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "여성주의 정치 생태학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "지구과학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "지구과학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "생태학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "응용생태학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "응용생태학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "진화 생태학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "진화 생태학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "여성 사정 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "여성 사정 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "필라테스 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "필라테스 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "동물학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "동물학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "해부학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "해부학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "윌리엄 헌터 (해부학자) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "윌리엄 헌터 (해부학자) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "신경과학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "신경과학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "계산신경과학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "계산신경과학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "에마뉘엘 샤르팡티에 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "에마뉘엘 샤르팡티에 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "미생물학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "루이 파스퇴르 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "루이 파스퇴르 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "바버라 매클린톡 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "바버라 매클린톡 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "태양열 조리기 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "태양열 조리기 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "생물 분류 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "생물 분류 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "아리스토텔레스 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "아리스토텔레스 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "리처드 도킨스 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "리처드 도킨스 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "분류학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "분류학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "생명과학 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "생명과학 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "아치볼드 비비언 힐 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "아치볼드 비비언 힐 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "임상심리학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "임상심리학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "알렉산더 플레밍 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "알렉산더 플레밍 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "허무주의 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "허무주의 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "크레이그 멜로 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "크레이그 멜로 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "동은의학박물관 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "동은의학박물관 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "역사 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "대체 역사 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "대체 역사 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "동이 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "동이 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "제조업 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "제조업 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "전지의 역사 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "전지의 역사 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "공성무기 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "공성무기 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "부피 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "부피 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "실학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "실학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "고대사 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "이병도 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "이병도 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "종교 개혁 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "종교 개혁 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "동로마 제국 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "동로마 제국 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "철학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "철학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "홀로코스트 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "홀로코스트 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "정조 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "정조 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "유럽의 역사 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "유럽의 역사 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "세계의 역사 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "세계의 역사 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "그레이트북스 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "그레이트북스 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "이승만 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "이승만 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "대한민국의 고등학교 교과목 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "대한민국의 고등학교 교과목 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "대한민국의 역대 고등학교 교과목 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "대한민국의 역대 고등학교 교과목 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "한국사 연표 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "한국사 연표 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "조선 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "조선 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "조선민주주의인민공화국 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "조선민주주의인민공화국 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "세조 (조선) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "세조 (조선) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "이화학당 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "이화학당 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "임진왜란 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "임진왜란 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "일 칸국 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "일 칸국 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "등대 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "등대 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "달력 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "달력 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "고려 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "고려 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "세계사 (분야) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "세계사 (분야) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "에니그마 기계 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "에니그마 기계 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "그레고리력 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "그레고리력 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "유학 (학문) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "유학 (학문) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "세계사 연표 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "세계사 연표 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "국방혁신 4.0 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "국방혁신 4.0 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "혁명 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "혁명 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "주체사상 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "주체사상 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "경제 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "경제 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "산업 혁명 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "산업 혁명 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "제4차 산업혁명 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "제4차 산업혁명 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "프랑스 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "프랑스 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "파리 (프랑스) 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "파리 (프랑스) 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "인터넷 프로토콜 스위트 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "인터넷 프로토콜 스위트 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "프랑스 혁명 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "프랑스 혁명 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "국민주권 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "국민주권 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "마오쩌둥 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "마오쩌둥 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "체 게바라 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "체 게바라 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "마일 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "마일 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "로마 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "로마 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "제1차 세계 대전 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "제1차 세계 대전 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "몽골 제국 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "몽골 제국 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "사전 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "사전 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "오스만 제국 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "오스만 제국 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "고대 그리스 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "고대 그리스 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "소크라테스 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "소크라테스 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "메소포타미아 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "메소포타미아 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "그리스의 역사 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "그리스의 역사 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "실존주의 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "실존주의 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "윤리학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "윤리학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "공존윤리학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "공존윤리학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "메타윤리학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "메타윤리학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "국제 윤리학 사례와 영향"
+    },
+    {
+      "language": "ko",
+      "query": "국제 윤리학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "아르투어 쇼펜하우어 역사와 발전"
+    },
+    {
+      "language": "ko",
+      "query": "아르투어 쇼펜하우어 관련 개념"
+    },
+    {
+      "language": "ko",
+      "query": "인식론 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "정치철학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "정치철학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 정치철학"
+    },
+    {
+      "language": "ko",
+      "query": "경제학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "경제학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "경제학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 경제학"
+    },
+    {
+      "language": "ko",
+      "query": "미시경제학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "미시경제학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "미시경제학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 미시경제학"
+    },
+    {
+      "language": "ko",
+      "query": "거시경제학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "거시경제학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "거시경제학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 거시경제학"
+    },
+    {
+      "language": "ko",
+      "query": "금융 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "금융 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "금융 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 금융"
+    },
+    {
+      "language": "ko",
+      "query": "통화 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "통화 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "통화 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 통화"
+    },
+    {
+      "language": "ko",
+      "query": "인플레이션 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "인플레이션 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "인플레이션 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 인플레이션"
+    },
+    {
+      "language": "ko",
+      "query": "무역 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "무역 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "무역 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 무역"
+    },
+    {
+      "language": "ko",
+      "query": "경영학 핵심 개념"
+    },
+    {
+      "language": "ko",
+      "query": "경영학 작동 원리"
+    },
+    {
+      "language": "ko",
+      "query": "경영학 실제 응용"
+    },
+    {
+      "language": "ko",
+      "query": "역사와 발전 경영학"
+    }
+  ],
+  "expanded_titles": [
+    "ko:api",
+    "ko:bbc 월드 서비스",
+    "ko:dna",
+    "ko:imdb",
+    "ko:oci (기업)",
+    "ko:zeta (운영체제)",
+    "ko:갈루아 코호몰로지",
+    "ko:개념 증명",
+    "ko:객체 지향 프로그래밍",
+    "ko:게임 이론",
+    "ko:경제",
+    "ko:계산기하학",
+    "ko:계산신경과학",
+    "ko:고대 그리스",
+    "ko:고대사",
+    "ko:고려",
+    "ko:고전 전자기학",
+    "ko:고전역학",
+    "ko:고전유전학",
+    "ko:공성무기",
+    "ko:공존윤리학",
+    "ko:과학",
+    "ko:과학사",
+    "ko:광학",
+    "ko:국민주권",
+    "ko:국방혁신 4.0",
+    "ko:국제 윤리학",
+    "ko:그레고리력",
+    "ko:그레이트북스",
+    "ko:그리스",
+    "ko:그리스의 역사",
+    "ko:기계 학습",
+    "ko:기계공학",
+    "ko:기억 장치",
+    "ko:기하학",
+    "ko:노벨상",
+    "ko:논리학",
+    "ko:달력",
+    "ko:당진시",
+    "ko:대논리학",
+    "ko:대수기하학",
+    "ko:대수학",
+    "ko:대체 역사",
+    "ko:대한민국의 고등학교 교과목",
+    "ko:대한민국의 역대 고등학교 교과목",
+    "ko:대한민국의 인터넷 신조어 목록",
+    "ko:데이터 모델",
+    "ko:데이터베이스",
+    "ko:도파관 (전자기학)",
+    "ko:독성",
+    "ko:동로마 제국",
+    "ko:동물학",
+    "ko:동은의학박물관",
+    "ko:동이",
+    "ko:두산그룹",
+    "ko:등대",
+    "ko:딥 러닝",
+    "ko:레온하르트 오일러",
+    "ko:로마",
+    "ko:로마 가톨릭교회",
+    "ko:로봇공학",
+    "ko:루이 파스퇴르",
+    "ko:르네 데카르트",
+    "ko:리처드 도킨스",
+    "ko:마오쩌둥",
+    "ko:마일",
+    "ko:메소포타미아",
+    "ko:메커니즘",
+    "ko:메타윤리학",
+    "ko:면역계",
+    "ko:면역학",
+    "ko:모놀리식 커널",
+    "ko:몽골 제국",
+    "ko:무기화학",
+    "ko:물리학",
+    "ko:물리학의 분과",
+    "ko:물리학의 역사",
+    "ko:물리화학",
+    "ko:미생물학",
+    "ko:미적분학",
+    "ko:밈",
+    "ko:바버라 매클린톡",
+    "ko:반야심경",
+    "ko:베이징시",
+    "ko:보안",
+    "ko:부피",
+    "ko:분류학",
+    "ko:분자생물학",
+    "ko:분자유전학",
+    "ko:불확정성 원리",
+    "ko:블랙박스",
+    "ko:블랙홀 열역학",
+    "ko:사이버 보안 연구원",
+    "ko:사이버테러리즘",
+    "ko:사전",
+    "ko:사회생물학",
+    "ko:산업 혁명",
+    "ko:상대성이론",
+    "ko:생명과학",
+    "ko:생물 분류",
+    "ko:생물학",
+    "ko:생물학의 역사",
+    "ko:생성적 적대 신경망",
+    "ko:생태학",
+    "ko:선형대수학",
+    "ko:세계사 (분야)",
+    "ko:세계사 연표",
+    "ko:세계의 역사",
+    "ko:세조 (조선)",
+    "ko:소크라테스",
+    "ko:소프트웨어",
+    "ko:수론",
+    "ko:수리물리학",
+    "ko:수학",
+    "ko:수학사",
+    "ko:순환 신경망",
+    "ko:스토아 학파",
+    "ko:시공간",
+    "ko:시뮬레이션",
+    "ko:식물학",
+    "ko:신경과학",
+    "ko:실존주의",
+    "ko:실학",
+    "ko:심리학",
+    "ko:아르투어 쇼펜하우어",
+    "ko:아리스토텔레스",
+    "ko:아이작 뉴턴",
+    "ko:아치볼드 비비언 힐",
+    "ko:안톤 차일링거",
+    "ko:알고리즘",
+    "ko:알렉산더 플레밍",
+    "ko:알베르트 아인슈타인",
+    "ko:암세포",
+    "ko:앨런 튜링",
+    "ko:양자 기계 학습",
+    "ko:양자 열역학",
+    "ko:양자역학",
+    "ko:양자역학 개론",
+    "ko:양자역학에서의 측정",
+    "ko:양자역학의 연표",
+    "ko:에니그마 기계",
+    "ko:에마뉘엘 샤르팡티에",
+    "ko:엔트로피",
+    "ko:여성",
+    "ko:여성 사정",
+    "ko:여성주의 정치 생태학",
+    "ko:역사",
+    "ko:역학 (물리학)",
+    "ko:열역학 제0법칙",
+    "ko:영상 및 음성 단자",
+    "ko:오스만 제국",
+    "ko:와이파이",
+    "ko:운영체제",
+    "ko:운영체제의 역사",
+    "ko:웨이백 머신",
+    "ko:위키",
+    "ko:윌리엄 헌터 (해부학자)",
+    "ko:유기 화합물",
+    "ko:유럽의 역사",
+    "ko:유전학",
+    "ko:유전학의 역사",
+    "ko:유체동역학",
+    "ko:유학 (학문)",
+    "ko:윤리학",
+    "ko:음악",
+    "ko:음향학",
+    "ko:응용생태학",
+    "ko:응용수학",
+    "ko:의학",
+    "ko:이론물리학",
+    "ko:이병도",
+    "ko:이승만",
+    "ko:이화학당",
+    "ko:인공 신경망",
+    "ko:인공지능",
+    "ko:인공지능 용어집",
+    "ko:인공지능의 응용",
+    "ko:인덱스 (데이터베이스)",
+    "ko:인류의 진화",
+    "ko:인식론",
+    "ko:인지 과학",
+    "ko:인터넷",
+    "ko:인터넷 밈",
+    "ko:인터넷 프로토콜 스위트",
+    "ko:일 (열역학)",
+    "ko:일 칸국",
+    "ko:일반 상대성이론",
+    "ko:임상심리학",
+    "ko:임진왜란",
+    "ko:자유민주주의",
+    "ko:전두환",
+    "ko:전자기학",
+    "ko:전제 (논리학)",
+    "ko:전지의 역사",
+    "ko:정보",
+    "ko:정조",
+    "ko:제1차 세계 대전",
+    "ko:제4차 산업혁명",
+    "ko:제니퍼 다우드나",
+    "ko:제조업",
+    "ko:조선",
+    "ko:조선민주주의인민공화국",
+    "ko:종교 개혁",
+    "ko:주기율표",
+    "ko:주기율표의 역사",
+    "ko:주체사상",
+    "ko:중세",
+    "ko:증강 현실",
+    "ko:지구과학",
+    "ko:진화",
+    "ko:진화 생태학",
+    "ko:철학",
+    "ko:체 게바라",
+    "ko:촉매",
+    "ko:커널 (컴퓨팅)",
+    "ko:컴퓨터",
+    "ko:컴퓨터 과학",
+    "ko:컴퓨터 보안",
+    "ko:컴퓨터의 역사",
+    "ko:크레이그 멜로",
+    "ko:클라우드 데이터베이스",
+    "ko:클라우드 컴퓨팅",
+    "ko:타지키스탄",
+    "ko:태양열 조리기",
+    "ko:통계학",
+    "ko:통합 생태학",
+    "ko:특수 상대성이론",
+    "ko:파리 (프랑스)",
+    "ko:파이썬",
+    "ko:편광",
+    "ko:프랑스",
+    "ko:프랑스 혁명",
+    "ko:프랑스어",
+    "ko:프랙털",
+    "ko:피지컬 ai",
+    "ko:필라테스",
+    "ko:한국사 연표",
+    "ko:한국의 역사",
+    "ko:합성생물학",
+    "ko:해부학",
+    "ko:해석적 수론",
+    "ko:핵무기",
+    "ko:허무주의",
+    "ko:헤르츠",
+    "ko:혁명",
+    "ko:현미경",
+    "ko:홀로코스트",
+    "ko:화학",
+    "ko:화학 결합",
+    "ko:화학 반응",
+    "ko:화학공학",
+    "ko:화학열역학",
+    "ko:확률",
+    "ko:확률론",
+    "ko:확장 주기율표",
+    "ko:회로 (신경망)"
+  ],
+  "discovered_titles": [
+    "en:accounting",
+    "en:acoustics",
+    "en:aerospace",
+    "en:agriculture",
+    "en:algebra",
+    "en:algorithm",
+    "en:american civil war",
+    "en:american football",
+    "en:americas",
+    "en:anatomy",
+    "en:ancient history",
+    "en:anthropology",
+    "en:anti-lock braking system",
+    "en:art",
+    "en:artifact (archaeology)",
+    "en:artificial intelligence",
+    "en:astronomy",
+    "en:aviation",
+    "en:barry bonds",
+    "en:baseball",
+    "en:basketball",
+    "en:black",
+    "en:black hole",
+    "en:botany",
+    "en:business",
+    "en:calculus",
+    "en:capital",
+    "en:cell (biology)",
+    "en:chemistry",
+    "en:chess",
+    "en:children's literature",
+    "en:city",
+    "en:civil engineering",
+    "en:classical",
+    "en:climatology",
+    "en:computer science",
+    "en:computer security",
+    "en:constitution",
+    "en:cooking",
+    "en:country",
+    "en:data",
+    "en:database",
+    "en:democracy",
+    "en:demographics of india",
+    "en:design",
+    "en:dinosaur",
+    "en:earth",
+    "en:ecology",
+    "en:economics",
+    "en:education",
+    "en:electrical engineering",
+    "en:electromagnetism",
+    "en:electronics",
+    "en:empire",
+    "en:energy",
+    "en:environment",
+    "en:epic poetry",
+    "en:epidemiology",
+    "en:epistemology",
+    "en:ethics",
+    "en:euclidean geometry",
+    "en:evolution",
+    "en:finance",
+    "en:food",
+    "en:fossil",
+    "en:french",
+    "en:french language",
+    "en:french revolution",
+    "en:galaxy",
+    "en:game (disambiguation)",
+    "en:general relativity",
+    "en:genetics",
+    "en:geology",
+    "en:gothic architecture",
+    "en:greece",
+    "en:greek mythology",
+    "en:health",
+    "en:hindi cinema",
+    "en:history: past, present and future, book i",
+    "en:immunology",
+    "en:indonesia",
+    "en:industrial revolution",
+    "en:inflation",
+    "en:information",
+    "en:internet",
+    "en:issn",
+    "en:jazz",
+    "en:keynesian economics",
+    "en:korea",
+    "en:language family",
+    "en:law (disambiguation)",
+    "en:learning",
+    "en:logic gate",
+    "en:machine",
+    "en:maritime geography",
+    "en:materials science",
+    "en:mathematics",
+    "en:mechanical engineering",
+    "en:mechanics",
+    "en:media",
+    "en:medicine",
+    "en:meteorology",
+    "en:microeconomics",
+    "en:middle ages",
+    "en:molecular nanotechnology",
+    "en:monetary policy",
+    "en:music",
+    "en:network",
+    "en:neural network (machine learning)",
+    "en:neuroscience",
+    "en:novel",
+    "en:nuclear weapon",
+    "en:number",
+    "en:nutrition",
+    "en:oceanography",
+    "en:olympic games",
+    "en:operating system",
+    "en:optics",
+    "en:organic compound",
+    "en:painting",
+    "en:paleontology",
+    "en:periodic table",
+    "en:pharmaceutical microbiology",
+    "en:philosophy",
+    "en:photography",
+    "en:physical cosmology",
+    "en:physics",
+    "en:policy",
+    "en:politics",
+    "en:power",
+    "en:probability",
+    "en:programming language",
+    "en:psychology",
+    "en:public",
+    "en:quantum mechanics",
+    "en:rail transport",
+    "en:relation",
+    "en:renewable energy",
+    "en:robot",
+    "en:roman",
+    "en:science",
+    "en:sculpture",
+    "en:semiconductor",
+    "en:sociology",
+    "en:space",
+    "en:space exploration",
+    "en:sport",
+    "en:star",
+    "en:statistics",
+    "en:storage",
+    "en:structure",
+    "en:substance (chemistry)",
+    "en:taxonomy (biology)",
+    "en:telecommunications",
+    "en:theory",
+    "en:thermodynamics",
+    "en:trade",
+    "en:typography",
+    "en:world",
+    "en:zoology",
+    "ko:9·11 테러",
+    "ko:api",
+    "ko:bbc 월드 서비스",
+    "ko:dna",
+    "ko:imdb",
+    "ko:oci (기업)",
+    "ko:zeta (운영체제)",
+    "ko:갈루아 코호몰로지",
+    "ko:개념 증명",
+    "ko:객체 지향 프로그래밍",
+    "ko:건축공학",
+    "ko:게임 이론",
+    "ko:경영학",
+    "ko:경제",
+    "ko:경제학",
+    "ko:계산기하학",
+    "ko:계산신경과학",
+    "ko:고고학",
+    "ko:고대 그리스",
+    "ko:고대사",
+    "ko:고려",
+    "ko:고생물학",
+    "ko:고전 전자기학",
+    "ko:고전역학",
+    "ko:고전유전학",
+    "ko:공룡",
+    "ko:공성무기",
+    "ko:공존윤리학",
+    "ko:공중보건의사",
+    "ko:과학",
+    "ko:과학사",
+    "ko:광학",
+    "ko:교육학",
+    "ko:구글",
+    "ko:국민주권",
+    "ko:국방혁신 4.0",
+    "ko:국제 관계",
+    "ko:국제 윤리학",
+    "ko:국제법",
+    "ko:그레고리력",
+    "ko:그레이트북스",
+    "ko:그리스",
+    "ko:그리스 신화",
+    "ko:그리스의 역사",
+    "ko:금융",
+    "ko:기계 학습",
+    "ko:기계공학",
+    "ko:기상학",
+    "ko:기억 장치",
+    "ko:기하학",
+    "ko:기후학",
+    "ko:나노 기술",
+    "ko:나라 목록",
+    "ko:네이버 (기업)",
+    "ko:노벨상",
+    "ko:논리학",
+    "ko:농구",
+    "ko:농업",
+    "ko:단종 (조선)",
+    "ko:달",
+    "ko:달력",
+    "ko:당진시",
+    "ko:대논리학",
+    "ko:대수기하학",
+    "ko:대수학",
+    "ko:대체 역사",
+    "ko:대한민국 국무총리",
+    "ko:대한민국의 고등학교 교과목",
+    "ko:대한민국의 역대 고등학교 교과목",
+    "ko:대한민국의 인터넷 신조어 목록",
+    "ko:데이터 모델",
+    "ko:데이터베이스",
+    "ko:도쿄도",
+    "ko:도파관 (전자기학)",
+    "ko:독성",
+    "ko:동로마 제국",
+    "ko:동물학",
+    "ko:동은의학박물관",
+    "ko:동이",
+    "ko:두산그룹",
+    "ko:등대",
+    "ko:디자인",
+    "ko:딥 러닝",
+    "ko:레온하르트 오일러",
+    "ko:로마",
+    "ko:로마 가톨릭교회",
+    "ko:로봇",
+    "ko:로봇공학",
+    "ko:루이 파스퇴르",
+    "ko:르네 데카르트",
+    "ko:리처드 도킨스",
+    "ko:마오쩌둥",
+    "ko:마일",
+    "ko:메소포타미아",
+    "ko:메커니즘",
+    "ko:메타윤리학",
+    "ko:면역계",
+    "ko:면역학",
+    "ko:모놀리식 커널",
+    "ko:몽골 제국",
+    "ko:무기화학",
+    "ko:문학",
+    "ko:물리학",
+    "ko:물리학의 분과",
+    "ko:물리학의 역사",
+    "ko:물리화학",
+    "ko:미생물학",
+    "ko:미시경제학",
+    "ko:미적분학",
+    "ko:밈",
+    "ko:바버라 매클린톡",
+    "ko:반도체",
+    "ko:반야심경",
+    "ko:번역",
+    "ko:법학",
+    "ko:베이징시",
+    "ko:보안",
+    "ko:부산 도시철도",
+    "ko:부피",
+    "ko:분류학",
+    "ko:분자생물학",
+    "ko:분자유전학",
+    "ko:불확정성 원리",
+    "ko:블랙박스",
+    "ko:블랙홀",
+    "ko:블랙홀 열역학",
+    "ko:사이버 보안 연구원",
+    "ko:사이버테러리즘",
+    "ko:사전",
+    "ko:사진",
+    "ko:사회생물학",
+    "ko:사회학",
+    "ko:산업 혁명",
+    "ko:상대성이론",
+    "ko:생명과학",
+    "ko:생물 다양성",
+    "ko:생물 분류",
+    "ko:생물학",
+    "ko:생물학의 역사",
+    "ko:생성적 적대 신경망",
+    "ko:생태학",
+    "ko:서양 미술사",
+    "ko:서울특별시",
+    "ko:선형대수학",
+    "ko:세계사 (분야)",
+    "ko:세계사 연표",
+    "ko:세계의 역사",
+    "ko:세조 (조선)",
+    "ko:세포",
+    "ko:소설",
+    "ko:소크라테스",
+    "ko:소프트웨어",
+    "ko:수도",
+    "ko:수론",
+    "ko:수리물리학",
+    "ko:수학",
+    "ko:수학사",
+    "ko:순환 신경망",
+    "ko:스토아 학파",
+    "ko:스포츠",
+    "ko:시",
+    "ko:시공간",
+    "ko:시뮬레이션",
+    "ko:식물학",
+    "ko:식품 안전",
+    "ko:신경계",
+    "ko:신경과학",
+    "ko:실존주의",
+    "ko:실학",
+    "ko:심리학",
+    "ko:아르투어 쇼펜하우어",
+    "ko:아리스토텔레스",
+    "ko:아시아",
+    "ko:아이작 뉴턴",
+    "ko:아치볼드 비비언 힐",
+    "ko:악전",
+    "ko:안톤 차일링거",
+    "ko:알고리즘",
+    "ko:알렉산더 플레밍",
+    "ko:알베르트 아인슈타인",
+    "ko:암세포",
+    "ko:앨런 튜링",
+    "ko:야구",
+    "ko:양자 기계 학습",
+    "ko:양자 열역학",
+    "ko:양자역학",
+    "ko:양자역학 개론",
+    "ko:양자역학에서의 측정",
+    "ko:양자역학의 연표",
+    "ko:언어",
+    "ko:언어학",
+    "ko:에너지",
+    "ko:에니그마 기계",
+    "ko:에마뉘엘 샤르팡티에",
+    "ko:엔트로피",
+    "ko:여성",
+    "ko:여성 사정",
+    "ko:여성주의 정치 생태학",
+    "ko:역사",
+    "ko:역학 (물리학)",
+    "ko:열역학",
+    "ko:열역학 제0법칙",
+    "ko:영상 및 음성 단자",
+    "ko:영양학",
+    "ko:영어",
+    "ko:오스만 제국",
+    "ko:올림픽",
+    "ko:와이파이",
+    "ko:요리",
+    "ko:우리 은하",
+    "ko:우주 탐사",
+    "ko:우주론",
+    "ko:운영체제",
+    "ko:운영체제의 역사",
+    "ko:원자력 발전소",
+    "ko:웨이백 머신",
+    "ko:위키",
+    "ko:윌리엄 헌터 (해부학자)",
+    "ko:유기 화합물",
+    "ko:유기화학",
+    "ko:유럽의 역사",
+    "ko:유신진화론",
+    "ko:유전학",
+    "ko:유전학의 역사",
+    "ko:유체동역학",
+    "ko:유튜브",
+    "ko:유학 (학문)",
+    "ko:윤리학",
+    "ko:음악",
+    "ko:음향학",
+    "ko:응급의학",
+    "ko:응용생태학",
+    "ko:응용수학",
+    "ko:의학",
+    "ko:이론물리학",
+    "ko:이병도",
+    "ko:이승만",
+    "ko:이화학당",
+    "ko:인공 신경망",
+    "ko:인공지능",
+    "ko:인공지능 용어집",
+    "ko:인공지능의 응용",
+    "ko:인구",
+    "ko:인덱스 (데이터베이스)",
+    "ko:인류의 진화",
+    "ko:인류학",
+    "ko:인식론",
+    "ko:인지 과학",
+    "ko:인터넷",
+    "ko:인터넷 밈",
+    "ko:인터넷 프로토콜 스위트",
+    "ko:인플레이션",
+    "ko:일 (열역학)",
+    "ko:일 칸국",
+    "ko:일리노이 대학교 어배너-섐페인",
+    "ko:일반 상대성이론",
+    "ko:임상심리학",
+    "ko:임진왜란",
+    "ko:입자물리학",
+    "ko:자료 구조",
+    "ko:자유민주주의",
+    "ko:재료과학",
+    "ko:재생 가능 에너지",
+    "ko:재즈",
+    "ko:저장성",
+    "ko:전기전자공학자협회",
+    "ko:전두환",
+    "ko:전염병",
+    "ko:전자기학",
+    "ko:전제 (논리학)",
+    "ko:전지의 역사",
+    "ko:정보",
+    "ko:정보 이론",
+    "ko:정조",
+    "ko:정치철학",
+    "ko:제1차 세계 대전",
+    "ko:제4차 산업혁명",
+    "ko:제니퍼 다우드나",
+    "ko:제임스 조이스",
+    "ko:제조업",
+    "ko:조선",
+    "ko:조선민주주의인민공화국",
+    "ko:종교 개혁",
+    "ko:종교학",
+    "ko:주기율표",
+    "ko:주기율표의 역사",
+    "ko:주시경",
+    "ko:주체사상",
+    "ko:중세",
+    "ko:증강 현실",
+    "ko:지구과학",
+    "ko:지리학",
+    "ko:지질 시대",
+    "ko:진화",
+    "ko:진화 생태학",
+    "ko:천문학",
+    "ko:철학",
+    "ko:체 게바라",
+    "ko:체스",
+    "ko:촉매",
+    "ko:축구",
+    "ko:카타르",
+    "ko:커널 (컴퓨팅)",
+    "ko:컴퓨터",
+    "ko:컴퓨터 과학",
+    "ko:컴퓨터 보안",
+    "ko:컴퓨터의 역사",
+    "ko:크레이그 멜로",
+    "ko:클라우드 데이터베이스",
+    "ko:클라우드 컴퓨팅",
+    "ko:클래식",
+    "ko:클레오파트라",
+    "ko:타이포그래피",
+    "ko:타지키스탄",
+    "ko:태양계",
+    "ko:태양열 조리기",
+    "ko:통계학",
+    "ko:통합 생태학",
+    "ko:통화",
+    "ko:특수 상대성이론",
+    "ko:파리 (프랑스)",
+    "ko:파이썬",
+    "ko:편광",
+    "ko:폴 세잔",
+    "ko:프랑스",
+    "ko:프랑스 혁명",
+    "ko:프랑스어",
+    "ko:프랙털",
+    "ko:피지컬 ai",
+    "ko:필라테스",
+    "ko:한국사 연표",
+    "ko:한국어",
+    "ko:한국의 역사",
+    "ko:한의학",
+    "ko:합성생물학",
+    "ko:항성",
+    "ko:해부학",
+    "ko:해석적 수론",
+    "ko:해양학",
+    "ko:핵무기",
+    "ko:허무주의",
+    "ko:허진호",
+    "ko:헤르츠",
+    "ko:혁명",
+    "ko:현미경",
+    "ko:홀로코스트",
+    "ko:화석연료",
+    "ko:화학",
+    "ko:화학 결합",
+    "ko:화학 반응",
+    "ko:화학공학",
+    "ko:화학열역학",
+    "ko:확률",
+    "ko:확률론",
+    "ko:확장 주기율표",
+    "ko:환경과학",
+    "ko:회로 (신경망)"
+  ],
+  "updated_at": "2026-10-16T16:24:59.717055+00:00",
+  "new_pages": 81,
+  "processed_queries": 265,
+  "pending_queries": 1534,
+  "errors": 35
 }
