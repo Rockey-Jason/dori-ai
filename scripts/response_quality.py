@@ -146,7 +146,11 @@ def _language_integrity(answer, row):
     fmt = row.get("answer_format")
     if fmt == "single_number" and _NUMERIC_RE.fullmatch(text):
         return 1.0, []
-    if len(text) == 1 and text.isdigit():
+    if fmt == "allowed_answer":
+        allowed = {normalize_answer(x) for x in row.get("allowed_answers", [])}
+        if normalize_answer(text) in allowed:
+            return 1.0, []
+    if len(text) == 1 and (text.isdigit() or re.fullmatch(r"[가-힣]", text)):
         return 1.0, []
 
     try:
