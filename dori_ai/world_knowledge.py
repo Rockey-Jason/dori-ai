@@ -187,8 +187,8 @@ def _load_local_corpus():
 
         # Keep early documents plus recent documents without retaining the full corpus.
         first_docs = []
-        tail_docs = deque(maxlen=tail_limit)
         tail_limit = max(100, _LOCAL_MAX_DOCS - min(500, _LOCAL_MAX_DOCS // 3))
+        tail_docs = deque(maxlen=tail_limit)
         try:
             with CORPUS_PATH.open("r", encoding="utf-8") as handle:
                 for line in handle:
@@ -219,7 +219,7 @@ def _load_local_corpus():
 
         combined = []
         seen = set()
-        for doc in first_docs + tail_docs:
+        for doc in first_docs + list(tail_docs):
             ident = (doc["language"], doc["title"].casefold())
             if ident in seen:
                 continue
