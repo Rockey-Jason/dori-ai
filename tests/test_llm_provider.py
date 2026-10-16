@@ -46,6 +46,7 @@ class LocalModelProviderTests(unittest.TestCase):
                 history=[("user", "피타고라스가 누구야?"), ("dori", "고대 그리스의 수학자야.")],
                 evidence="Test source: Pythagoras https://example.org/p",
                 language="ko",
+                memory_context="사용자는 돌이를 형이라고 부른다.",
             )
         self.assertEqual(answer, "피타고라스는 고대 그리스의 수학자야.")
         request = urlopen.call_args.args[0]
@@ -53,6 +54,9 @@ class LocalModelProviderTests(unittest.TestCase):
         self.assertEqual(body["model"], "dori-local-test")
         self.assertTrue(any(m["role"] == "assistant" and "고대 그리스의 수학자" in m["content"] for m in body["messages"]))
         self.assertTrue(any(m["role"] == "system" and "https://example.org/p" in m["content"] for m in body["messages"]))
+        self.assertTrue(any(m["role"] == "system" and "돌이를 형이라고 부른다" in m["content"] for m in body["messages"]))
+        self.assertGreaterEqual(body["temperature"], 0.0)
+        self.assertLessEqual(body["temperature"], 0.8)
         self.assertFalse(request.has_header("Authorization"))
         self.assertLessEqual(body["max_tokens"], 900)
 
