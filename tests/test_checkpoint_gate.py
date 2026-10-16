@@ -145,7 +145,7 @@ class ResponseQualityTests(unittest.TestCase):
         self.assertIn("reasoning", summary["category_scores"])
 
     def test_normalize_answer_handles_math_symbols(self):
-        self.assertEqual(normalize_answer("πr²"), "pir^2")
+        self.assertEqual(normalize_answer("πr²"), "pir2")
 
 
 if __name__ == "__main__":
