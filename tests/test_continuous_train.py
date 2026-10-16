@@ -2,7 +2,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.continuous_train import source_fingerprint
+from scripts.continuous_train import resolve_cycle_state, source_fingerprint
 
 
 class GrowthFingerprintTests(unittest.TestCase):
@@ -31,6 +31,31 @@ class GrowthFingerprintTests(unittest.TestCase):
         (self.root / "data" / "streaming" / "train.jsonl").write_text("temporary cache", encoding="utf-8")
         (self.root / "data" / "evaluation" / "general_qa.jsonl").write_text("held-out cases", encoding="utf-8")
         self.assertEqual(first, source_fingerprint(self.root))
+
+    def test_new_source_starts_fresh_cycle_but_preserves_lifetime_count(self):
+        state = {
+            "round": 1200,
+            "cumulative_round": 2400,
+            "source_fingerprint": "previous-version",
+            "cycle_started_at": 123.0,
+        }
+        resolved = resolve_cycle_state(state, "new-version")
+        self.assertFalse(resolved["same_dataset"])
+        self.assertEqual(resolved["round"], 0)
+        self.assertEqual(resolved["cumulative_round"], 2400)
+
+    def test_same_source_resumes_cycle(self):
+        state = {
+            "round": 250,
+            "cumulative_round": 1450,
+            "source_fingerprint": "same-version",
+            "cycle_started_at": 123.0,
+        }
+        resolved = resolve_cycle_state(state, "same-version")
+        self.assertTrue(resolved["same_dataset"])
+        self.assertEqual(resolved["round"], 250)
+        self.assertEqual(resolved["cumulative_round"], 1450)
+        self.assertEqual(resolved["cycle_started_at"], 123.0)
 
     def test_tokenizer_change_changes_fingerprint(self):
         source = self.root / "data" / "new" / "approved.txt"
