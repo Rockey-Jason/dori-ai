@@ -12,6 +12,7 @@ import threading
 import time
 import urllib.parse
 import urllib.request
+from collections import deque
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -186,7 +187,7 @@ def _load_local_corpus():
 
         # Keep early documents plus recent documents without retaining the full corpus.
         first_docs = []
-        tail_docs = []
+        tail_docs = deque(maxlen=tail_limit)
         tail_limit = max(100, _LOCAL_MAX_DOCS - min(500, _LOCAL_MAX_DOCS // 3))
         try:
             with CORPUS_PATH.open("r", encoding="utf-8") as handle:
@@ -213,8 +214,6 @@ def _load_local_corpus():
                     if len(first_docs) < min(500, _LOCAL_MAX_DOCS // 3):
                         first_docs.append(doc)
                     tail_docs.append(doc)
-                    if len(tail_docs) > tail_limit:
-                        tail_docs.pop(0)
         except OSError:
             return []
 
