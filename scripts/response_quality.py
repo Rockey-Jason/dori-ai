@@ -11,9 +11,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 _TOKEN_RE = re.compile(r"[가-힣]+|[A-Za-z]+|[0-9]+")
-_NUMERIC_RE = re.compile(r"^[+-]?\\d+(?:[.]\\d+)?$")
-_DIGITS_RE = re.compile(r"^\\d+$")
-_TRANSLATION_SPECIALS = re.compile(r"<\\/?(?:system|assistant|user|dori|eos|bos|pad|unk)>", re.I)
+_NUMERIC_RE = re.compile(r"^[+-]?\d+(?:[.]\d+)?$")
+_DIGITS_RE = re.compile(r"^\d+$")
+_TRANSLATION_SPECIALS = re.compile(r"</?(?:system|assistant|user|dori|eos|bos|pad|unk)>", re.I)
 
 
 def normalize_answer(text):
@@ -21,7 +21,7 @@ def normalize_answer(text):
         "²": "^2", "³": "^3", "₀": "0", "₁": "1", "₂": "2",
         "₃": "3", "₄": "4", "π": "pi",
     }))
-    return re.sub(r"[\\s\\W_]+", "", text, flags=re.UNICODE)
+    return re.sub(r"[\s\W_]+", "", text, flags=re.UNICODE)
 
 
 def _contains(answer, phrase):
@@ -32,7 +32,7 @@ def _contains(answer, phrase):
     # Avoid treating e.g. "14" as the answer "4", while allowing punctuation
     # around standalone Arabic numerals.
     if _DIGITS_RE.fullmatch(phrase.strip()):
-        return re.search(r"(?<!\\d)" + re.escape(phrase.strip()) + r"(?!\\d)", answer) is not None
+        return re.search(r"(?<!\d)" + re.escape(phrase.strip()) + r"(?!\d)", answer) is not None
     target = normalize_answer(phrase)
     return bool(target) and target in normalize_answer(answer)
 
