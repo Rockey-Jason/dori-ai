@@ -1,9 +1,11 @@
 name: Train Dori AI
 
 on:
+  # Training is deliberately not scheduled on a timer: the current model has
+  # reached its 1,200-round limit and the held-out gate rejected the latest
+  # candidate. Repeated no-op runs waste included runner time without improving
+  # the model. Run manually after reviewing new training data or code changes.
   workflow_dispatch:
-  schedule:
-    - cron: "17 */6 * * *"
   push:
     paths:
       - "data/new/**"
@@ -11,10 +13,6 @@ on:
       - "data/curriculum/**"
       - "data/curriculum_plan.json"
       - "data/dori_knowledge_v*.jsonl"
-      - "scripts/**"
-      - "tests/**"
-      - "train_final.py"
-      - "dori_ai/**"
 
 permissions:
   contents: write
