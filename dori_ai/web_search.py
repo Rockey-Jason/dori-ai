@@ -25,7 +25,7 @@ _EMPTY_CACHE_TTL = 60
 
 
 def search(query, limit=5, timeout=4):
-    query = re.sub(r"\\s+", " ", str(query)).strip()
+    query = re.sub(r"\s+", " ", str(query)).strip()
     if not query:
         return []
     key = query.casefold()
