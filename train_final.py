@@ -242,6 +242,8 @@ def build_args():
     p.add_argument("--tokenizer-sample-chars", type=int, default=2_000_000)
     p.add_argument("--retrain-tokenizer", action="store_true", help="rebuild tokenizer from the collected corpus sample; starts a fresh model")
     p.add_argument("--fresh", action="store_true", help="ignore resumable latest checkpoint and start a new model")
+    p.add_argument("--reset-best-loss", action="store_true", help="reset validation-loss baseline for a new dataset while keeping compatible weights")
+    p.add_argument("--prefer-best-checkpoint", action="store_true", help="start a new data cycle from the accepted best checkpoint before considering latest.npz")
     p.add_argument("--no-build-cache", action="store_true", help="reuse existing data/streaming manifest/chunks")
     return p.parse_args()
 
@@ -297,7 +299,8 @@ def main():
     # Check newest first. A stale JSON sidecar must never be enough to trust a
     # checkpoint: inspect actual parameter counts and tensor shapes first.
     if not args.fresh and not tokenizer_changed:
-        for candidate in (latest, best, backup):
+        checkpoint_candidates = (best, latest, backup) if args.prefer_best_checkpoint else (latest, best, backup)
+        for candidate in checkpoint_candidates:
             if not candidate.exists():
                 continue
             candidate_model, candidate_meta, reason = validate_checkpoint(
@@ -310,7 +313,10 @@ def main():
                 config = dict(meta["model_config"])
                 resume = True
                 start_epoch = int(meta.get("epoch", 0)) + 1
-                best_val = float(meta.get("best_val_loss", meta.get("val_loss", float("inf"))))
+                best_val = (
+                    float("inf") if args.reset_best_loss
+                    else float(meta.get("best_val_loss", meta.get("val_loss", float("inf"))))
+                )
                 print(
                     f"CHECKPOINT_RESUME path={candidate.name} epoch={start_epoch - 1} "
                     f"parameters={len(model.parameters())}",
