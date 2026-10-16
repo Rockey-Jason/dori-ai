@@ -1,13 +1,15 @@
 name: Train Dori AI
 
 on:
-  # Training is deliberately not scheduled on a timer: the current model has
-  # reached its 1,200-round limit and the held-out gate rejected the latest
-  # candidate. Repeated no-op runs waste included runner time without improving
-  # the model. Run manually after reviewing new training data or code changes.
+  # No timer-based runs: training is activated by reviewed training-data changes
+  # or manually. Each data fingerprint gets a bounded cycle; adding new data
+  # unlocks another cycle, while a held-out gate prevents harmful promotions.
   workflow_dispatch:
   push:
     paths:
+      - "data/corpus/**"
+      - "!data/corpus/world_wikipedia.jsonl"
+      - "data/instructions/**"
       - "data/new/**"
       - "data/generated/**"
       - "data/curriculum/**"
@@ -90,9 +92,8 @@ jobs:
 
       - name: Run a checkpointed training chunk (up to 250 rounds)
         run: |
-          # Persist a tested checkpoint every chunk instead of risking the
-          # GitHub Actions job timeout before the full 1200-round target.
-          # The next scheduled run resumes from the committed round counter.
+          # Persist each bounded chunk. Manual reruns resume this data version;
+          # a changed source fingerprint opens a new cycle from the accepted model.
           python scripts/continuous_train.py \
             --rounds 250 \
             --max-batches 4 \
