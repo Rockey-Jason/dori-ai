@@ -189,3 +189,25 @@ python scripts/evaluate_live.py --base-url https://dori-ai-u3kf.onrender.com
 - 최신 정보는 선택적으로 웹 검색 결과를 사용한다.
 - 작은 Transformer가 확인할 수 없는 정보를 억지로 지어내지 않도록 품질 필터를 적용한다.
 - 브라우저가 보낸 `user_id`만으로 권한을 결정하지 않고 서버에서 access token을 검증한다.
+
+## 실제 답변 품질 평가 및 안전한 모델 승격
+
+학습 중 후보 모델은 단순히 학습 손실이나 키워드 개수만으로 승인하지 않는다. `scripts/evaluate_and_gate.py`는 기존 승인 checkpoint와 학습 후보 checkpoint를 같은 held-out 질문에 실행하고, 실제 생성된 응답을 아래 기준으로 비교한다.
+
+- `data/evaluation/general_qa.jsonl`: 기본 지식·수학·보안 등 기존 평가 질문.
+- `data/evaluation/response_quality.jsonl`: 40개의 별도 루브릭 평가 질문. 추론, 사실 지식, 한국어/영어 표현, 지시 이행, 안전한 불확실성 표현을 포함한다.
+- `scripts/response_quality.py`: 질문별 핵심 기준 일치, 응답 무결성, 언어 스크립트, 반복 출력, 요구 형식 이행을 무료 규칙으로 점수화한다.
+- `scripts/evaluate_and_gate.py`: 동일한 prompt와 고정 seed로 baseline/candidate 답변을 비교하고 모델 채택 여부를 결정한다.
+- `scripts/evaluate_live.py`: 실행 중인 HTTP 서비스에 질문을 보내 검색·도구·라우팅을 포함한 **전체 서비스의 실제 답변**을 진단한다.
+
+학습 후보는 전체 품질 점수가 최소 1.5%p 이상 개선되고, 핵심 정답 점수나 통과율이 유의미하게 나빠지지 않으며, 추론·안전·언어·지시 이행 카테고리에 큰 퇴보가 없고, 질문별 개선 수가 악화 수보다 많을 때만 승격한다. 조건을 통과하지 못하면 `checkpoints/best.npz`와 메타데이터를 baseline으로 복구한다.
+
+로컬 컴퓨터에서 배포된 서비스 평가:
+
+~~~powershell
+python scripts/evaluate_live.py --base-url https://dori-ai-u3kf.onrender.com
+~~~
+
+원하는 최소 점수까지 강제 확인하려면 `--min-quality-score 0.35`처럼 0~1 사이의 기준을 추가할 수 있다. 보고서는 기본적으로 `runtime/live_response_quality_report.json`에 저장된다. 학습 중 checkpoint 비교 보고서는 `runtime/heldout_gate_report.json`에 저장된다.
+
+이 평가는 외부 AI 심사자나 유료 API를 사용하지 않는 재현 가능한 회귀 시험이다. 루브릭이 명시한 사실과 형식은 자동으로 검사할 수 있지만, 개방형 의미 이해와 문법의 모든 미묘함을 완벽하게 판정하지는 못한다. 따라서 승격은 이 고정 시험에서의 검증된 개선을 의미하며, 모든 영역에서 지능이 향상되었다는 증명은 아니다. 평가 데이터는 학습 데이터에 섞지 않고 계속 held-out 상태로 유지한다.
