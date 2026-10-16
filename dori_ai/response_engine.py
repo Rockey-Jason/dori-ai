@@ -270,6 +270,49 @@ class ResponseEngine:
         return None
 
     @staticmethod
+    def _offline_conversation(u, dialogue=None, lang="ko"):
+        """Small, honest conversational fallback when no pretrained model is available."""
+        q = re.sub(r"[\s?!.。？！,，]+", "", str(u).lower())
+        if lang == "ko":
+            if any(x in q for x in ("기분이나빠", "우울", "외로", "힘들어", "지쳤", "스트레스", "속상", "불안해", "슬퍼")):
+                return ("그랬구나. 그런 기분이 들 때는 혼자서 전부 해결하려고 애쓰지 않아도 돼. 🐶 "
+                        "무슨 일이 있었는지 편하게 이야기해 줘. 판단하지 않고 같이 정리해 볼게.")
+            if any(x in q for x in ("뭐할수있", "무엇을할수있", "할수있는일", "기능이뭐", "뭘도와줄수있")):
+                return ("나는 돌이 AI야! 🐶 수학 풀이, 개념 설명, 번역, 글쓰기와 요약을 돕고, "
+                        "일반 지식은 공개 자료에서 찾아볼 수 있어. 돌이사이트·돌이신문·돌돌증권 정보도 "
+                        "접근 권한과 실제 데이터가 허용하는 범위에서 확인해. 확실하지 않은 내용은 사실인 척하지 않을게.")
+            if any(x in q for x in ("심심", "뭐할까", "재미있는거")):
+                return ("그럼 같이 하나 해보자! 🐶 수수께끼, 돌이 퀴즈, 짧은 이야기 만들기, "
+                        "끝말잇기 중에서 골라도 되고, 지금 떠오르는 주제로 그냥 수다를 떨어도 좋아.")
+            if any(x in q for x in ("농담", "웃긴이야기", "아재개그")):
+                return ("돌이가 컴퓨터 앞에 앉았대. 왜냐고? 오늘은 '바이트'를 먹으러 간대! 🐶💻 "
+                        "…조금 썰렁했지? 하나 더 해볼까?")
+            if any(x in q for x in ("뭐하고있", "뭐해", "어떻게지내", "잘지내", "기분이어때")):
+                return ("나는 지금 네 말을 읽고, 도움이 될 답을 정리하고 있어. 🐶 "
+                        "네가 하고 싶은 이야기에 맞춰 같이 생각해 보자.")
+            if any(x in q for x in ("너는누구", "넌누구", "네이름")):
+                return ("나는 돌이 AI야! 🐶 돌이 세계관과 돌이사이트 정보를 잘 다루고, "
+                        "수학·언어·일반 지식 질문도 도와주는 게 목표야.")
+        else:
+            if any(x in q for x in ("imsad", "ifeellonely", "imupset", "ifeelstressed", "imhavingahardtime")):
+                return ("I'm sorry things feel heavy right now. You don't have to sort everything out at once. "
+                        "Tell me what happened, if you're comfortable, and we can work through it together.")
+            if any(x in q for x in ("whatcanyoudo", "howcanyouhelp", "yourcapabilities")):
+                return ("I'm Dori AI. I can help explain concepts, work through math, translate, draft or summarize text, "
+                        "and look up public information. I can also answer Dori-site questions using only data your account "
+                        "is allowed to access. I'll try to be clear when I can't verify something.")
+            if any(x in q for x in ("imbored", "whatshouldwedo", "entertainme")):
+                return ("Let's do something together: a riddle, a Dori quiz, a tiny story, or a word game. "
+                        "Pick one—or tell me what's on your mind.")
+            if any(x in q for x in ("tellmeajoke", "makemelaugh", "ajoke")):
+                return ("Why did Dori sit by the computer? To keep an eye on the mouse. 🐶💻")
+            if any(x in q for x in ("howareyou", "what are you doing", "whatsup")):
+                return ("I'm here and ready to help. What's on your mind?")
+            if any(x in q for x in ("whatareyou", "whosyou", "yourname")):
+                return ("I'm Dori AI, a small assistant built for Dori's world and general questions. 🐶")
+        return None
+
+    @staticmethod
     def _builtin_answer(u):
         """Deterministic answers for common facts and Dori lore."""
         # Normalize whitespace and punctuation so natural variants match.
@@ -499,6 +542,11 @@ class ResponseEngine:
             ans = world_knowledge.as_answer(search_query, world_results, language=lang)
         if ans is None and web_results:
             ans = format_results(search_query, web_results)
+        # On the free instance, a configured self-hosted model is preferred.
+        # If none is configured or it fails, answer common conversational intents
+        # naturally rather than exposing low-quality random text from the tiny model.
+        if ans is None:
+            ans = self._offline_conversation(u, dialogue, lang)
         if ans is None:
             ans = self._neural(u, dialogue, lang, deep=(str(mode).lower()=="deep"))
         # Live Dori News articles are verified database records. The generic
